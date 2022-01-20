@@ -2,8 +2,13 @@ import * as React from 'react';
 
 interface IProps {
   title?: string;
+  titleIcon?: React.ReactNode;
 }
-const GlowyBox: React.FunctionComponent<IProps> = ({ title, children }) => {
+const GlowyBox: React.FunctionComponent<IProps> = ({
+  title,
+  titleIcon,
+  children,
+}) => {
   return (
     <div className="bg-creepz-green-dark border border-black rounded-3xl shadow-lg creepz-glowy-shadow">
       <div className="relative border-creepz-border border-8 m-2 text-center shadow rounded-3xl p-6">
@@ -13,6 +18,11 @@ const GlowyBox: React.FunctionComponent<IProps> = ({ title, children }) => {
               <h2 className="text-2xl text-creepz-green-light creepz-glowy-text uppercase">
                 {title}
               </h2>
+              {titleIcon && (
+                <div className="absolute text-creepz-green hover:text-creepz-green-light top-1/2 right-0 -translate-y-1/2">
+                  {titleIcon}
+                </div>
+              )}
             </div>
           </header>
         )}

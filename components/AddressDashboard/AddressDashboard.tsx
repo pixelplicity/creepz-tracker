@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { EyeIcon } from '@heroicons/react/outline';
+
+import TokenModal from 'components/TokenModal/TokenModal';
+import Button from 'components/ui/Button/Button';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
 import useWalletStats from 'hooks/useWalletStats';
 
@@ -7,6 +11,8 @@ interface IProps {
   address: string;
 }
 const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
+  const [isCreepzModalOpen, setIsCreepzModalOpen] = useState<boolean>(false);
+  const [isArmouryModalOpen, setIsArmouryModalOpen] = useState<boolean>(false);
   const {
     userReward,
     userYield,
@@ -58,7 +64,14 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
             </div>
           </div>
         </GlowyBox>
-        <GlowyBox title="Creepz">
+        <GlowyBox
+          title="Creepz"
+          titleIcon={
+            <Button onClick={() => setIsCreepzModalOpen(true)}>
+              <EyeIcon className="h-8 w-8" aria-hidden="true" />
+            </Button>
+          }
+        >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
               <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
@@ -84,9 +97,23 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
                 total
               </p>
             </div>
+            <TokenModal
+              isOpen={isCreepzModalOpen}
+              handleClose={() => setIsCreepzModalOpen(false)}
+              title="Your Creepz"
+              tokenIds={stakedCreepz}
+              baseUrl="https://meta.creepz.co/creepz/_||_"
+            />
           </div>
         </GlowyBox>
-        <GlowyBox title="Armouries">
+        <GlowyBox
+          title="Armouries"
+          titleIcon={
+            <Button onClick={() => setIsArmouryModalOpen(true)}>
+              <EyeIcon className="h-8 w-8" aria-hidden="true" />
+            </Button>
+          }
+        >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
               <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
@@ -113,6 +140,13 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
               </p>
             </div>
           </div>
+          <TokenModal
+            isOpen={isArmouryModalOpen}
+            handleClose={() => setIsArmouryModalOpen(false)}
+            title="Your Armouries"
+            tokenIds={stakedArmouries}
+            baseUrl="https://meta.creepz.co/armoury/_||_/image/?1642708904765"
+          />
         </GlowyBox>
       </dl>
     </div>
