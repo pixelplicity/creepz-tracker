@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { formatUnits } from '@ethersproject/units';
 import Web3 from 'web3';
 
+import { abi as armsABI, address as armsAddress } from 'contracts/Arms/Arms';
 import {
   address as creepzAddress,
   abi as creepzABI,
@@ -23,7 +24,9 @@ function useWalletStats(address?: string) {
   const [userBalance, setUserBalance] = useState<string>('0'); // ERC-20 balance
   const [userYield, setUserYield] = useState<string>('0');
   const [stakedCreepz, setStakedCreepz] = useState<string[]>([]);
-  const [stakedArmories, setStakedArmories] = useState<string[]>([]);
+  const [stakedArmouries, setStakedArmouries] = useState<string[]>([]);
+  const [unstakedArmouries, setUnstakedArmouries] = useState<number>(0);
+  const [totalArmouries, setTotalArmouries] = useState<number>(0);
   const [stakedBlackboxes, setStakedBlackboces] = useState<string[]>([]);
   const [unstakedCreepz, setUnstakedCreepz] = useState<number>(0);
   const [totalCreepz, setTotalCreepz] = useState<number>(0);
@@ -34,6 +37,7 @@ function useWalletStats(address?: string) {
         window.ethereum || process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT
       );
       const creepzContract = new web3.eth.Contract(creepzABI, creepzAddress);
+      const armsContract = new web3.eth.Contract(armsABI, armsAddress);
       const stakingContract = new web3.eth.Contract(
         invasionABI,
         invasionAddress
@@ -59,12 +63,12 @@ function useWalletStats(address?: string) {
         .balanceOf(address)
         .call();
       setUserBalance(Number(web3.utils.fromWei(rawUserBalance)).toFixed(0));
-      // Staked Creepz, Armories, Balckboxes
+      // Staked Creepz, Armouries, Balckboxes
       const rawStakedTokens = await stakingContract.methods
         .getStakerTokens(address)
         .call();
       setStakedCreepz(rawStakedTokens[0].map((t: string) => formatUnits(t, 0)));
-      setStakedArmories(
+      setStakedArmouries(
         rawStakedTokens[1].map((t: string) => formatUnits(t, 0))
       );
       setStakedBlackboces(
@@ -78,6 +82,14 @@ function useWalletStats(address?: string) {
       setTotalCreepz(
         rawStakedTokens[0].length + parseInt(rawUnstakedCreepz, 10)
       );
+      // Unstaked Armouries
+      const rawUnstakedArmouries = await armsContract.methods
+        .balanceOf(address)
+        .call();
+      setUnstakedArmouries(rawUnstakedArmouries);
+      setTotalArmouries(
+        rawStakedTokens[1].length + parseInt(rawUnstakedArmouries, 10)
+      );
     };
     if (addressIsValid) {
       getWalletStats();
@@ -90,7 +102,9 @@ function useWalletStats(address?: string) {
     userSpent,
     userYield,
     stakedCreepz,
-    stakedArmories,
+    stakedArmouries,
+    unstakedArmouries,
+    totalArmouries,
     stakedBlackboxes,
     unstakedCreepz,
     totalCreepz,

@@ -14,39 +14,14 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
     userBalance,
     stakedCreepz,
     unstakedCreepz,
+    stakedArmouries,
+    unstakedArmouries,
+    totalArmouries,
     totalCreepz,
   } = useWalletStats(address);
   return (
     <div className="-mt-12">
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
-        <GlowyBox title="Creepz">
-          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
-            <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {stakedCreepz.length}
-              </p>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                staked
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {unstakedCreepz}
-              </p>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                unstaked
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {totalCreepz}
-              </p>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                total
-              </p>
-            </div>
-          </div>
-        </GlowyBox>
         <GlowyBox title="$Loomi">
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
@@ -79,6 +54,62 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
               </p>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
                 ERC-20
+              </p>
+            </div>
+          </div>
+        </GlowyBox>
+        <GlowyBox title="Creepz">
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <div className="flex justify-center items-baseline">
+              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                {stakedCreepz.length}
+              </p>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                staked
+              </p>
+            </div>
+            <div className="flex justify-center items-baseline">
+              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                {unstakedCreepz}
+              </p>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                unstaked
+              </p>
+            </div>
+            <div className="flex justify-center items-baseline">
+              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                {totalCreepz}
+              </p>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                total
+              </p>
+            </div>
+          </div>
+        </GlowyBox>
+        <GlowyBox title="Armouries">
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <div className="flex justify-center items-baseline">
+              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                {stakedArmouries.length}
+              </p>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                staked
+              </p>
+            </div>
+            <div className="flex justify-center items-baseline">
+              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                {unstakedArmouries}
+              </p>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                unstaked
+              </p>
+            </div>
+            <div className="flex justify-center items-baseline">
+              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                {totalArmouries}
+              </p>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                total
               </p>
             </div>
           </div>
