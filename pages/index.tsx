@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import DashboardLayout from 'components/DashboardLayout/DashboardLayout';
+import UpdateWalletButton from 'components/ViewWalletButton/ViewWalletButton';
 
 const Home: React.FunctionComponent = () => {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
@@ -20,8 +21,17 @@ const Home: React.FunctionComponent = () => {
             transactions, and more.
           </p>
           <p className="text-center text-white text-base">
-            We're just getting started. If you have a feature request or want to
-            help in someway please reach out to us on Twitter at{' '}
+            For now, you can look up any wallet address by clicking the button
+            below.
+          </p>
+          <div className="w-1/2 mx-auto">
+            <UpdateWalletButton
+              openAddressModel={() => setIsAddressModalOpen(true)}
+            />
+          </div>
+          <p className="text-center text-white text-base">
+            We&apos;re just getting started. If you have a feature request or
+            want to help in someway please reach out to us on Twitter at{' '}
             <a
               className="underline"
               href="https://twitter.com/creepztracker_"
