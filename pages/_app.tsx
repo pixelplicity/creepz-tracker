@@ -1,5 +1,6 @@
 import 'styles/globals.css';
 import { Mainnet, Config, DAppProvider } from '@usedapp/core';
+import PlausibleProvider from 'next-plausible';
 import { AppProps } from 'next/app';
 
 const config: Config = {
@@ -10,9 +11,11 @@ const config: Config = {
 };
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
-  <DAppProvider config={config}>
-    <Component {...pageProps} />
-  </DAppProvider>
+  <PlausibleProvider domain="creepztracker.app">
+    <DAppProvider config={config}>
+      <Component {...pageProps} />
+    </DAppProvider>
+  </PlausibleProvider>
 );
 
 export default MyApp;
