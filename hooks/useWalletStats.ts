@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { formatUnits } from '@ethersproject/units';
+import useSWR from 'swr';
 import Web3 from 'web3';
 
 import { abi as armsABI, address as armsAddress } from 'contracts/Arms/Arms';
@@ -17,6 +18,8 @@ import {
   address as loomiAddress,
 } from 'contracts/Loomi/Loomi';
 
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
 function useWalletStats(address?: string) {
   const addressIsValid = address && Web3.utils.isAddress(address);
   const [userReward, setUserReward] = useState<string>('0'); // In-game loomi
@@ -30,6 +33,7 @@ function useWalletStats(address?: string) {
   const [stakedBlackboxes, setStakedBlackboces] = useState<string[]>([]);
   const [unstakedCreepz, setUnstakedCreepz] = useState<number>(0);
   const [totalCreepz, setTotalCreepz] = useState<number>(0);
+  const { data } = useSWR('/api/loomiPrice', fetcher);
 
   useEffect(() => {
     const getWalletStats = async () => {
@@ -100,6 +104,7 @@ function useWalletStats(address?: string) {
     userReward,
     userBalance,
     userSpent,
+    loomiPrice: data ? data.price : 0,
     userYield,
     stakedCreepz,
     stakedArmouries,

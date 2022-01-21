@@ -10,12 +10,14 @@ const config: Config = {
   },
 };
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
-  <PlausibleProvider domain="creepztracker.app">
-    <DAppProvider config={config}>
-      <Component {...pageProps} />
-    </DAppProvider>
-  </PlausibleProvider>
-);
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <PlausibleProvider domain="creepztracker.app">
+      <DAppProvider config={config}>
+        <Component {...pageProps} />
+      </DAppProvider>
+    </PlausibleProvider>
+  );
+};
 
 export default MyApp;
