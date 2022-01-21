@@ -11,7 +11,10 @@ interface IProps {
   title: string;
   userReward: number;
   userYield: number;
-  price: number;
+  price: {
+    usd: number;
+    eth: number;
+  };
 }
 const LamboModal: React.FunctionComponent<IProps> = ({
   isOpen,

@@ -18,7 +18,10 @@ import {
   address as loomiAddress,
 } from 'contracts/Loomi/Loomi';
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const fetcher = async (input: RequestInfo, init: RequestInit) => {
+  const res = await fetch(input, init);
+  return res.json();
+};
 
 function useWalletStats(address?: string) {
   const addressIsValid = address && Web3.utils.isAddress(address);

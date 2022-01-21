@@ -18,9 +18,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
   const {
     userReward,
     userYield,
-    userSpent,
     loomiPrice,
-    userBalance,
     stakedCreepz,
     unstakedCreepz,
     stakedArmouries,
