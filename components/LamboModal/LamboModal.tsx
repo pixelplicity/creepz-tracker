@@ -28,7 +28,7 @@ const LamboModal: React.FunctionComponent<IProps> = ({
   const currentUSDBalance = userReward * price.usd;
   const remainingUSD = lamboCostUSD - currentUSDBalance;
   const percentage = ((lamboCostUSD - remainingUSD) / lamboCostUSD) * 100;
-  const daysToLambo = remainingUSD / (userYield * price.usd);
+  const daysToLambo = Math.ceil(remainingUSD / (userYield * price.usd));
   return (
     <Transition.Root show={isOpen} as={React.Fragment}>
       <Dialog
@@ -82,33 +82,41 @@ const LamboModal: React.FunctionComponent<IProps> = ({
                       as="h3"
                       className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text"
                     >
-                      {daysToLambo < 0 ? 'Now!' : Math.ceil(daysToLambo)} days
+                      {daysToLambo < 0
+                        ? 'I think you mean wen lambos?!'
+                        : `${daysToLambo} days`}
                     </Dialog.Title>
                     <div className="mt-4">
                       {daysToLambo < 0 && (
-                        <p className="text-creepz-green-light creepz-glowy-text">
-                          You&apos;re already there! Go get that Lambo!
-                        </p>
-                      )}
-                      {daysToLambo >= 0 && (
                         <>
+                          <p className="text-creepz-green-light creepz-glowy-text mb-3">
+                            You&apos;re already there! Go get that Lambo!
+                          </p>
                           <p className="text-creepz-green-light creepz-glowy-text">
-                            At a price of{' '}
-                            {Intl.NumberFormat('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                            }).format(price.usd)}{' '}
-                            per Loomi, you have{' '}
-                            {Intl.NumberFormat('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                            }).format(+userReward * price.usd)}
-                            . You are {percentage.toFixed(2)}% of the way to
-                            your Lambo. That&apos;s {Math.ceil(daysToLambo)}{' '}
-                            days from now!
+                            If you are saving up for your next Lambo...
                           </p>
                         </>
                       )}
+                      <p className="text-creepz-green-light creepz-glowy-text">
+                        At a price of{' '}
+                        {Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        }).format(price.usd)}{' '}
+                        per Loomi, you have{' '}
+                        {Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        }).format(+userReward * price.usd)}
+                        .
+                      </p>
+                      <p className="text-creepz-green-light creepz-glowy-text">
+                        You are {percentage.toFixed(2)}% of the way to your
+                        Lambo.
+                      </p>
+                      <p className="text-creepz-green-light creepz-glowy-text">
+                        Only {daysToLambo} days to go!
+                      </p>
                     </div>
                   </div>
                 </>

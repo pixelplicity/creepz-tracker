@@ -58,7 +58,7 @@ function useGameStats() {
 
   return {
     loomiSupply,
-    loomiPrice: data.price,
+    loomiPrice: data ? data.price : 0,
     bribesDistributed,
     totalArmouries,
     maxArmouries,

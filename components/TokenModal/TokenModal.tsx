@@ -69,9 +69,12 @@ const TokenModal: React.FunctionComponent<IProps> = ({
                   </div>
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <div className="mt-2">
+                      <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+                        Staked
+                      </h3>
                       <ul
                         role="list"
-                        className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+                        className="mt-2 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
                       >
                         {tokenIds.map((id) => (
                           <li key={id} className="relative">
