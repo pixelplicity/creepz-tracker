@@ -103,9 +103,9 @@ const LamboModal: React.FunctionComponent<IProps> = ({
                               style: 'currency',
                               currency: 'USD',
                             }).format(+userReward * price.usd)}
-                            . You are {percentage.toFixed(2)}% of the to your
-                            Lambo. That&apos;s {Math.ceil(daysToLambo)} days
-                            from now!
+                            . You are {percentage.toFixed(2)}% of the way to
+                            your Lambo. That&apos;s {Math.ceil(daysToLambo)}{' '}
+                            days from now!
                           </p>
                         </>
                       )}
