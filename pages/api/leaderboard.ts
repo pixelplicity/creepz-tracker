@@ -23,6 +23,7 @@ const getLeaderboard = async (options: {
   offset: number;
   sort?: string;
   search?: string;
+  group?: string;
 }): Promise<Response> => {
   const statsResponse = await supabase
     .from('stats')
@@ -33,6 +34,7 @@ const getLeaderboard = async (options: {
   if (statsResponse.error) {
     return { error: statsResponse.error.message };
   }
+
   let playerQuery = supabase
     .from('players')
     .select()
@@ -48,6 +50,28 @@ const getLeaderboard = async (options: {
         ascending: false,
       });
     }
+  }
+  let groupData: {
+    name: string;
+    address: string;
+  }[] = [];
+  if (options.group) {
+    const groupResponse = await supabase
+      .from('groups')
+      .select()
+      .eq('name', options.group)
+      .single();
+
+    if (groupResponse.error) {
+      return { error: groupResponse.error.message };
+    }
+    playerQuery = playerQuery?.in(
+      'wallet_address',
+      groupResponse.data.addresses.map(
+        (d: { name: string; address: string }) => d.address
+      )
+    );
+    groupData = groupResponse.data.addresses;
   }
   if (options.search) {
     playerQuery = playerQuery?.like('wallet_address', `%${options.search}%`);
@@ -65,10 +89,19 @@ const getLeaderboard = async (options: {
   if (playersResponse.error) {
     return { error: playersResponse.error.message };
   }
+  let players = playersResponse.data;
+  if (options.group) {
+    players = playersResponse.data.map((player) => {
+      return {
+        ...player,
+        name: groupData.find((a) => a.address === player.wallet_address)?.name,
+      };
+    });
+  }
   return {
     leaderboard: {
       game: statsResponse.data,
-      players: playersResponse.data,
+      players,
     },
   };
 };
@@ -77,7 +110,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
   }
-  const { limit, offset, sort, search } = req.query;
+  const { limit, offset, sort, search, group } = req.query;
   const cacheKey = `leaderboard-${JSON.stringify(req.query)}`;
 
   const cachedResponse = cache.get(cacheKey);
@@ -88,9 +121,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   const hours = 12;
   const response = await getLeaderboard({
     limit: +(limit || 25) as number,
-    offset: +(offset || 0) as number,
+    offset: Math.min(+(offset || 0), 0) as number,
     sort: sort ? `${sort}` : 'reward',
     search: (search || '') as string,
+    group: (group || '') as string,
   });
   if (response.error) {
     res.status(500).json({ error: response.error });

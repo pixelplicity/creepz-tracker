@@ -10,8 +10,10 @@ import LoadingText from 'components/ui/LoadingText/LoadingText';
 import useGameStats from 'hooks/useGameStats';
 import formatNumber from 'lib/formatNumber';
 
-interface IProps {}
-const GameDashboard: React.FunctionComponent<IProps> = () => {
+interface IProps {
+  group?: string;
+}
+const GameDashboard: React.FunctionComponent<IProps> = ({ group }) => {
   const {
     gameData,
     floorData,
@@ -20,7 +22,6 @@ const GameDashboard: React.FunctionComponent<IProps> = () => {
     totalCreepz,
     isLoading,
   } = useGameStats();
-  console.log(floorData);
   const [isTableModalOpen, setIsTableModalOpen] = useState<boolean>(false);
   return (
     <div className="mt-12">
@@ -160,7 +161,7 @@ const GameDashboard: React.FunctionComponent<IProps> = () => {
         </GlowyBox>
         <div className="col-span-3 mt-8">
           <GlowyBox
-            title="Leaderboard"
+            title={`${group || ''} Leaderboard`}
             titleIcon={
               <Button onClick={() => setIsTableModalOpen(true)}>
                 <QuestionMarkCircleIcon
@@ -170,7 +171,7 @@ const GameDashboard: React.FunctionComponent<IProps> = () => {
               </Button>
             }
           >
-            <PlayerTable />
+            <PlayerTable group={group} />
           </GlowyBox>
           <PlayerTableModal
             isOpen={isTableModalOpen}

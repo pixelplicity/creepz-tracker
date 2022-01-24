@@ -17,6 +17,10 @@ const Pagination: React.FunctionComponent<IProps> = ({
   addressSearch = '',
   data,
 }) => {
+  const canPrev = data?.leaderboard ? offset > 0 : false;
+  const canNext = data?.leaderboard?.game?.players
+    ? data.leaderboard.game.players > offset + pageSize
+    : false;
   return (
     <nav
       className="py-2 flex items-center justify-between"
@@ -38,15 +42,31 @@ const Pagination: React.FunctionComponent<IProps> = ({
       <div className="flex-1 flex justify-between sm:justify-end">
         <a
           href="#"
-          className="relative inline-flex items-center px-4 py-1 text-sm font-medium text-black bg-creepz-green-light"
-          onClick={() => updateOffset(offset - pageSize)}
+          className={`${
+            !canPrev
+              ? 'cursor-disabled text-gray-900 bg-creepz-green'
+              : 'bg-creepz-green-light'
+          } relative inline-flex items-center px-4 py-1 text-sm font-medium text-black`}
+          onClick={() => {
+            if (canPrev) {
+              updateOffset(offset - pageSize);
+            }
+          }}
         >
           Previous
         </a>
         <a
           href="#"
-          className="ml-3 relative inline-flex items-center px-4 py-1 text-sm font-medium text-black bg-creepz-green-light"
-          onClick={() => updateOffset(offset + pageSize)}
+          className={`${
+            !canNext
+              ? 'cursor-disabled text-gray-900 bg-creepz-green'
+              : 'bg-creepz-green-light'
+          } ml-3 relative inline-flex items-center px-4 py-1 text-sm font-medium text-black bg-creepz-green-light`}
+          onClick={() => {
+            if (canNext) {
+              updateOffset(offset + pageSize);
+            }
+          }}
         >
           Next
         </a>

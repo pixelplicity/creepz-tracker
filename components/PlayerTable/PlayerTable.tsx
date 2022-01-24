@@ -50,9 +50,11 @@ const sortOptions = [
 
 interface IProps {
   pageSize?: number;
+  group?: string;
 }
 const ResponsiveTable: React.FunctionComponent<IProps> = ({
   pageSize = 25,
+  group,
 }) => {
   const [sort, setSort] = React.useState<string>('reward');
   const [addressSearch, setAddressSearch] = React.useState<string>();
@@ -62,7 +64,7 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
       addressSearch && addressSearch !== '' && addressSearch.length >= 3
         ? `&search=${addressSearch}`
         : ''
-    }`,
+    }${group ? `&group=${group}` : ''}`,
     fetcher
   );
 
@@ -103,6 +105,14 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
       isSorted: sort === 'number_staked_armouries',
     },
   ];
+
+  if (group) {
+    columns.splice(1, 0, {
+      title: 'Name',
+      isSortable: false,
+      isSorted: false,
+    });
+  }
   return (
     <>
       <SearchSort
@@ -163,6 +173,11 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
                     </a>
                   </Link>
                 </Td>
+                {group && (
+                  <Td className="px-6 py-4 whitespace-nowrap text-md text-creepz-green-light">
+                    {player.name}
+                  </Td>
+                )}
                 <Td className="px-6 py-4 whitespace-nowrap text-md text-creepz-green-light">
                   {player.erc20_balance}
                 </Td>
