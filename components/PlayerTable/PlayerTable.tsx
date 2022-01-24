@@ -24,7 +24,7 @@ const fetcher = async (input: RequestInfo, init: RequestInit) => {
 const sortOptions = [
   {
     display: 'ERC-20 Loomi',
-    prop: 'erc20-balance',
+    prop: 'erc20_balance',
   },
   {
     display: 'Loomi',
