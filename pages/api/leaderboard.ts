@@ -121,7 +121,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   const hours = 12;
   const response = await getLeaderboard({
     limit: +(limit || 25) as number,
-    offset: Math.min(+(offset || 0), 0) as number,
+    offset: +(offset || 0) as number,
     sort: sort ? `${sort}` : 'reward',
     search: (search || '') as string,
     group: (group || '') as string,
