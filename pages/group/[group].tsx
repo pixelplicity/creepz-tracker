@@ -11,7 +11,6 @@ type IProps = {
 };
 
 const GroupPage: NextPage<IProps> = ({ group }) => {
-  console.log('GROUP', group);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
   return (
     <DashboardLayout

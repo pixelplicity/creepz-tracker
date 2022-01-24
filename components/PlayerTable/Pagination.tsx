@@ -18,9 +18,11 @@ const Pagination: React.FunctionComponent<IProps> = ({
   data,
 }) => {
   const canPrev = data?.leaderboard ? offset > 0 : false;
-  const canNext = data?.leaderboard?.game?.players
-    ? data.leaderboard.game.players > offset + pageSize
-    : false;
+  const canNext =
+    data?.leaderboard?.players && data.leaderboard.players.length === pageSize;
+  if (data?.leaderboard?.players) {
+    console.log(data.leaderboard.players.length, pageSize, '=>', canNext);
+  }
   return (
     <nav
       className="py-2 flex items-center justify-between"
@@ -44,7 +46,7 @@ const Pagination: React.FunctionComponent<IProps> = ({
           href="#"
           className={`${
             !canPrev
-              ? 'cursor-disabled text-gray-900 bg-creepz-green'
+              ? 'cursor-not-allowed text-gray-900 bg-creepz-green'
               : 'bg-creepz-green-light'
           } relative inline-flex items-center px-4 py-1 text-sm font-medium text-black`}
           onClick={() => {
@@ -59,9 +61,9 @@ const Pagination: React.FunctionComponent<IProps> = ({
           href="#"
           className={`${
             !canNext
-              ? 'cursor-disabled text-gray-900 bg-creepz-green'
+              ? 'cursor-not-allowed text-gray-900 bg-creepz-green'
               : 'bg-creepz-green-light'
-          } ml-3 relative inline-flex items-center px-4 py-1 text-sm font-medium text-black bg-creepz-green-light`}
+          } ml-3 relative inline-flex items-center px-4 py-1 text-sm font-medium text-black`}
           onClick={() => {
             if (canNext) {
               updateOffset(offset + pageSize);
