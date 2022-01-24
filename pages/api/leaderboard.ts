@@ -28,8 +28,7 @@ const getLeaderboard = async (options: {
   const statsResponse = await supabase
     .from('stats')
     .select()
-    .order('date', { ascending: false })
-    .single();
+    .order('date', { ascending: false });
 
   if (statsResponse.error) {
     return { error: statsResponse.error.message };
@@ -38,7 +37,7 @@ const getLeaderboard = async (options: {
   let playerQuery = supabase
     .from('players')
     .select()
-    .eq('date', statsResponse.data.date);
+    .eq('date', statsResponse.data[0].date);
 
   if (options.sort) {
     if (options.sort.indexOf('-') === 0) {
@@ -100,7 +99,7 @@ const getLeaderboard = async (options: {
   }
   return {
     leaderboard: {
-      game: statsResponse.data,
+      game: statsResponse.data[0],
       players,
     },
   };
