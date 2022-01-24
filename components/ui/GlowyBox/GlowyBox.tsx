@@ -11,9 +11,9 @@ const GlowyBox: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <div className="bg-creepz-green-dark border border-black rounded-3xl shadow-lg creepz-glowy-shadow">
-      <div className="relative border-creepz-border border-8 m-2 text-center shadow rounded-3xl p-6">
+      <div className="relative border-creepz-border border-8 m-2 text-center shadow rounded-3xl p-2 pt-8">
         {title && (
-          <header className="absolute -top-8 left-1/2 -translate-x-1/2 mx-auto w-2/3">
+          <header className="absolute -top-8 left-1/2 -translate-x-1/2 mx-auto w-full sm:w-2/3">
             <div className="bg-creepz-green-dark border border-black rounded-full shadow-lg creepz-glowy-shadow px-4 py-2">
               <h2 className="text-2xl text-creepz-green-light creepz-glowy-text uppercase">
                 {title}
@@ -26,7 +26,7 @@ const GlowyBox: React.FunctionComponent<IProps> = ({
             </div>
           </header>
         )}
-        <div className="p-8">{children}</div>
+        <div className="p-4">{children}</div>
       </div>
     </div>
   );

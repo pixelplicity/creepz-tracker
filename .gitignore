@@ -30,6 +30,7 @@ yarn-error.log*
 
 # local folder
 local
+data
 
 # vercel
 .vercel

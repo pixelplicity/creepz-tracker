@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Transition, Dialog } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { Dialog } from '@headlessui/react';
 
-import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
+import Modal from 'components/ui/Modal/Modal';
 
 interface IProps {
   isOpen: boolean;
@@ -24,108 +23,55 @@ const LamboModal: React.FunctionComponent<IProps> = ({
   userYield,
   userReward,
 }) => {
-  const lamboCostUSD = 260000;
-  const currentUSDBalance = userReward * price.usd;
+  const lamboCostUSD = 210000;
+  const bribeAmount = userReward * 0.25;
+  const currentUSDBalance = (userReward - bribeAmount) * price.usd;
   const remainingUSD = lamboCostUSD - currentUSDBalance;
   const percentage = ((lamboCostUSD - remainingUSD) / lamboCostUSD) * 100;
   const daysToLambo = Math.ceil(remainingUSD / (userYield * price.usd));
   return (
-    <Transition.Root show={isOpen} as={React.Fragment}>
-      <Dialog
-        as="div"
-        className="fixed z-10 inset-0 overflow-y-auto"
-        onClose={handleClose}
+    <Modal isOpen={isOpen} handleClose={handleClose} title={title}>
+      <Dialog.Title
+        as="h3"
+        className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text"
       >
-        <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <Transition.Child
-            as={React.Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity pointer-events-none" />
-          </Transition.Child>
-
-          <span
-            className="hidden sm:inline-block align-middle sm:h-screen"
-            aria-hidden="true"
-          >
-            &#8203;
-          </span>
-          <Transition.Child
-            as={React.Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-            <div className="inline-block align-middle text-left transform transition-all sm:max-w-2xl sm:w-full">
-              <GlowyBox title={title}>
-                <>
-                  <div className="block absolute -top-10 -right-10 p-2 border border-creepz-border-dark rounded-xl bg-creepz-red creepz-glowy-red ">
-                    <button
-                      type="button"
-                      className="bg-[#f2f4f8] bg-opacity-30 rounded-lg p-3 text-black focus:outline-none"
-                      onClick={handleClose}
-                    >
-                      <span className="sr-only">Close</span>
-                      <XIcon className="h-6 w-6" aria-hidden="true" />
-                    </button>
-                  </div>
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text"
-                    >
-                      {daysToLambo < 0
-                        ? 'I think you mean wen lambos?!'
-                        : `${daysToLambo} days`}
-                    </Dialog.Title>
-                    <div className="mt-4">
-                      {daysToLambo < 0 && (
-                        <>
-                          <p className="text-creepz-green-light creepz-glowy-text mb-3">
-                            You&apos;re already there! Go get that Lambo!
-                          </p>
-                          <p className="text-creepz-green-light creepz-glowy-text">
-                            If you are saving up for your next Lambo...
-                          </p>
-                        </>
-                      )}
-                      <p className="text-creepz-green-light creepz-glowy-text">
-                        At a price of{' '}
-                        {Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                        }).format(price.usd)}{' '}
-                        per Loomi, you have{' '}
-                        {Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                        }).format(+userReward * price.usd)}
-                        .
-                      </p>
-                      <p className="text-creepz-green-light creepz-glowy-text">
-                        You are {percentage.toFixed(2)}% of the way to your
-                        Lambo.
-                      </p>
-                      <p className="text-creepz-green-light creepz-glowy-text">
-                        Only {daysToLambo} days to go!
-                      </p>
-                    </div>
-                  </div>
-                </>
-              </GlowyBox>
-            </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition.Root>
+        {daysToLambo < 0
+          ? 'I think you mean wen lambos?!'
+          : `${daysToLambo} days`}
+      </Dialog.Title>
+      <div className="mt-4">
+        {daysToLambo < 0 && (
+          <>
+            <p className="text-creepz-green-light creepz-glowy-text mb-3">
+              You&apos;re already there! Go get that Lambo!
+            </p>
+            <p className="text-creepz-green-light creepz-glowy-text">
+              If you are saving up for your next Lambo...
+            </p>
+          </>
+        )}
+        <p className="text-creepz-green-light creepz-glowy-text">
+          At a price of{' '}
+          {Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          }).format(price.usd)}{' '}
+          per $loomi and after giving the overlords their 25% ({bribeAmount}),
+          you have{' '}
+          {Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          }).format(currentUSDBalance)}
+          .
+        </p>
+        <p className="text-creepz-green-light creepz-glowy-text mt-3">
+          You are {percentage.toFixed(2)}% of the way to your Lambo.
+        </p>
+        <p className="text-creepz-green-light creepz-glowy-text mt-3">
+          Only {daysToLambo} days to go!
+        </p>
+      </div>
+    </Modal>
   );
 };
 

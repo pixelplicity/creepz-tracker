@@ -3,6 +3,7 @@ import React from 'react';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 
+import SwappableText from 'components/ui/SwappableText/SwappableText';
 import UpdateWalletButton from 'components/ViewWalletButton/ViewWalletButton';
 import useWalletStats from 'hooks/useWalletStats';
 import { isValidAddress } from 'services/web3';
@@ -11,13 +12,24 @@ interface IProps {
   address?: string;
   openAddressModel: () => void;
 }
-const DashboardHeader: React.FunctionComponent<IProps> = ({
+const AddressHeader: React.FunctionComponent<IProps> = ({
   address,
   openAddressModel,
 }) => {
   const addressIsValid = isValidAddress(address);
-  const { userReward } = useWalletStats(address);
+  const { userReward, totalCreepz, totalArmouries, floorData, loomiPrice } =
+    useWalletStats(address);
 
+  let walletValue = 0;
+  if (totalCreepz && floorData.prices.creepz) {
+    walletValue += totalCreepz * floorData.prices.creepz;
+  }
+  if (totalArmouries && floorData.prices.armoury) {
+    walletValue += totalArmouries * floorData.prices.armoury;
+  }
+  if (userReward && loomiPrice.eth) {
+    walletValue += userReward * 0.75 * loomiPrice.eth;
+  }
   return (
     <div className="relative">
       <div className="absolute inset-0">
@@ -82,7 +94,15 @@ const DashboardHeader: React.FunctionComponent<IProps> = ({
           <div className="lg:flex lg:items-center lg:justify-between mt-16 pb-16">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-creepz-green-light sm:text-3xl creepz-glowy-text">
-                {userReward} $loomi
+                <SwappableText>
+                  {(swapped: boolean) =>
+                    swapped ? (
+                      <span>{walletValue.toFixed(2)} wallet value</span>
+                    ) : (
+                      <span>{userReward} $loomi</span>
+                    )
+                  }
+                </SwappableText>
               </h2>
               <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6 border border-top-1 border-b-0 border-x-0 border-creepz-green">
                 <div className="mt-2 flex items-center text-md text-creepz-green-light creepz-glowy-text">
@@ -97,4 +117,4 @@ const DashboardHeader: React.FunctionComponent<IProps> = ({
   );
 };
 
-export default DashboardHeader;
+export default AddressHeader;

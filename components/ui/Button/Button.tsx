@@ -19,7 +19,7 @@ const Button: React.FunctionComponent<IProps> = ({
   return (
     <button
       type="button"
-      className={`${className} inline-flex items-center py-3 px-4 text-sm leading-4 font-medium focus:outline-none`}
+      className={`${className} inline-flex items-center py-2 px-4 text-sm leading-4 font-medium focus:outline-none`}
       onClick={(ev) => {
         if (onClick) {
           ev.preventDefault();

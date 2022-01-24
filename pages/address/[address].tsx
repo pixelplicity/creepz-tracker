@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 
 import AddressDashboard from 'components/AddressDashboard/AddressDashboard';
+import AddressHeader from 'components/AddressHeader/AddressHeader';
 import DashboardLayout from 'components/DashboardLayout/DashboardLayout';
 import InvalidAddress from 'components/InvalidAddress/InvalidAddress';
 import { isValidAddress } from 'services/web3';
@@ -17,7 +18,12 @@ const AddressPage: NextPage<IProps> = ({ address }) => {
   const isAddressValid = isValidAddress(address);
   return (
     <DashboardLayout
-      address={address}
+      header={
+        <AddressHeader
+          address={address}
+          openAddressModel={() => setIsAddressModalOpen(true)}
+        />
+      }
       isAddressModalOpen={isAddressModalOpen}
       setIsAddressModalOpen={setIsAddressModalOpen}
     >

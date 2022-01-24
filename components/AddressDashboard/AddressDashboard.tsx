@@ -6,6 +6,10 @@ import LamboModal from 'components/LamboModal/LamboModal';
 import TokenModal from 'components/TokenModal/TokenModal';
 import Button from 'components/ui/Button/Button';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
+import LoadingText from 'components/ui/LoadingText/LoadingText';
+import SwappableText from 'components/ui/SwappableText/SwappableText';
+import { address as armouryAddress } from 'contracts/Arms/Arms';
+import { address as creepzAddress } from 'contracts/Creepz/Creepz';
 import useWalletStats from 'hooks/useWalletStats';
 
 interface IProps {
@@ -20,11 +24,11 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
     userYield,
     loomiPrice,
     stakedCreepz,
-    unstakedCreepz,
     stakedArmouries,
-    unstakedArmouries,
     totalArmouries,
     totalCreepz,
+    floorData,
+    isLoading,
   } = useWalletStats(address);
   return (
     <div className="-mt-12">
@@ -145,30 +149,67 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {userReward}
-              </p>
+              <LoadingText isLoading={isLoading}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {userReward}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
                 balance
               </p>
             </div>
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {userYield}
-              </p>
+              <LoadingText isLoading={isLoading}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {userYield}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
                 yield
               </p>
             </div>
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                }).format(loomiPrice.usd)}
-              </p>
+              <LoadingText isLoading={isLoading}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  <SwappableText>
+                    {(swapped: boolean) =>
+                      swapped ? (
+                        <span>{loomiPrice.eth.toFixed(8)}</span>
+                      ) : (
+                        Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        }).format(loomiPrice.usd)
+                      )
+                    }
+                  </SwappableText>
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
                 Price
+              </p>
+            </div>
+            <div className="flex justify-center items-baseline">
+              <LoadingText isLoading={isLoading && !loomiPrice && !userReward}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  <SwappableText>
+                    {(swapped: boolean) =>
+                      swapped ? (
+                        Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        }).format(userReward * 0.75 * loomiPrice.usd)
+                      ) : (
+                        <span>
+                          {(userReward * 0.75 * loomiPrice.eth).toFixed(2)}
+                        </span>
+                      )
+                    }
+                  </SwappableText>
+                </p>
+              </LoadingText>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                value
               </p>
             </div>
           </div>
@@ -191,27 +232,48 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {stakedCreepz.length}
-              </p>
+              <LoadingText isLoading={isLoading}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {stakedCreepz.length}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
                 staked
               </p>
             </div>
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {unstakedCreepz}
-              </p>
+              <LoadingText isLoading={isLoading}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {totalCreepz}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                unstaked
+                total
               </p>
             </div>
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {totalCreepz}
-              </p>
+              <LoadingText
+                isLoading={
+                  isLoading && !totalCreepz && !floorData?.prices?.creepz
+                }
+              >
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {floorData?.prices?.creepz}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                total
+                floor
+              </p>
+            </div>
+            <div className="flex justify-center items-baseline">
+              <LoadingText isLoading={isLoading && !floorData?.prices?.creepz}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {floorData?.prices?.creepz &&
+                    (totalCreepz * floorData.prices.creepz).toFixed(2)}
+                </p>
+              </LoadingText>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                value
               </p>
             </div>
             <TokenModal
@@ -219,7 +281,8 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
               handleClose={() => setIsCreepzModalOpen(false)}
               title="Your Creepz"
               tokenIds={stakedCreepz}
-              baseUrl="https://meta.creepz.co/creepz/_||_"
+              baseUrl="https://api.creepz.co/creepz/_||_"
+              address={creepzAddress}
             />
           </div>
         </GlowyBox>
@@ -233,27 +296,48 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {stakedArmouries.length}
-              </p>
+              <LoadingText isLoading={isLoading}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {stakedArmouries.length}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
                 staked
               </p>
             </div>
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {unstakedArmouries}
-              </p>
+              <LoadingText isLoading={isLoading}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {totalArmouries}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                unstaked
+                total
               </p>
             </div>
             <div className="flex justify-center items-baseline">
-              <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                {totalArmouries}
-              </p>
+              <LoadingText isLoading={isLoading && !floorData?.prices?.armoury}>
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {floorData?.prices?.armoury}
+                </p>
+              </LoadingText>
               <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                total
+                floor
+              </p>
+            </div>
+            <div className="flex justify-center items-baseline">
+              <LoadingText
+                isLoading={
+                  isLoading && !totalArmouries && !floorData?.prices?.armoury
+                }
+              >
+                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
+                  {floorData?.prices?.armoury &&
+                    (totalArmouries * floorData.prices.armoury).toFixed(2)}
+                </p>
+              </LoadingText>
+              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
+                value
               </p>
             </div>
           </div>
@@ -263,6 +347,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
             title="Your Armouries"
             tokenIds={stakedArmouries}
             baseUrl="https://meta.creepz.co/armoury/_||_/image/?1642708904765"
+            address={armouryAddress}
           />
         </GlowyBox>
       </dl>

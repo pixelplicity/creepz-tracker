@@ -1,17 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import useSWR from 'swr';
 import Web3 from 'web3';
 
-// import {
-//   address as creepzAddress,
-//   abi as creepzABI,
-// } from 'contracts/Creepz/Creepz';
-// import {
-//   address as invasionAddress,
-//   abi as invasionABI,
-// } from 'contracts/CreepzInvasionGrounds/CreepzInvasionGrounds';
 import { abi as armsABI, address as armsAddress } from 'contracts/Arms/Arms';
+import {
+  address as creepzAddress,
+  abi as creepzABI,
+} from 'contracts/Creepz/Creepz';
 import {
   abi as loomiABI,
   address as loomiAddress,
@@ -25,17 +21,30 @@ const fetcher = async (input: RequestInfo, init: RequestInit) => {
 function useGameStats() {
   const [loomiSupply, setLoomiSupply] = useState<string>('0');
   const [bribesDistributed, setBribesDistributed] = useState<string>('0');
+  const [totalCreepz, setTotalCreepz] = useState<string>('0');
   const [totalArmouries, setTotalArmouries] = useState<string>('0');
-  const [maxArmouries, setMaxArmouries] = useState<string>('0');
+  const [isWeb3Loading, setIsWeb3Loading] = useState<boolean>(true);
+  const { data: floorData } = useSWR('/api/floorPrices', fetcher);
+  const { data: gameData } = useSWR(
+    '/api/leaderboard?offset=0&limit=1',
+    fetcher
+  );
   const { data } = useSWR('/api/loomiPrice', fetcher);
-
+  const isLoading = useMemo(
+    () => !data || !gameData || !floorData || isWeb3Loading,
+    [data, gameData, floorData, isWeb3Loading]
+  );
   useEffect(() => {
     const getGameStats = async () => {
+      if (!isWeb3Loading) {
+        setIsWeb3Loading(true);
+      }
       const web3 = new Web3(
         window.ethereum || process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT
       );
 
       const loomiContract = new web3.eth.Contract(loomiABI, loomiAddress);
+      const creepzContract = new web3.eth.Contract(creepzABI, creepzAddress);
       const armsContract = new web3.eth.Contract(armsABI, armsAddress);
       // Supply
       const rawLoomiSupply = await loomiContract.methods.totalSupply().call();
@@ -48,10 +57,12 @@ function useGameStats() {
         Number(web3.utils.fromWei(rawBribesDistributed)).toFixed(0)
       );
 
+      const rawTotalCreepz = await creepzContract.methods.totalSupply().call();
+      setTotalCreepz(rawTotalCreepz);
       const rawTotalArmouries = await armsContract.methods.totalSupply().call();
       setTotalArmouries(rawTotalArmouries);
-      const rawMaxArmouries = await armsContract.methods.MAX_SUPPLY().call();
-      setMaxArmouries(rawMaxArmouries);
+
+      setIsWeb3Loading(false);
     };
     getGameStats();
   }, []);
@@ -61,7 +72,10 @@ function useGameStats() {
     loomiPrice: data ? data.price : 0,
     bribesDistributed,
     totalArmouries,
-    maxArmouries,
+    totalCreepz,
+    gameData,
+    floorData,
+    isLoading,
   };
 }
 

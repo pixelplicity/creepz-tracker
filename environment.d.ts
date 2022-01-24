@@ -4,6 +4,8 @@ declare global {
       NEXT_PUBLIC_INFURA_ID: string;
       NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT: string;
       BITQUERY_API_KEY: string;
+      NEXT_PUBLIC_SUPABASE_URL: string;
+      NEXT_PUBLIC_SUPABASE_KEY: string;
       NODE_ENV: 'development' | 'production';
     }
   }
