@@ -14,6 +14,7 @@ export type Stats = {
 export type Player = {
   date: string;
   id: string;
+  name?: string;
   wallet_address: string;
   reward: number;
   yield: number;
