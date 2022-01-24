@@ -28,6 +28,8 @@ export type GameStatesEntry = GameStats & {
   stakedArmouries: number;
 };
 
+const addressOverrides = ['0xfcf6dddc92b9cd97780e4424d50f27ad04bd3f13'];
+
 const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -119,7 +121,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     )
   ) as string[];
   const allAddresses = Array.from(
-    new Set([...allCreepzAddresses, ...allArmouryAddresses])
+    new Set([
+      ...allCreepzAddresses,
+      ...allArmouryAddresses,
+      ...addressOverrides,
+    ])
   );
   fs.writeFileSync('data/creepz.json', JSON.stringify(creepzTokenMap));
   fs.writeFileSync('data/armoury.json', JSON.stringify(armouryTokenMap));
