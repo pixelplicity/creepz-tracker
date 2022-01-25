@@ -346,7 +346,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
             handleClose={() => setIsArmouryModalOpen(false)}
             title="Your Armouries"
             tokenIds={stakedArmouries}
-            baseUrl="https://meta.creepz.co/armoury/_||_/image/?1642708904765"
+            baseUrl="https://api.creepz.co/armoury/_||_/image/?1642708904765"
             address={armouryAddress}
           />
         </GlowyBox>
