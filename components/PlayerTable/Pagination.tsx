@@ -21,7 +21,6 @@ const Pagination: React.FunctionComponent<IProps> = ({
   const canNext =
     data?.leaderboard?.players && data.leaderboard.players.length === pageSize;
   if (data?.leaderboard?.players) {
-    console.log(data.leaderboard.players.length, pageSize, '=>', canNext);
   }
   return (
     <nav

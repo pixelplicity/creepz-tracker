@@ -159,7 +159,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({ group }) => {
             </div>
           </div>
         </GlowyBox>
-        <div className="col-span-3 mt-8">
+        <div className="sm:col-span-2 lg:col-span-3  mt-8">
           <GlowyBox
             title={`${group || ''} Leaderboard`}
             titleIcon={
