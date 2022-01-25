@@ -87,7 +87,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     res.json(cachedResponse);
     return;
   }
-  const minutes = 5;
+  const minutes = 1;
   const [creepzPrice, armouryPrice] = await Promise.all([
     getCreepzPrice(),
     getArmouryPrice(),
