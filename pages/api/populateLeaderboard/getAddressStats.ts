@@ -77,7 +77,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
       { retries: 3 }
     );
     return {
-      walletAddress: address,
+      walletAddress: address.toLowerCase(),
       ...stats,
     };
   };

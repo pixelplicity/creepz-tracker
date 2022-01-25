@@ -58,22 +58,25 @@ const getLeaderboard = async (options: {
     const groupResponse = await supabase
       .from('groups')
       .select()
-      .eq('name', options.group)
-      .single();
+      .eq('name', options.group);
 
     if (groupResponse.error) {
       return { error: groupResponse.error.message };
     }
+    const group = groupResponse.data[0];
     playerQuery = playerQuery?.in(
       'wallet_address',
-      groupResponse.data.addresses.map(
-        (d: { name: string; address: string }) => d.address
+      group.addresses.map((d: { name: string; address: string }) =>
+        d.address.toLowerCase()
       )
     );
-    groupData = groupResponse.data.addresses;
+    groupData = group.addresses;
   }
   if (options.search) {
-    playerQuery = playerQuery?.like('wallet_address', `%${options.search}%`);
+    playerQuery = playerQuery?.like(
+      'wallet_address',
+      `%${options.search.toLowerCase()}%`
+    );
   }
   playerQuery = playerQuery.range(
     options.offset,
@@ -93,7 +96,9 @@ const getLeaderboard = async (options: {
     players = playersResponse.data.map((player) => {
       return {
         ...player,
-        name: groupData.find((a) => a.address === player.wallet_address)?.name,
+        name: groupData.find(
+          (a) => a.address.toLowerCase() === player.wallet_address.toLowerCase()
+        )?.name,
       };
     });
   }

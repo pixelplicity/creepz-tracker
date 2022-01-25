@@ -126,7 +126,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
       ...allArmouryAddresses,
       ...addressOverrides,
     ])
-  );
+  ).map((a) => a.toLowerCase());
   fs.writeFileSync('data/creepz.json', JSON.stringify(creepzTokenMap));
   fs.writeFileSync('data/armoury.json', JSON.stringify(armouryTokenMap));
   fs.writeFileSync('data/addresses.json', JSON.stringify(allAddresses));
