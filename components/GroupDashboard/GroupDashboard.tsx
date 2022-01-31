@@ -108,7 +108,7 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
         </GlowyBox>
         <div className="sm:col-span-2 lg:col-span-3">
           <GlowyBox
-            title="Leaderboard"
+            title={`${group} Leaderboard`}
             isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
             titleIcon={
               <Button onClick={() => setIsTableModalOpen(true)}>
