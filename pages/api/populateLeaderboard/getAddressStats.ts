@@ -66,6 +66,33 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     ? existingPlayersResponse.data.map((d) => d.wallet_address)
     : [];
 
+  const vaultTokenMap: Record<string, string> = JSON.parse(
+    fs.readFileSync('data/vaults.json').toString()
+  );
+  const ssTokenMap = JSON.parse(fs.readFileSync('data/ss.json').toString());
+  const vaultOwners: Record<string, string[]> = {};
+  Object.entries(vaultTokenMap).forEach((entry) => {
+    const [tokenId, address] = entry as [string, string];
+    if (!Object.hasOwnProperty.call(vaultOwners, address)) {
+      vaultOwners[address] = [];
+    }
+    const addressTokens = vaultOwners[address] as string[];
+    if (addressTokens) {
+      addressTokens.push(tokenId);
+    }
+  });
+  const ssOwners: Record<string, string[]> = {};
+  Object.entries(ssTokenMap).forEach((entry) => {
+    const [tokenId, address] = entry as [string, string];
+    if (!Object.hasOwnProperty.call(ssOwners, address)) {
+      ssOwners[address] = [];
+    }
+    const addressTokens = ssOwners[address] as string[];
+    if (addressTokens) {
+      addressTokens.push(tokenId);
+    }
+  });
+
   const getWalletMetadata = async (
     address: string
   ): Promise<LeaderBoardEntry> => {
@@ -76,6 +103,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
       },
       { retries: 3 }
     );
+
     return {
       walletAddress: address.toLowerCase(),
       ...stats,
@@ -93,7 +121,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
           return limit(async () => {
             console.log(index, address);
             const walletStats = await getWalletMetadata(address);
-            leaderBoard.push(walletStats);
+            // const vaults = leaderBoard.push(walletStats);
 
             return supabase.from('players').insert({
               date: now,
@@ -106,6 +134,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
               number_staked_creepz: walletStats.stakedCreepz.length,
               staked_armouries: walletStats.stakedArmouries,
               number_staked_armouries: walletStats.stakedArmouries.length,
+              // vaults: walletStats.mintedVaults,
+              // shapeshifters: walletStats.mintedShapeshifters,
+              // number_shapeshifters: walletStats.numberShapeshifters,
+              // number_vaults: walletStats.numberVaults,
             });
           });
         }

@@ -20,8 +20,6 @@ const Pagination: React.FunctionComponent<IProps> = ({
   const canPrev = data?.leaderboard ? offset > 0 : false;
   const canNext =
     data?.leaderboard?.players && data.leaderboard.players.length === pageSize;
-  if (data?.leaderboard?.players) {
-  }
   return (
     <nav
       className="py-2 flex items-center justify-between"

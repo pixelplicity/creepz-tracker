@@ -10,7 +10,6 @@ interface IProps {
   placeholder?: string;
   type?: string;
   error?: FieldError;
-  autoFill: boolean;
   icon?: React.ReactNode;
 }
 const TextInput = forwardRef<HTMLInputElement, IProps>(

@@ -6,6 +6,7 @@ declare global {
       BITQUERY_API_KEY: string;
       NEXT_PUBLIC_SUPABASE_URL: string;
       NEXT_PUBLIC_SUPABASE_KEY: string;
+      NEXT_PUBLIC_GRAPH_URL: string;
       NODE_ENV: 'development' | 'production';
     }
   }

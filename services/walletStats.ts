@@ -15,6 +15,11 @@ import {
   address as loomiAddress,
 } from 'contracts/Loomi/Loomi';
 
+// import {
+//   abi as vaultABI,
+//   address as vaultAddress,
+// } from 'contracts/Vaults/Vaults';
+
 export type WalletStats = {
   userReward: number;
   userBalance: number;
@@ -36,6 +41,11 @@ export default async function getWalletStats(
   const armsContract = new web3.eth.Contract(armsABI, armsAddress);
   const stakingContract = new web3.eth.Contract(invasionABI, invasionAddress);
   const loomiContract = new web3.eth.Contract(loomiABI, loomiAddress);
+  // const shapeshifterContract = new web3.eth.Contract(
+  //   shapeshifterABI,
+  //   shapeshifterAddress
+  // );
+  // const vaultContract = new web3.eth.Contract(vaultABI, vaultAddress);
   // Reward
   const rawUserReward = await loomiContract.methods
     .getUserBalance(address)

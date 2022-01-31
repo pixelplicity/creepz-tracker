@@ -43,8 +43,8 @@ lds-ring {
   box-sizing: border-box;
   display: block;
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 60px;
+  height: 60px;
   margin: 5px;
   border: 2px solid #8dff1f;
   border-radius: 50%;

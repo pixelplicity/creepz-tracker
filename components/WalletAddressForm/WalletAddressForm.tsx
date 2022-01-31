@@ -14,6 +14,7 @@ const WalletAddressForm: React.FunctionComponent<IProps> = ({
   afterSubmit,
 }) => {
   const router = useRouter();
+
   const {
     register,
     reset,
@@ -34,7 +35,6 @@ const WalletAddressForm: React.FunctionComponent<IProps> = ({
         className="block font-sans w-full text-sm bg-creepz-green-light creepz-glowy-shadow text-creepz-green-dark placeholder-creepz-green-dark placeholder-opacity-60 focus:outline-none px-2"
         label="Wallet address"
         placeholder="Enter wallet address"
-        autoFill={false}
         type="search"
         error={errors.walletAddress}
         {...register('walletAddress', {

@@ -77,6 +77,9 @@ const makeFloorPriceRequest =
 
 const getCreepzPrice = makeFloorPriceRequest('genesis-creepz');
 const getArmouryPrice = makeFloorPriceRequest('reptile-armoury');
+const getVaultPrice = makeFloorPriceRequest('creepz-loomi-vault');
+const getSSPrice = makeFloorPriceRequest('creepz-shapeshifterz');
+const getMegaSSPrice = makeFloorPriceRequest('creepz-mega-shapeshifterz');
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   if (req.method !== 'GET') {
@@ -88,14 +91,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     return;
   }
   const minutes = 1;
-  const [creepzPrice, armouryPrice] = await Promise.all([
-    getCreepzPrice(),
-    getArmouryPrice(),
-  ]);
+  const [creepzPrice, armouryPrice, vaultPrice, ssPrice, megaSSPrice] =
+    await Promise.all([
+      getCreepzPrice(),
+      getArmouryPrice(),
+      getVaultPrice(),
+      getSSPrice(),
+      getMegaSSPrice(),
+    ]);
   const response = {
     prices: {
       creepz: creepzPrice,
       armoury: armouryPrice,
+      vault: vaultPrice,
+      shapeshifter: ssPrice,
+      megaShapeshifter: megaSSPrice,
     },
   };
   cache.put('floorPrice', response, 1000 * 60 * minutes);

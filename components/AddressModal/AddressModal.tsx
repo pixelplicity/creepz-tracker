@@ -50,7 +50,7 @@ const AddressModal: React.FunctionComponent<IProps> = ({
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <div className="inline-block align-middle text-left transform transition-all sm:max-w-2xl sm:w-full">
-              <GlowyBox title="Update Wallet">
+              <GlowyBox title="Update Wallet" isLoading={false}>
                 <>
                   <div className="block absolute -top-10 -right-10 p-2 border border-creepz-border-dark rounded-xl bg-creepz-red creepz-glowy-red ">
                     <button

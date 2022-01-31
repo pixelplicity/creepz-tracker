@@ -6,35 +6,41 @@ import LamboModal from 'components/LamboModal/LamboModal';
 import TokenModal from 'components/TokenModal/TokenModal';
 import Button from 'components/ui/Button/Button';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
-import LoadingText from 'components/ui/LoadingText/LoadingText';
+import StatBox from 'components/ui/StatBox/StatBox';
 import SwappableText from 'components/ui/SwappableText/SwappableText';
 import { address as armouryAddress } from 'contracts/Arms/Arms';
 import { address as creepzAddress } from 'contracts/Creepz/Creepz';
-import useWalletStats from 'hooks/useWalletStats';
+import { address as megaShapeshifterAddress } from 'contracts/MegaShapeshifters/MegaShapeshifters';
+import { address as shapeshifterAddress } from 'contracts/Shapeshifters/Shapeshifters';
 
 interface IProps {
   address: string;
+  walletData: any;
+  walletLoading: boolean;
+  loomiPrice: any;
+  loomiPriceLoading: boolean;
+  floorPrices: any;
+  floorPriceLoading: boolean;
 }
-const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
+const AddressDashboard: React.FunctionComponent<IProps> = ({
+  walletData,
+  walletLoading,
+  loomiPrice,
+  loomiPriceLoading,
+  floorPrices,
+  floorPriceLoading,
+}) => {
   const [isCreepzModalOpen, setIsCreepzModalOpen] = useState<boolean>(false);
   const [isArmouryModalOpen, setIsArmouryModalOpen] = useState<boolean>(false);
   const [isLamboModalOpen, setIsLamboModalOpen] = useState<boolean>(false);
-  const {
-    userReward,
-    userYield,
-    loomiPrice,
-    stakedCreepz,
-    stakedArmouries,
-    totalArmouries,
-    totalCreepz,
-    floorData,
-    isLoading,
-  } = useWalletStats(address);
+  const [isSSModalOpen, setIsSSModalOpen] = useState<boolean>(false);
+  const [isMegaSSModalOpen, setIsMegaSSModalOpen] = useState<boolean>(false);
   return (
     <div className="-mt-12">
-      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
+      <dl className="m-5 grid grid-cols-1 gap-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 ">
         <GlowyBox
           title="$Loomi"
+          isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
           titleIcon={
             <Button onClick={() => setIsLamboModalOpen(true)}>
               <svg
@@ -148,206 +154,197 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({ address }) => {
           }
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {userReward}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                balance
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {userYield}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                yield
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  <SwappableText>
-                    {(swapped: boolean) =>
-                      swapped ? (
-                        <span>{loomiPrice.eth.toFixed(8)}</span>
-                      ) : (
-                        Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                        }).format(loomiPrice.usd)
-                      )
-                    }
-                  </SwappableText>
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                Price
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading && !loomiPrice && !userReward}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  <SwappableText>
-                    {(swapped: boolean) =>
-                      swapped ? (
-                        Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                        }).format(userReward * 0.75 * loomiPrice.usd)
-                      ) : (
-                        <span>
-                          {(userReward * 0.75 * loomiPrice.eth).toFixed(2)}
-                        </span>
-                      )
-                    }
-                  </SwappableText>
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                value
-              </p>
-            </div>
+            <StatBox label="balance">{walletData.userReward}</StatBox>
+            <StatBox label="yield">{walletData.userYield}</StatBox>
+            <StatBox label="ERC-20">{walletData.userBalance}</StatBox>
+            <StatBox label="spent">{walletData.userSpent}</StatBox>
+            <StatBox label="price">
+              <SwappableText>
+                {(swapped: boolean) =>
+                  swapped ? (
+                    <span>{loomiPrice.eth.toFixed(8)}</span>
+                  ) : (
+                    Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    }).format(loomiPrice.usd)
+                  )
+                }
+              </SwappableText>
+            </StatBox>
+            <StatBox label="value">
+              <SwappableText>
+                {(swapped: boolean) =>
+                  swapped ? (
+                    Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    }).format(walletData.userReward * 0.75 * loomiPrice.usd)
+                  ) : (
+                    <span>
+                      {(walletData.userReward * 0.75 * loomiPrice.eth).toFixed(
+                        2
+                      )}
+                    </span>
+                  )
+                }
+              </SwappableText>
+            </StatBox>
           </div>
           <LamboModal
             isOpen={isLamboModalOpen}
             handleClose={() => setIsLamboModalOpen(false)}
             title="Wen Lambo?"
             price={loomiPrice}
-            userYield={+userYield}
-            userReward={+userReward}
+            userYield={+walletData.userYield}
+            userReward={+walletData.userReward}
           />
         </GlowyBox>
         <GlowyBox
+          isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
           title="Creepz"
           titleIcon={
             <Button onClick={() => setIsCreepzModalOpen(true)}>
-              <EyeIcon className="h-8 w-8" aria-hidden="true" />
+              <EyeIcon className="h-6 w-6" aria-hidden="true" />
             </Button>
           }
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {stakedCreepz.length}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                staked
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {totalCreepz}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                total
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText
-                isLoading={
-                  isLoading && !totalCreepz && !floorData?.prices?.creepz
-                }
-              >
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {floorData?.prices?.creepz}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                floor
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading && !floorData?.prices?.creepz}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {floorData?.prices?.creepz &&
-                    (totalCreepz * floorData.prices.creepz).toFixed(2)}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                value
-              </p>
-            </div>
+            <StatBox label="staked">{walletData.creeps.staked.length}</StatBox>
+
+            <StatBox label="unstaked">
+              {walletData.creeps.unstaked.length}
+            </StatBox>
+
+            <StatBox label="total">
+              {walletData.creeps.staked.length +
+                walletData.creeps.unstaked.length}
+            </StatBox>
+
+            <StatBox />
+
+            <StatBox label="floor">{floorPrices?.creepz}</StatBox>
+            <StatBox label="value">
+              {floorPrices?.creepz &&
+                (
+                  (walletData.creeps.staked.length +
+                    walletData.creeps.unstaked.length) *
+                  floorPrices.creepz
+                ).toFixed(2)}
+            </StatBox>
             <TokenModal
               isOpen={isCreepzModalOpen}
               handleClose={() => setIsCreepzModalOpen(false)}
               title="Your Creepz"
-              tokenIds={stakedCreepz}
+              stakedIds={walletData.creeps.staked}
+              unstakedIds={walletData.creeps.unstaked}
+              stakeable
               baseUrl="https://api.creepz.co/creepz/_||_"
               address={creepzAddress}
             />
           </div>
         </GlowyBox>
         <GlowyBox
+          isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
           title="Armouries"
           titleIcon={
             <Button onClick={() => setIsArmouryModalOpen(true)}>
-              <EyeIcon className="h-8 w-8" aria-hidden="true" />
+              <EyeIcon className="h-6 w-6" aria-hidden="true" />
             </Button>
           }
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {stakedArmouries.length}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                staked
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {totalArmouries}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                total
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText isLoading={isLoading && !floorData?.prices?.armoury}>
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {floorData?.prices?.armoury}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                floor
-              </p>
-            </div>
-            <div className="flex justify-center items-baseline">
-              <LoadingText
-                isLoading={
-                  isLoading && !totalArmouries && !floorData?.prices?.armoury
-                }
-              >
-                <p className="text-2xl font-semibold text-creepz-green-light creepz-glowy-text">
-                  {floorData?.prices?.armoury &&
-                    (totalArmouries * floorData.prices.armoury).toFixed(2)}
-                </p>
-              </LoadingText>
-              <p className="ml-2 items-baseline text-sm font-semibold text-creepz-green creepz-glowy-text">
-                value
-              </p>
-            </div>
+            <StatBox label="staked">
+              {walletData.armouries.staked.length}
+            </StatBox>
+            <StatBox label="unstaked">
+              {walletData.armouries.unstaked.length}
+            </StatBox>
+            <StatBox label="total">
+              {walletData.armouries.staked.length +
+                walletData.armouries.unstaked.length}
+            </StatBox>
+            <StatBox />
+            <StatBox label="floor">{floorPrices.armoury}</StatBox>
+            <StatBox label="value">
+              {floorPrices?.armoury &&
+                (
+                  (walletData.armouries.staked.length +
+                    walletData.armouries.unstaked.length) *
+                  floorPrices.armoury
+                ).toFixed(2)}
+            </StatBox>
           </div>
           <TokenModal
             isOpen={isArmouryModalOpen}
             handleClose={() => setIsArmouryModalOpen(false)}
             title="Your Armouries"
-            tokenIds={stakedArmouries}
+            stakedIds={walletData.armouries.staked}
+            unstakedIds={walletData.armouries.unstaked}
+            stakeable
             baseUrl="https://api.creepz.co/armoury/_||_/image/?1642708904765"
             address={armouryAddress}
+          />
+        </GlowyBox>
+        <GlowyBox
+          isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
+          title="Shapeshifters"
+          titleIcon={
+            <Button onClick={() => setIsSSModalOpen(true)}>
+              <EyeIcon className="h-6 w-6" aria-hidden="true" />
+            </Button>
+          }
+        >
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <StatBox label="total">{walletData.shapeshifters.length}</StatBox>
+            <StatBox />
+            <StatBox label="floor">{floorPrices.shapeshifter}</StatBox>
+            <StatBox label="value">
+              {floorPrices?.shapeshifter &&
+                (
+                  walletData.shapeshifters.length * floorPrices.shapeshifter
+                ).toFixed(2)}
+            </StatBox>
+          </div>
+          <TokenModal
+            isOpen={isSSModalOpen}
+            handleClose={() => setIsSSModalOpen(false)}
+            title="Your Shapeshifters"
+            stakedIds={walletData.shapeshifters}
+            baseUrl="https://cbc-backend-ajxin.ondigitalocean.app/shapeshifters/_||_/image"
+            address={shapeshifterAddress}
+          />
+        </GlowyBox>
+        <GlowyBox
+          isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
+          title="Megas"
+          titleIcon={
+            <Button onClick={() => setIsMegaSSModalOpen(true)}>
+              <EyeIcon className="h-6 w-6" aria-hidden="true" />
+            </Button>
+          }
+        >
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <StatBox label="total">
+              {walletData.megaShapeshifters.length}
+            </StatBox>
+            <StatBox />
+            <StatBox label="floor">{floorPrices.megaShapeshifter}</StatBox>
+            <StatBox label="value">
+              {floorPrices?.megaShapeshifter &&
+                (
+                  walletData.megaShapeshifters.length *
+                  floorPrices.megaShapeshifter
+                ).toFixed(2)}
+            </StatBox>
+          </div>
+          <TokenModal
+            isOpen={isMegaSSModalOpen}
+            handleClose={() => setIsMegaSSModalOpen(false)}
+            title="Your Megas"
+            stakedIds={walletData.megaShapeshifters}
+            baseUrl="https://cbc-backend-ajxin.ondigitalocean.app/megas/_||_/image"
+            address={megaShapeshifterAddress}
           />
         </GlowyBox>
       </dl>

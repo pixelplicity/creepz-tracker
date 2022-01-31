@@ -9,7 +9,7 @@ const LoadingText: React.FunctionComponent<IProps> = ({
   isLoading,
   children,
 }) => {
-  return isLoading ? <LoadingSpinner /> : <>{children}</>;
+  return isLoading ? <LoadingSpinner className="w-6 h-6" /> : <>{children}</>;
 };
 
 export default LoadingText;

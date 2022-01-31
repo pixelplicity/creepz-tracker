@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 
 import DashboardLayout from 'components/DashboardLayout/DashboardLayout';
+import GameHeader from 'components/GameHeader/GameHeader';
 
-const About: React.FunctionComponent = () => {
+const Home: React.FunctionComponent = () => {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
   return (
     <DashboardLayout
       isAddressModalOpen={isAddressModalOpen}
       setIsAddressModalOpen={setIsAddressModalOpen}
+      header={
+        <GameHeader openAddressModel={() => setIsAddressModalOpen(true)} />
+      }
     >
-      <div className="max-w-3xl mx-auto sm:px-6 lg:px-8 mt-8">
+      <div className="max-w-5xl mx-auto sm:px-6 lg:px-8 mt-8">
         <h1 className="text-7xl font-cursive text-center text-white uppercase">
           About Creepz Tracker
         </h1>
@@ -83,4 +87,4 @@ const About: React.FunctionComponent = () => {
   );
 };
 
-export default About;
+export default Home;

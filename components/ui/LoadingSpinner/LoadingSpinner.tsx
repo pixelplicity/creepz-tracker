@@ -1,9 +1,11 @@
 import * as React from 'react';
 
-interface IProps {}
-const LoadingSpinner: React.FunctionComponent<IProps> = () => {
+interface IProps {
+  className?: string;
+}
+const LoadingSpinner: React.FunctionComponent<IProps> = ({ className }) => {
   return (
-    <div className="lds-ring w-6 h-6 inline-block">
+    <div className={`lds-ring ${className} inline-block`}>
       <div></div>
       <div></div>
       <div></div>

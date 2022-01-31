@@ -26,7 +26,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({ group }) => {
   return (
     <div className="mt-12">
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
-        <GlowyBox title="Loomi">
+        <GlowyBox title="Loomi" isLoading={false}>
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
               <LoadingText isLoading={isLoading}>
@@ -83,7 +83,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({ group }) => {
             </div>
           </div>
         </GlowyBox>
-        <GlowyBox title="Creepz">
+        <GlowyBox title="Creepz" isLoading={false}>
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
               <LoadingText isLoading={isLoading && !totalCreepz}>
@@ -121,7 +121,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({ group }) => {
             </div>
           </div>
         </GlowyBox>
-        <GlowyBox title="Armouries">
+        <GlowyBox title="Armouries" isLoading={false}>
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <div className="flex justify-center items-baseline">
               <LoadingText isLoading={isLoading && !totalArmouries}>
@@ -162,6 +162,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({ group }) => {
         <div className="sm:col-span-2 lg:col-span-3  mt-8">
           <GlowyBox
             title={`${group || ''} Leaderboard`}
+            isLoading={false}
             titleIcon={
               <Button onClick={() => setIsTableModalOpen(true)}>
                 <QuestionMarkCircleIcon
