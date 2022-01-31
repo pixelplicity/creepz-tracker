@@ -328,7 +328,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             <StatBox label="total">
               {walletData.megaShapeshifters.length}
             </StatBox>
-            <StatBox />
+            <StatBox label="bribe claim">{walletData.taxClaimable}</StatBox>
             <StatBox label="floor">{floorPrices.megaShapeshifter}</StatBox>
             <StatBox label="value">
               {floorPrices?.megaShapeshifter &&
