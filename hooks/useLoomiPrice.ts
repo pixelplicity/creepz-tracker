@@ -1,8 +1,9 @@
 import useSWR from 'swr';
 
 import fetcher from 'services/swrFetcher';
+import type { FloorPrices } from 'types';
 
-function useFloorPrice() {
+function useFloorPrice(): { data: FloorPrices; isLoading: boolean } {
   const { data } = useSWR(`/api/loomiPrice`, fetcher);
   return {
     data: data

@@ -11,16 +11,16 @@ import SwappableText from 'components/ui/SwappableText/SwappableText';
 import formatNumber from 'lib/formatNumber';
 
 interface IProps {
-  gameData: any;
-  gameLoading: boolean;
+  groupData: any;
+  groupLoading: boolean;
   loomiPrice: any;
   loomiPriceLoading: boolean;
   floorPrices: any;
   floorPriceLoading: boolean;
 }
-const GameDashboard: React.FunctionComponent<IProps> = ({
-  gameData,
-  gameLoading,
+const GroupDashboard: React.FunctionComponent<IProps> = ({
+  groupData,
+  groupLoading,
   loomiPrice,
   loomiPriceLoading,
   floorPrices,
@@ -32,23 +32,23 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
       <dl className="mt-5 grid grid-cols-1 gap-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 ">
         <GlowyBox
           title="Loomi"
-          isLoading={gameLoading || loomiPriceLoading || floorPriceLoading}
+          isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="in-game">
-              {formatNumber(gameData?.leaderboard?.game?.game_loomi, 2)}
+              {formatNumber(groupData?.leaderboard?.group?.game_loomi, 2)}
             </StatBox>
             <StatBox label="yield">
-              {formatNumber(gameData?.leaderboard?.game?.yield_loomi, 2)}
+              {formatNumber(groupData?.leaderboard?.group?.yield_loomi, 2)}
             </StatBox>
             <StatBox label="ERC-20">
-              {formatNumber(gameData?.leaderboard?.game?.erc20_loomi, 2)}
+              {formatNumber(groupData?.leaderboard?.group?.erc20_loomi, 2)}
             </StatBox>
             <StatBox label="spent">
-              {formatNumber(gameData?.leaderboard?.game?.spent_loomi, 2)}
+              {formatNumber(groupData?.leaderboard?.group?.spent_loomi, 2)}
             </StatBox>
             <StatBox label="bribes">
-              {formatNumber(gameData?.leaderboard?.game?.bribes_pool, 2)}
+              {formatNumber(groupData?.leaderboard?.group?.bribes_pool, 2)}
             </StatBox>
             <StatBox label="price">
               <SwappableText>
@@ -68,20 +68,20 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
         </GlowyBox>
         <GlowyBox
           title="Creepz"
-          isLoading={gameLoading || loomiPriceLoading || floorPriceLoading}
+          isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="staked">
-              {gameData?.leaderboard?.game?.staked_creepz}
+              {groupData?.leaderboard?.group?.staked_creepz}
             </StatBox>
             <StatBox label="unstaked">
-              {gameData?.leaderboard?.game?.creepz &&
-                gameData?.leaderboard?.game?.staked_creepz &&
-                gameData.leaderboard.game.creepz -
-                  gameData.leaderboard.game.staked_creepz}
+              {groupData?.leaderboard?.group?.creepz &&
+                groupData?.leaderboard?.group?.staked_creepz &&
+                groupData.leaderboard.group.creepz -
+                  groupData.leaderboard.group.staked_creepz}
             </StatBox>
             <StatBox label="total">
-              {gameData?.leaderboard?.game?.creepz}
+              {groupData?.leaderboard?.group?.creepz}
             </StatBox>
             <StatBox />
             <StatBox label="floor">{floorPrices?.creepz}</StatBox>
@@ -89,20 +89,20 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
         </GlowyBox>
         <GlowyBox
           title="Armouries"
-          isLoading={gameLoading || loomiPriceLoading || floorPriceLoading}
+          isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="staked">
-              {gameData?.leaderboard?.game?.staked_armouries}
+              {groupData?.leaderboard?.group?.staked_armouries}
             </StatBox>
             <StatBox label="unstaked">
-              {gameData?.leaderboard?.game?.armouries &&
-                gameData?.leaderboard?.game?.staked_armouries &&
-                gameData.leaderboard.game.armouries -
-                  gameData.leaderboard.game.staked_armouries}
+              {groupData?.leaderboard?.group?.armouries &&
+                groupData?.leaderboard?.group?.staked_armouries &&
+                groupData.leaderboard.group.armouries -
+                  groupData.leaderboard.group.staked_armouries}
             </StatBox>
             <StatBox label="total">
-              {gameData?.leaderboard?.game?.armouries}
+              {groupData?.leaderboard?.group?.armouries}
             </StatBox>
             <StatBox />
             <StatBox label="floor">{floorPrices?.armoury}</StatBox>
@@ -110,22 +110,22 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
         </GlowyBox>
         <GlowyBox
           title="Shapeshifters"
-          isLoading={gameLoading || loomiPriceLoading || floorPriceLoading}
+          isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="total">
-              {gameData?.leaderboard?.game?.shapeshifters}
+              {groupData?.leaderboard?.group?.shapeshifters}
             </StatBox>
             <StatBox label="floor">{floorPrices?.shapeshifter}</StatBox>
           </div>
         </GlowyBox>
         <GlowyBox
           title="Megas"
-          isLoading={gameLoading || loomiPriceLoading || floorPriceLoading}
+          isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="total">
-              {gameData?.leaderboard?.game?.mega_shapeshifters}
+              {groupData?.leaderboard?.group?.mega_shapeshifters}
             </StatBox>
             <StatBox label="floor">{floorPrices?.megaShapeshifter}</StatBox>
           </div>
@@ -133,7 +133,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
         <div className="sm:col-span-2 lg:col-span-3">
           <GlowyBox
             title="Leaderboard"
-            isLoading={gameLoading || loomiPriceLoading || floorPriceLoading}
+            isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
             titleIcon={
               <Button onClick={() => setIsTableModalOpen(true)}>
                 <QuestionMarkCircleIcon
@@ -143,7 +143,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
               </Button>
             }
           >
-            <PlayerTable />
+            <PlayerTable isGroup />
           </GlowyBox>
           <PlayerTableModal
             isOpen={isTableModalOpen}
@@ -155,4 +155,4 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
   );
 };
 
-export default GameDashboard;
+export default GroupDashboard;

@@ -8,18 +8,12 @@ import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import Link from 'next/link';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import useSWR from 'swr';
 
-import LoadingText from 'components/ui/LoadingText/LoadingText';
-import type { Player } from 'types';
+import LoadingSpinner from 'components/ui/LoadingSpinner/LoadingSpinner';
+import useLeaderboard from 'hooks/useLeaderboard';
 
 import Pagination from './Pagination';
 import SearchSort from './SearchSort';
-
-const fetcher = async (input: RequestInfo, init: RequestInit) => {
-  const res = await fetch(input, init);
-  return res.json();
-};
 
 const sortOptions = [
   {
@@ -46,28 +40,26 @@ const sortOptions = [
     display: 'Staked Armouries',
     prop: 'number_staked_armouries',
   },
+  {
+    display: 'Megas',
+    prop: 'number_mega_shapeshifters',
+  },
 ];
 
 interface IProps {
-  pageSize?: number;
-  group?: string;
+  isGroup?: boolean;
 }
-const ResponsiveTable: React.FunctionComponent<IProps> = ({
-  pageSize = 25,
-  group,
-}) => {
-  const [sort, setSort] = React.useState<string>('reward');
-  const [addressSearch, setAddressSearch] = React.useState<string>();
-  const [offset, setOffset] = React.useState<number>(0);
-  const { data } = useSWR(
-    `/api/leaderboard?offset=${offset}&limit=${pageSize}&sort=${sort}${
-      addressSearch && addressSearch !== '' && addressSearch.length >= 3
-        ? `&search=${addressSearch}`
-        : ''
-    }${group ? `&group=${group}` : ''}`,
-    fetcher
-  );
-
+const ResponsiveTable: React.FunctionComponent<IProps> = ({ isGroup }) => {
+  const pageSize = 25;
+  const {
+    data: gameData,
+    updateOffset,
+    offset,
+    updateSearch,
+    search,
+    updateSort,
+    sort,
+  } = useLeaderboard(pageSize);
   const columns = [
     {
       title: 'Wallet',
@@ -104,28 +96,34 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
       isSortable: true,
       isSorted: sort === 'number_staked_armouries',
     },
+    {
+      title: 'Megas',
+      isSortable: true,
+      isSorted: sort === 'number_mega_shapeshifters',
+    },
   ];
 
-  if (group) {
+  if (isGroup) {
     columns.splice(1, 0, {
       title: 'Name',
       isSortable: false,
       isSorted: false,
     });
   }
+
   return (
     <>
       <SearchSort
         sortOptions={sortOptions}
-        addressSearch={addressSearch}
-        updateAddressSearch={setAddressSearch}
-        updateSort={setSort}
+        addressSearch={search}
+        updateAddressSearch={updateSearch}
+        updateSort={updateSort}
         sort={sort}
       />
       <Pagination
-        data={data}
-        addressSearch={addressSearch}
-        updateOffset={setOffset}
+        data={gameData}
+        addressSearch={search}
+        updateOffset={updateOffset}
         pageSize={pageSize}
         offset={offset}
       />
@@ -150,18 +148,19 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
           </Tr>
         </Thead>
         <Tbody>
-          {!data && (
+          {!gameData && (
             <Tr>
               <Td
                 colSpan="7"
                 className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-green-light"
               >
-                Loading...
+                <LoadingSpinner className="h-18 w-18" />
               </Td>
             </Tr>
           )}
-          {data &&
-            data.leaderboard.players.map((player: Player, idx: number) => (
+          {gameData &&
+            gameData.leaderboard &&
+            gameData.leaderboard.players.map((player: any, idx: number) => (
               <Tr
                 key={player.id}
                 className={idx % 2 === 0 ? 'bg-white bg-opacity-5' : ''}
@@ -173,7 +172,7 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
                     </a>
                   </Link>
                 </Td>
-                {group && (
+                {isGroup && (
                   <Td className="px-6 py-4 whitespace-nowrap text-md text-creepz-green-light">
                     {player.name}
                   </Td>
@@ -196,6 +195,9 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
                 <Td className="px-6 py-4 whitespace-nowrap text-md text-creepz-green-light">
                   {player.number_staked_armouries}
                 </Td>
+                <Td className="px-6 py-4 whitespace-nowrap text-md text-creepz-green-light">
+                  {player.number_mega_shapeshifters}
+                </Td>
               </Tr>
             ))}
         </Tbody>
@@ -203,23 +205,21 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
       <div className="sm:flex sm:items-center sm:justify-between mt-2">
         <h3 className="text-sm text-creepz-green-light creepz-glowy-text"></h3>
         <div className="mt-3 sm:mt-0 sm:ml-4">
-          <LoadingText isLoading={!data}>
-            {data && (
-              <p className="text-sm text-creepz-green-light creepz-glowy-text">
-                Last Updated{' '}
-                {format(
-                  parseISO(data.leaderboard.game.date),
-                  'MMM d yyyy pppp'
-                )}
-              </p>
-            )}
-          </LoadingText>
+          {gameData && gameData.leaderboard && (
+            <p className="text-sm text-creepz-green-light creepz-glowy-text">
+              Last Updated{' '}
+              {format(
+                parseISO(gameData.leaderboard.game.date),
+                'MMM d yyyy pppp'
+              )}
+            </p>
+          )}
         </div>
       </div>
       <Pagination
-        data={data}
-        addressSearch={addressSearch}
-        updateOffset={setOffset}
+        data={gameData}
+        addressSearch={search}
+        updateOffset={updateOffset}
         pageSize={pageSize}
         offset={offset}
       />

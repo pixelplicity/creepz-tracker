@@ -1,43 +1,51 @@
 import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import supabase from 'services/supabase';
+import supabase from 'services/supabase/client';
+import type { GroupStats, Player } from 'services/supabase/types';
 
-import type {
-  LeaderBoardEntry,
-  GameStatesEntry,
-} from './populateLeaderboard/getAddressStats';
-
-export type Leaderboard = {
-  game: GameStatesEntry;
-  players: LeaderBoardEntry[];
+export type GroupLeaderboard = {
+  game: GroupStats;
+  players: Player[];
 };
 
-type Response = {
+export type Response = {
   error?: string;
-  leaderboard?: Leaderboard;
+  leaderboard?: GroupLeaderboard;
 };
 
-const getLeaderboard = async (options: {
+const getGroup = async (options: {
   limit: number;
   offset: number;
   sort?: string;
   search?: string;
   group?: string;
 }): Promise<Response> => {
-  const statsResponse = await supabase
-    .from('stats')
+  const groupResponse = await supabase
+    .from('groups')
     .select()
+    .eq('name', options.group);
+
+  if (groupResponse.error) {
+    return { error: groupResponse.error.message };
+  }
+  const groupData = groupResponse.data[0];
+
+  const groupStatsResponse = await supabase
+    .from('group_stats')
+    .select()
+    .eq('group', groupData.id)
     .order('date', { ascending: false });
 
-  if (statsResponse.error) {
-    return { error: statsResponse.error.message };
+  if (groupStatsResponse.error) {
+    console.error(groupStatsResponse.error);
+    return { error: groupStatsResponse.error.message };
   }
 
   let playerQuery = supabase
     .from('players')
     .select()
-    .eq('date', statsResponse.data[0].date);
+    .eq('date', groupStatsResponse.data[0].date);
 
   if (options.sort) {
     if (options.sort.indexOf('-') === 0) {
@@ -50,28 +58,18 @@ const getLeaderboard = async (options: {
       });
     }
   }
-  let groupData: {
+  let groupAddresses: {
     name: string;
     address: string;
   }[] = [];
-  if (options.group) {
-    const groupResponse = await supabase
-      .from('groups')
-      .select()
-      .eq('name', options.group);
 
-    if (groupResponse.error) {
-      return { error: groupResponse.error.message };
-    }
-    const group = groupResponse.data[0];
-    playerQuery = playerQuery?.in(
-      'wallet_address',
-      group.addresses.map((d: { name: string; address: string }) =>
-        d.address.toLowerCase()
-      )
-    );
-    groupData = group.addresses;
-  }
+  playerQuery = playerQuery?.in(
+    'wallet_address',
+    groupData.addresses.map((d: { name: string; address: string }) =>
+      d.address.toLowerCase()
+    )
+  );
+  groupAddresses = groupData.addresses;
   if (options.search) {
     playerQuery = playerQuery?.like(
       'wallet_address',
@@ -92,19 +90,18 @@ const getLeaderboard = async (options: {
     return { error: playersResponse.error.message };
   }
   let players = playersResponse.data;
-  if (options.group) {
-    players = playersResponse.data.map((player) => {
-      return {
-        ...player,
-        name: groupData.find(
-          (a) => a.address.toLowerCase() === player.wallet_address.toLowerCase()
-        )?.name,
-      };
-    });
-  }
+  players = playersResponse.data.map((player) => {
+    return {
+      ...player,
+      name: groupAddresses.find(
+        (a) => a.address.toLowerCase() === player.wallet_address.toLowerCase()
+      )?.name,
+    };
+  });
+
   return {
     leaderboard: {
-      game: statsResponse.data[0],
+      game: groupStatsResponse.data[0],
       players,
     },
   };
@@ -115,15 +112,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     res.status(405).json({ error: 'Method not allowed' });
   }
   const { limit, offset, sort, search, group } = req.query;
-  const cacheKey = `leaderboard-${JSON.stringify(req.query)}`;
+  const cacheKey = `group-${JSON.stringify(req.query)}`;
 
   const cachedResponse = cache.get(cacheKey);
   if (cachedResponse && !cachedResponse.error) {
     res.json(cachedResponse);
     return;
   }
-  const hours = 12;
-  const response = await getLeaderboard({
+  // const hours = 0.5;
+  const response = await getGroup({
     limit: +(limit || 25) as number,
     offset: +(offset || 0) as number,
     sort: sort ? `${sort}` : 'reward',
@@ -133,7 +130,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   if (response.error) {
     res.status(500).json({ error: response.error });
   }
-  cache.put(cacheKey, response, 1000 * 60 * 60 * hours);
+  cache.put(cacheKey, response, 1000);
   res.json(response);
 };
 

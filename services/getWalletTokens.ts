@@ -70,7 +70,7 @@ const getStakedTokens = async (
 
   return {
     creeps: rawStakedTokens[0].map((t: string) => formatUnits(t, 0)),
-    armouries: rawStakedTokens[0].map((t: string) => formatUnits(t, 0)),
+    armouries: rawStakedTokens[1].map((t: string) => formatUnits(t, 0)),
   };
 };
 

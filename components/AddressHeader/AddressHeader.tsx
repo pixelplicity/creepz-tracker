@@ -78,7 +78,7 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
           {address && (
             <div className="lg:flex lg:items-center lg:justify-between py-16 pb-24">
               <div className="flex-1 min-w-0">
-                <h2 className="text-2xl font-bold leading-7 text-creepz-green-light sm:text-3xl creepz-glowy-text">
+                <h2 className="text-2xl font-normal leading-7 text-creepz-green-light sm:text-3xl creepz-glowy-text">
                   <SwappableText>
                     {(swapped: boolean) =>
                       swapped ? (

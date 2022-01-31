@@ -2,12 +2,11 @@ import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'node-fetch';
 
+import type { FloorPrices } from 'types';
+
 type Response = {
   error?: string;
-  prices?: {
-    creepz: number;
-    armoury: number;
-  };
+  prices?: FloorPrices;
 };
 
 type FloorStatsResponse = {

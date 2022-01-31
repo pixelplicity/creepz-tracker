@@ -2,9 +2,11 @@ import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'node-fetch';
 
+import type { LoomiPrice } from 'types';
+
 type Response = {
   error?: string;
-  price?: any;
+  price?: LoomiPrice;
 };
 
 type PriceResponse = {

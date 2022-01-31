@@ -11,10 +11,10 @@ interface IProps {
 
 const tabs = [
   { name: 'Intro', href: '/guide' },
-  { name: 'Creepz', href: '/guide/creepz' },
-  { name: 'Armouries', href: '/guide/armouries' },
-  { name: 'Loomi Vaults', href: '/guide/vaults' },
-  { name: 'Shapeshifters', href: '/guide/shapeshifters' },
+  // { name: 'Creepz', href: '/guide/creepz' },
+  // { name: 'Armouries', href: '/guide/armouries' },
+  // { name: 'Loomi Vaults', href: '/guide/vaults' },
+  // { name: 'Shapeshifters', href: '/guide/shapeshifters' },
 ];
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');

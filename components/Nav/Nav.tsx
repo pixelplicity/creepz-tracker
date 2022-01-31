@@ -62,6 +62,14 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                       Guide
                     </a>
                   </Link>
+                  <a
+                    href="https://www.getrevue.co/profile/creepztracker"
+                    target="_blank"
+                    className="px-3 py-2 rounded-md text-sm font-medium text-creepz-green-light creepz-glowy-text hover:text-creepz-green"
+                    rel="noreferrer"
+                  >
+                    Newsletter
+                  </a>
                 </div>
               </div>
               <div className="flex items-center">

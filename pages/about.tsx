@@ -2,15 +2,23 @@ import React, { useState } from 'react';
 
 import DashboardLayout from 'components/DashboardLayout/DashboardLayout';
 import GameHeader from 'components/GameHeader/GameHeader';
+import useLeaderboard from 'hooks/useLeaderboard';
+import useLoomiPrice from 'hooks/useLoomiPrice';
 
 const Home: React.FunctionComponent = () => {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
+  const { data: gameData } = useLeaderboard(25);
+  const { data: loomiPrice } = useLoomiPrice();
   return (
     <DashboardLayout
       isAddressModalOpen={isAddressModalOpen}
       setIsAddressModalOpen={setIsAddressModalOpen}
       header={
-        <GameHeader openAddressModel={() => setIsAddressModalOpen(true)} />
+        <GameHeader
+          openAddressModel={() => setIsAddressModalOpen(true)}
+          players={gameData?.leaderboard?.players.length || 0}
+          loomiPrice={loomiPrice}
+        />
       }
     >
       <div className="max-w-5xl mx-auto sm:px-6 lg:px-8 mt-8">

@@ -10,7 +10,7 @@ export type GameStats = {
   bribesPool: number;
   bribesDistributed: number;
 };
-export default async function getWalletStats(web3: Web3): Promise<GameStats> {
+export default async function getGameStats(web3: Web3): Promise<GameStats> {
   const loomiContract = new web3.eth.Contract(loomiABI, loomiAddress);
   // ERC20 Loomi
   const rawERC20Loomi = await loomiContract.methods.totalSupply().call();

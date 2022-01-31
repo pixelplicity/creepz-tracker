@@ -1,8 +1,13 @@
 import useSWR from 'swr';
 
+import type { WalletStats } from 'services/getWalletStats';
+import type { WalletTokens } from 'services/getWalletTokens';
 import fetcher from 'services/swrFetcher';
 
-function useWalletStats(address?: string) {
+function useWalletStats(address?: string): {
+  data: WalletStats & WalletTokens;
+  isLoading: boolean;
+} {
   const { data } = useSWR(`/api/address/${address}`, fetcher);
   return {
     data: data
