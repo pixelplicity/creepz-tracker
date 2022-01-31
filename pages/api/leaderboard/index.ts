@@ -88,7 +88,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     res.json(cachedResponse);
     return;
   }
-  const hours = 1;
+  const hours = 3;
   const response = await getLeaderboard({
     limit: +(limit || 25) as number,
     offset: +(offset || 0) as number,

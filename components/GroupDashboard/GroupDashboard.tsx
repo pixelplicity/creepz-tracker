@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline';
 
-import PlayerTable from 'components/PlayerTable/PlayerTable';
+import GroupTable from 'components/GroupTable/GroupTable';
 import PlayerTableModal from 'components/PlayerTableModal/PlayerTableModal';
 import Button from 'components/ui/Button/Button';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
 import StatBox from 'components/ui/StatBox/StatBox';
-import SwappableText from 'components/ui/SwappableText/SwappableText';
 import formatNumber from 'lib/formatNumber';
 
 interface IProps {
+  group: string | undefined;
   groupData: any;
   groupLoading: boolean;
   loomiPrice: any;
@@ -19,11 +19,10 @@ interface IProps {
   floorPriceLoading: boolean;
 }
 const GroupDashboard: React.FunctionComponent<IProps> = ({
+  group,
   groupData,
   groupLoading,
-  loomiPrice,
   loomiPriceLoading,
-  floorPrices,
   floorPriceLoading,
 }) => {
   const [isTableModalOpen, setIsTableModalOpen] = useState<boolean>(false);
@@ -36,33 +35,16 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="in-game">
-              {formatNumber(groupData?.leaderboard?.group?.game_loomi, 2)}
+              {formatNumber(groupData?.leaderboard?.game?.game_loomi, 2)}
             </StatBox>
             <StatBox label="yield">
-              {formatNumber(groupData?.leaderboard?.group?.yield_loomi, 2)}
+              {formatNumber(groupData?.leaderboard?.game?.yield_loomi, 2)}
             </StatBox>
             <StatBox label="ERC-20">
-              {formatNumber(groupData?.leaderboard?.group?.erc20_loomi, 2)}
+              {formatNumber(groupData?.leaderboard?.game?.erc20_loomi, 2)}
             </StatBox>
             <StatBox label="spent">
-              {formatNumber(groupData?.leaderboard?.group?.spent_loomi, 2)}
-            </StatBox>
-            <StatBox label="bribes">
-              {formatNumber(groupData?.leaderboard?.group?.bribes_pool, 2)}
-            </StatBox>
-            <StatBox label="price">
-              <SwappableText>
-                {(swapped: boolean) =>
-                  swapped ? (
-                    <span>{loomiPrice.eth.toFixed(8)}</span>
-                  ) : (
-                    Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    }).format(loomiPrice.usd)
-                  )
-                }
-              </SwappableText>
+              {formatNumber(groupData?.leaderboard?.game?.spent_loomi, 2)}
             </StatBox>
           </div>
         </GlowyBox>
@@ -72,19 +54,17 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="staked">
-              {groupData?.leaderboard?.group?.staked_creepz}
+              {groupData?.leaderboard?.game?.staked_creepz}
             </StatBox>
             <StatBox label="unstaked">
-              {groupData?.leaderboard?.group?.creepz &&
-                groupData?.leaderboard?.group?.staked_creepz &&
-                groupData.leaderboard.group.creepz -
-                  groupData.leaderboard.group.staked_creepz}
+              {groupData?.leaderboard?.game?.creepz &&
+                groupData?.leaderboard?.game?.staked_creepz &&
+                groupData.leaderboard.game.creepz -
+                  groupData.leaderboard.game.staked_creepz}
             </StatBox>
             <StatBox label="total">
-              {groupData?.leaderboard?.group?.creepz}
+              {groupData?.leaderboard?.game?.creepz}
             </StatBox>
-            <StatBox />
-            <StatBox label="floor">{floorPrices?.creepz}</StatBox>
           </div>
         </GlowyBox>
         <GlowyBox
@@ -93,19 +73,17 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="staked">
-              {groupData?.leaderboard?.group?.staked_armouries}
+              {groupData?.leaderboard?.game?.staked_armouries}
             </StatBox>
             <StatBox label="unstaked">
-              {groupData?.leaderboard?.group?.armouries &&
-                groupData?.leaderboard?.group?.staked_armouries &&
-                groupData.leaderboard.group.armouries -
-                  groupData.leaderboard.group.staked_armouries}
+              {groupData?.leaderboard?.game?.armouries &&
+                groupData?.leaderboard?.game?.staked_armouries &&
+                groupData.leaderboard.game.armouries -
+                  groupData.leaderboard.game.staked_armouries}
             </StatBox>
             <StatBox label="total">
-              {groupData?.leaderboard?.group?.armouries}
+              {groupData?.leaderboard?.game?.armouries}
             </StatBox>
-            <StatBox />
-            <StatBox label="floor">{floorPrices?.armoury}</StatBox>
           </div>
         </GlowyBox>
         <GlowyBox
@@ -114,9 +92,8 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="total">
-              {groupData?.leaderboard?.group?.shapeshifters}
+              {groupData?.leaderboard?.game?.shapeshifters}
             </StatBox>
-            <StatBox label="floor">{floorPrices?.shapeshifter}</StatBox>
           </div>
         </GlowyBox>
         <GlowyBox
@@ -125,9 +102,8 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="total">
-              {groupData?.leaderboard?.group?.mega_shapeshifters}
+              {groupData?.leaderboard?.game?.mega_shapeshifters}
             </StatBox>
-            <StatBox label="floor">{floorPrices?.megaShapeshifter}</StatBox>
           </div>
         </GlowyBox>
         <div className="sm:col-span-2 lg:col-span-3">
@@ -143,8 +119,9 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
               </Button>
             }
           >
-            <PlayerTable isGroup />
+            {group && <GroupTable group={group} />}
           </GlowyBox>
+
           <PlayerTableModal
             isOpen={isTableModalOpen}
             handleClose={() => setIsTableModalOpen(false)}

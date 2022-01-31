@@ -29,6 +29,9 @@ const getGroup = async (options: {
   if (groupResponse.error) {
     return { error: groupResponse.error.message };
   }
+  if (groupResponse.data.length === 0) {
+    return { error: 'Group not found' };
+  }
   const groupData = groupResponse.data[0];
 
   const groupStatsResponse = await supabase
@@ -117,9 +120,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   const cachedResponse = cache.get(cacheKey);
   if (cachedResponse && !cachedResponse.error) {
     res.json(cachedResponse);
-    return;
   }
-  // const hours = 0.5;
+  const hours = 3;
   const response = await getGroup({
     limit: +(limit || 25) as number,
     offset: +(offset || 0) as number,
@@ -130,7 +132,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   if (response.error) {
     res.status(500).json({ error: response.error });
   }
-  cache.put(cacheKey, response, 1000);
+  cache.put(cacheKey, response, 1000 * 60 * 60 * hours);
   res.json(response);
 };
 

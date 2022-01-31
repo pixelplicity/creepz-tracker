@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 
 import LoadingSpinner from 'components/ui/LoadingSpinner/LoadingSpinner';
-import useLeaderboard from 'hooks/useLeaderboard';
+import useGroupLeaderboard from 'hooks/useGroupLeaderboard';
 
 import Pagination from './Pagination';
 import SearchSort from './SearchSort';
@@ -19,6 +19,10 @@ const sortOptions = [
   {
     display: 'ERC-20 Loomi',
     prop: 'erc20_balance',
+  },
+  {
+    display: 'Name',
+    prop: 'name',
   },
   {
     display: 'Loomi',
@@ -46,8 +50,10 @@ const sortOptions = [
   },
 ];
 
-interface IProps {}
-const ResponsiveTable: React.FunctionComponent<IProps> = () => {
+interface IProps {
+  group: string;
+}
+const ResponsiveTable: React.FunctionComponent<IProps> = ({ group }) => {
   const pageSize = 25;
   const {
     data: gameData,
@@ -57,10 +63,15 @@ const ResponsiveTable: React.FunctionComponent<IProps> = () => {
     search,
     updateSort,
     sort,
-  } = useLeaderboard(pageSize);
+  } = useGroupLeaderboard(group, pageSize);
   const columns = [
     {
       title: 'Wallet',
+      isSortable: false,
+      isSorted: false,
+    },
+    {
+      title: 'Name',
       isSortable: false,
       isSorted: false,
     },
@@ -161,6 +172,9 @@ const ResponsiveTable: React.FunctionComponent<IProps> = () => {
                       {shortenAddress(player.wallet_address)}
                     </a>
                   </Link>
+                </Td>
+                <Td className="px-6 py-4 whitespace-nowrap text-md text-creepz-green-light">
+                  {player.name}
                 </Td>
                 <Td className="px-6 py-4 whitespace-nowrap text-md text-creepz-green-light">
                   {player.erc20_balance}
