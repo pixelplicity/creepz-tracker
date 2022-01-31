@@ -21,7 +21,7 @@ const Home: React.FunctionComponent = () => {
       header={
         <GameHeader
           openAddressModel={() => setIsAddressModalOpen(true)}
-          players={gameData?.leaderboard?.players.length || 0}
+          players={gameData?.leaderboard?.game.players || 0}
           loomiPrice={loomiPrice}
         />
       }
