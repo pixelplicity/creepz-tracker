@@ -179,12 +179,18 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
                     Intl.NumberFormat('en-US', {
                       style: 'currency',
                       currency: 'USD',
-                    }).format(walletData.userReward * 0.75 * loomiPrice.usd)
+                    }).format(
+                      (walletData.userReward + walletData.userBalance) *
+                        0.75 *
+                        loomiPrice.usd
+                    )
                   ) : (
                     <span>
-                      {(walletData.userReward * 0.75 * loomiPrice.eth).toFixed(
-                        2
-                      )}
+                      {(
+                        (walletData.userReward + walletData.userBalance) *
+                        0.75 *
+                        loomiPrice.eth
+                      ).toFixed(2)}
                     </span>
                   )
                 }

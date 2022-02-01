@@ -47,8 +47,11 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
         value +=
           walletData.megaShapeshifters.length * floorPrices.megaShapeshifter;
       }
-      if (walletData.userReward && loomiPrice.eth) {
-        value += walletData.userReward * 0.75 * loomiPrice.eth;
+      if (walletData.userReward && walletData.userBalance && loomiPrice.eth) {
+        value +=
+          (walletData.userReward + walletData.userBalance) *
+          0.75 *
+          loomiPrice.eth;
       }
       setWalletValue(value);
     }
