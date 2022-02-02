@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { NextPage } from 'next';
+import Web3 from 'web3';
 
 import AddressDashboard from 'components/AddressDashboard/AddressDashboard';
 import AddressHeader from 'components/AddressHeader/AddressHeader';
@@ -13,9 +14,10 @@ import { isValidAddress } from 'services/web3';
 
 type IProps = {
   address?: string;
+  ens?: string;
 };
 
-const AddressPage: NextPage<IProps> = ({ address }) => {
+const AddressPage: NextPage<IProps> = ({ address, ens }) => {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
 
   const isAddressValid = isValidAddress(address);
@@ -28,6 +30,7 @@ const AddressPage: NextPage<IProps> = ({ address }) => {
       header={
         <AddressHeader
           address={address}
+          ens={ens}
           walletData={walletData}
           walletLoading={walletLoading}
           loomiPrice={loomiPrice}
@@ -59,8 +62,14 @@ const AddressPage: NextPage<IProps> = ({ address }) => {
 };
 
 AddressPage.getInitialProps = async (ctx): Promise<IProps> => {
-  const address = ctx.query.address as string | undefined;
-  return { address };
+  const rawAddress = ctx.query.address as string | undefined;
+  const web3 = new Web3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
+  let address = rawAddress;
+  if (rawAddress && rawAddress.indexOf('0x') !== 0) {
+    address = await web3.eth.ens.getAddress(rawAddress);
+  }
+
+  return { address, ens: address !== rawAddress ? rawAddress : undefined };
 };
 
 export default AddressPage;

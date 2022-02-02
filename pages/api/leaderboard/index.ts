@@ -1,8 +1,11 @@
 import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import Web3 from 'web3';
 
 import supabase from 'services/supabase/client';
 import type { Stats, Player } from 'services/supabase/types';
+
+const web3 = new Web3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
 
 export type Leaderboard = {
   players: Player[];
@@ -19,7 +22,6 @@ const getLeaderboard = async (options: {
   offset: number;
   sort?: string;
   search?: string;
-  group?: string;
 }): Promise<Response> => {
   const statsResponse = await supabase
     .from('stats')
@@ -29,6 +31,16 @@ const getLeaderboard = async (options: {
   if (statsResponse.error) {
     console.error(statsResponse.error);
     return { error: statsResponse.error.message };
+  }
+
+  let searchAddress = options.search;
+  if (options.search && options.search.indexOf('0x') !== 0) {
+    try {
+      const resolveedAddress = await web3.eth.ens.getAddress(options.search);
+      searchAddress = resolveedAddress || options.search;
+    } catch (e) {
+      // nothing
+    }
   }
 
   let playerQuery = supabase
@@ -47,10 +59,10 @@ const getLeaderboard = async (options: {
       });
     }
   }
-  if (options.search) {
+  if (searchAddress) {
     playerQuery = playerQuery?.like(
       'wallet_address',
-      `%${options.search.toLowerCase()}%`
+      `%${searchAddress.toLowerCase()}%`
     );
   }
   playerQuery = playerQuery.range(

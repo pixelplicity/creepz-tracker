@@ -1,8 +1,9 @@
 import * as React from 'react';
 
-import type { Response } from 'pages/api/leaderboard';
+import type { Response } from 'pages/api/leaderboard/[group]';
 
 interface IProps {
+  name?: string;
   pageSize: number;
   offset: number;
   updateOffset: (offset: number) => void;
@@ -10,12 +11,14 @@ interface IProps {
   data: Response | undefined;
 }
 const Pagination: React.FunctionComponent<IProps> = ({
+  name,
   pageSize,
   offset,
   updateOffset,
   addressSearch = '',
   data,
 }) => {
+  const paginationName = name || 'results';
   const canPrev = data?.leaderboard ? offset > 0 : false;
   const canNext =
     data?.leaderboard?.players && data.leaderboard.players.length === pageSize;
@@ -28,7 +31,7 @@ const Pagination: React.FunctionComponent<IProps> = ({
         {data && data.leaderboard && (
           <p className="text-sm text-creepz-green-light creepz-glowy-text">
             Showing {offset + 1} - {offset + data.leaderboard.players.length}{' '}
-            wallets{' '}
+            {paginationName}{' '}
             {addressSearch && addressSearch.length >= 3 && (
               <span>containing &quot;{addressSearch}&quot;</span>
             )}

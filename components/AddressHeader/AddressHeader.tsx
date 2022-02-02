@@ -6,6 +6,7 @@ import { isValidAddress } from 'services/web3';
 
 interface IProps {
   address?: string;
+  ens?: string;
   openAddressModel: () => void;
   walletData: any;
   walletLoading: boolean;
@@ -16,6 +17,7 @@ interface IProps {
 }
 const AddressHeader: React.FunctionComponent<IProps> = ({
   address,
+  ens,
   openAddressModel,
   walletData,
   walletLoading,
@@ -24,6 +26,7 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
   floorPrices,
   floorPriceLoading,
 }) => {
+  console.log('ENS', ens);
   const addressIsValid = isValidAddress(address);
   const [walletValue, setWalletValue] = React.useState(0);
   useEffect(() => {
@@ -96,7 +99,21 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
                 </h2>
                 <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6 border border-top-1 border-b-0 border-x-0 border-creepz-green">
                   <div className="mt-2 flex items-center text-md text-creepz-green-light creepz-glowy-text">
-                    {addressIsValid ? address : 'Invalid address'}
+                    <SwappableText>
+                      {(swapped: boolean) =>
+                        swapped ? (
+                          <span>
+                            {addressIsValid ? address : 'Invalid address'}
+                          </span>
+                        ) : (
+                          <span>
+                            {addressIsValid
+                              ? ens || address
+                              : 'Invalid address'}
+                          </span>
+                        )
+                      }
+                    </SwappableText>
                   </div>
                 </div>
               </div>

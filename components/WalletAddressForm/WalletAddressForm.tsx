@@ -39,7 +39,9 @@ const WalletAddressForm: React.FunctionComponent<IProps> = ({
         error={errors.walletAddress}
         {...register('walletAddress', {
           validate: (value: string) =>
-            isValidAddress(value) ? true : 'Enter a valid address',
+            value.indexOf('.eth') !== -1 || isValidAddress(value)
+              ? true
+              : 'Enter a valid address',
         })}
       />
       <Button
