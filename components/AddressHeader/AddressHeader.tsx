@@ -57,11 +57,11 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
         loomiPrice.eth
       ) {
         value +=
-          (walletData.userReward +
-            walletData.userBalance +
-            walletData.taxClaimable +
+          ((walletData.userReward +
+            +walletData.taxClaimable +
             walletData.vaultReward) *
-          0.75 *
+            0.75 +
+            walletData.userBalance) *
           loomiPrice.eth;
       }
       setWalletValue(value);

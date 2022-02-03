@@ -186,21 +186,21 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
                       style: 'currency',
                       currency: 'USD',
                     }).format(
-                      (walletData.userReward +
-                        walletData.userBalance +
+                      ((walletData.userReward +
                         walletData.taxClaimable +
                         walletData.vaultReward) *
-                        0.75 *
+                        0.75 +
+                        walletData.userBalance) *
                         loomiPrice.usd
                     )
                   ) : (
                     <span>
                       {(
-                        (walletData.userReward +
-                          walletData.userBalance +
-                          walletData.taxClaimable +
+                        ((walletData.userReward +
+                          +walletData.taxClaimable +
                           walletData.vaultReward) *
-                        0.75 *
+                          0.75 +
+                          walletData.userBalance) *
                         loomiPrice.eth
                       ).toFixed(2)}
                     </span>
