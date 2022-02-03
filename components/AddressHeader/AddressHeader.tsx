@@ -26,7 +26,6 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
   floorPrices,
   floorPriceLoading,
 }) => {
-  console.log('ENS', ens);
   const addressIsValid = isValidAddress(address);
   const [walletValue, setWalletValue] = React.useState(0);
   useEffect(() => {
@@ -50,9 +49,18 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
         value +=
           walletData.megaShapeshifters.length * floorPrices.megaShapeshifter;
       }
-      if (walletData.userReward && walletData.userBalance && loomiPrice.eth) {
+      if (
+        walletData.userReward &&
+        walletData.userBalance &&
+        walletData.taxClaimable &&
+        walletData.vaultReward &&
+        loomiPrice.eth
+      ) {
         value +=
-          (walletData.userReward + walletData.userBalance) *
+          (walletData.userReward +
+            walletData.userBalance +
+            walletData.taxClaimable +
+            walletData.vaultReward) *
           0.75 *
           loomiPrice.eth;
       }

@@ -25,6 +25,8 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
   loomiPriceLoading,
   floorPriceLoading,
 }) => {
+  console.log(groupData);
+
   const [isTableModalOpen, setIsTableModalOpen] = useState<boolean>(false);
   return (
     <div className="mt-12">
@@ -103,6 +105,19 @@ const GroupDashboard: React.FunctionComponent<IProps> = ({
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="total">
               {groupData?.leaderboard?.game?.mega_shapeshifters}
+            </StatBox>
+          </div>
+        </GlowyBox>
+        <GlowyBox
+          title="Vaults"
+          isLoading={groupLoading || loomiPriceLoading || floorPriceLoading}
+        >
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <StatBox label="staked">
+              {groupData?.leaderboard?.game?.staked_vaults}
+            </StatBox>
+            <StatBox label="total">
+              {groupData?.leaderboard?.game?.vaults}
             </StatBox>
           </div>
         </GlowyBox>

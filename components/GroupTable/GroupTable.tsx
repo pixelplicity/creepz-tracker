@@ -36,6 +36,10 @@ const sortOptions = [
     prop: 'number_staked_armouries',
   },
   {
+    display: 'Staked Vaults',
+    prop: 'number_staked_vaults',
+  },
+  {
     display: 'Megas',
     prop: 'number_mega_shapeshifters',
   },
@@ -96,6 +100,11 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({ group }) => {
       title: 'Staked Armouries',
       prop: 'number_staked_armouries',
       isSortable: true,
+    },
+    {
+      title: 'Staked Vaults',
+      isSortable: true,
+      prop: 'number_staked_vaults',
     },
     {
       title: 'Megas',

@@ -8,6 +8,7 @@ import Button from 'components/ui/Button/Button';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
 import StatBox from 'components/ui/StatBox/StatBox';
 import SwappableText from 'components/ui/SwappableText/SwappableText';
+import VaultModal from 'components/VaultModal/VaultModal';
 import { address as armouryAddress } from 'contracts/Arms/Arms';
 import { address as creepzAddress } from 'contracts/Creepz/Creepz';
 import { address as megaShapeshifterAddress } from 'contracts/MegaShapeshifters/MegaShapeshifters';
@@ -35,11 +36,14 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
   const [isLamboModalOpen, setIsLamboModalOpen] = useState<boolean>(false);
   const [isSSModalOpen, setIsSSModalOpen] = useState<boolean>(false);
   const [isMegaSSModalOpen, setIsMegaSSModalOpen] = useState<boolean>(false);
+  const [isMegaVaultsModalOpen, setIsVaultsModalOpen] =
+    useState<boolean>(false);
   return (
     <div className="-mt-12">
       <dl className="m-5 grid grid-cols-1 gap-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 ">
         <GlowyBox
           title="$Loomi"
+          className="col-span-2"
           isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
           titleIcon={
             <Button onClick={() => setIsLamboModalOpen(true)}>
@@ -153,10 +157,12 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             </Button>
           }
         >
-          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-3">
             <StatBox label="balance">{walletData.userReward}</StatBox>
-            <StatBox label="yield">{walletData.userYield}</StatBox>
+            <StatBox label="bribe claim">{walletData.taxClaimable}</StatBox>
+            <StatBox label="vault claim">{walletData.vaultReward}</StatBox>
             <StatBox label="ERC-20">{walletData.userBalance}</StatBox>
+            <StatBox label="yield">{walletData.userYield}</StatBox>
             <StatBox label="spent">{walletData.userSpent}</StatBox>
             <StatBox label="price">
               <SwappableText>
@@ -180,14 +186,20 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
                       style: 'currency',
                       currency: 'USD',
                     }).format(
-                      (walletData.userReward + walletData.userBalance) *
+                      (walletData.userReward +
+                        walletData.userBalance +
+                        walletData.taxClaimable +
+                        walletData.vaultReward) *
                         0.75 *
                         loomiPrice.usd
                     )
                   ) : (
                     <span>
                       {(
-                        (walletData.userReward + walletData.userBalance) *
+                        (walletData.userReward +
+                          walletData.userBalance +
+                          walletData.taxClaimable +
+                          walletData.vaultReward) *
                         0.75 *
                         loomiPrice.eth
                       ).toFixed(2)}
@@ -266,11 +278,13 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             <StatBox label="unstaked">
               {walletData.armouries.unstaked.length}
             </StatBox>
-            <StatBox label="total">
-              {walletData.armouries.staked.length +
-                walletData.armouries.unstaked.length}
-            </StatBox>
-            <StatBox />
+            <div className="lg:hidden">
+              <StatBox label="total">
+                {walletData.armouries.staked.length +
+                  walletData.armouries.unstaked.length}
+              </StatBox>
+              <StatBox />
+            </div>
             <StatBox label="floor">{floorPrices.armoury}</StatBox>
             <StatBox label="value">
               {floorPrices?.armoury &&
@@ -334,7 +348,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             <StatBox label="total">
               {walletData.megaShapeshifters.length}
             </StatBox>
-            <StatBox label="bribe claim">{walletData.taxClaimable}</StatBox>
+            <StatBox label="bribe">{walletData.taxClaimable}</StatBox>
             <StatBox label="floor">{floorPrices.megaShapeshifter}</StatBox>
             <StatBox label="value">
               {floorPrices?.megaShapeshifter &&
@@ -351,6 +365,40 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             stakedIds={walletData.megaShapeshifters}
             baseUrl="https://cbc-backend-ajxin.ondigitalocean.app/megas/_||_/image"
             address={megaShapeshifterAddress}
+          />
+        </GlowyBox>
+        <GlowyBox
+          isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
+          title="Vaults"
+          titleIcon={
+            <Button onClick={() => setIsVaultsModalOpen(true)}>
+              <EyeIcon className="h-6 w-6" aria-hidden="true" />
+            </Button>
+          }
+        >
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <StatBox label="staked">{walletData.vaults.staked.length}</StatBox>
+            <StatBox label="unstaked">
+              {walletData.vaults.unstaked.length}
+            </StatBox>
+            <StatBox label="floor">{floorPrices.vault}</StatBox>
+            <StatBox label="value">
+              {floorPrices?.vault &&
+                (
+                  (walletData.vaults.staked.length +
+                    walletData.vaults.unstaked.length) *
+                  floorPrices.vault
+                ).toFixed(2)}
+            </StatBox>
+          </div>
+          <VaultModal
+            isOpen={isMegaVaultsModalOpen}
+            handleClose={() => setIsVaultsModalOpen(false)}
+            title="Your Vaults"
+            vaultIds={walletData.vaults.staked}
+            accumulation={walletData.vaultAccumulation}
+            priceChange={walletData.vaultPriceChange}
+            reward={walletData.vaultReward}
           />
         </GlowyBox>
       </dl>

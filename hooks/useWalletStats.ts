@@ -25,6 +25,10 @@ function useWalletStats(address?: string): {
             staked: [],
             unstaked: [],
           },
+          vaults: {
+            staked: [],
+            unstaked: [],
+          },
           shapeshifters: [],
           megaShapeshifters: [],
         },

@@ -47,7 +47,6 @@ const getAddress = async (address: string): Promise<Response> => {
     getWalletStats(address),
   ]);
   const claimableTax = await getTaxClaimable(address);
-
   return {
     data: {
       ...tokens,

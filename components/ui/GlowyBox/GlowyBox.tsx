@@ -3,18 +3,24 @@ import * as React from 'react';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 interface IProps {
+  className?: string;
   title?: string;
   titleIcon?: React.ReactNode;
   isLoading: boolean;
 }
 const GlowyBox: React.FunctionComponent<IProps> = ({
+  className,
   title,
   titleIcon,
   isLoading,
   children,
 }) => {
   return (
-    <div className="bg-creepz-green-dark border border-black rounded-3xl shadow-lg creepz-glowy-shadow">
+    <div
+      className={`${
+        className || ''
+      }  bg-creepz-green-dark border border-black rounded-3xl shadow-lg creepz-glowy-shadow`}
+    >
       <div className="relative border-creepz-border border-8 m-2 text-center shadow rounded-3xl p-2 pt-8">
         {title && (
           <header className="absolute -top-8 left-1/2 -translate-x-1/2 mx-auto w-full sm:w-3/4">

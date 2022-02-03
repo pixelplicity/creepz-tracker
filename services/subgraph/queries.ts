@@ -7,6 +7,7 @@ export type TokensQueryResponse = {
     shapeshifters: { id: string }[];
     megaShapeShifters: { id: string }[];
     armouries: { id: string }[];
+    vaults: { id: string }[];
   }[];
 };
 export type TokensQueryVariables = {
@@ -26,6 +27,9 @@ export const TokensQuery = gql`
         id
       }
       armouries {
+        id
+      }
+      vaults {
         id
       }
     }

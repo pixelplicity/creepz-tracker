@@ -116,6 +116,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
             <StatBox label="total">
               {gameData?.leaderboard?.game?.shapeshifters}
             </StatBox>
+            <StatBox />
             <StatBox label="floor">{floorPrices?.shapeshifter}</StatBox>
           </div>
         </GlowyBox>
@@ -127,7 +128,22 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
             <StatBox label="total">
               {gameData?.leaderboard?.game?.mega_shapeshifters}
             </StatBox>
+            <StatBox />
             <StatBox label="floor">{floorPrices?.megaShapeshifter}</StatBox>
+          </div>
+        </GlowyBox>
+        <GlowyBox
+          title="Vaults"
+          isLoading={gameLoading || loomiPriceLoading || floorPriceLoading}
+        >
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <StatBox label="staked">
+              {gameData?.leaderboard?.game?.staked_vaults}
+            </StatBox>
+            <StatBox label="total">
+              {gameData?.leaderboard?.game?.vaults}
+            </StatBox>
+            <StatBox label="floor">{floorPrices?.vault}</StatBox>
           </div>
         </GlowyBox>
         <div className="sm:col-span-2 lg:col-span-3">

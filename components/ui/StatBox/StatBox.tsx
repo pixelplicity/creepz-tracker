@@ -1,11 +1,16 @@
 import * as React from 'react';
 
 interface IProps {
+  className?: string;
   label?: string;
 }
-const StatBox: React.FunctionComponent<IProps> = ({ children, label }) => {
+const StatBox: React.FunctionComponent<IProps> = ({
+  children,
+  label,
+  className,
+}) => {
   return (
-    <div className="flex justify-center items-baseline">
+    <div className={`${className || ''} flex justify-center items-baseline`}>
       {label && (
         <>
           <p className="text-2xl font-normal text-creepz-green-light creepz-glowy-text">
