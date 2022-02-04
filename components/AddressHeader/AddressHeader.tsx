@@ -36,11 +36,16 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
       const totalArmouries =
         walletData.armouries.staked.length +
         walletData.armouries.unstaked.length;
+      const totalVaults =
+        walletData.vaults.staked.length + walletData.vaults.unstaked.length;
       if (totalCreepz && floorPrices.creepz) {
         value += totalCreepz * floorPrices.creepz;
       }
       if (totalArmouries && floorPrices.armoury) {
         value += totalArmouries * floorPrices.armoury;
+      }
+      if (totalVaults && floorPrices.vault) {
+        value += totalVaults * floorPrices.vault;
       }
       if (walletData.shapeshifters && floorPrices.armoury) {
         value += walletData.shapeshifters.length * floorPrices.shapeshifter;
