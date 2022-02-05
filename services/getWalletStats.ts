@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 
 import {
   address as invasionAddress,
@@ -23,7 +23,7 @@ export type WalletStats = {
   vaultReward: number;
 };
 
-const web3 = new Web3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
+const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
 const loomiContract = new web3.eth.Contract(loomiABI, loomiAddress);
 const stakingContract = new web3.eth.Contract(invasionABI, invasionAddress);
 const lordsContract = new web3.eth.Contract(lordsABI, lordsAddress);

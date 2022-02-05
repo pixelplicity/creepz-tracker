@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import { NextPage } from 'next';
-import Web3 from 'web3';
 
 import AddressDashboard from 'components/AddressDashboard/AddressDashboard';
 import AddressHeader from 'components/AddressHeader/AddressHeader';
@@ -63,7 +63,9 @@ const AddressPage: NextPage<IProps> = ({ address, ens }) => {
 
 AddressPage.getInitialProps = async (ctx): Promise<IProps> => {
   const rawAddress = ctx.query.address as string | undefined;
-  const web3 = new Web3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
+  const web3 = createAlchemyWeb3(
+    process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT
+  );
   let address = rawAddress;
   if (rawAddress && rawAddress.indexOf('0x') !== 0) {
     address = await web3.eth.ens.getAddress(rawAddress);

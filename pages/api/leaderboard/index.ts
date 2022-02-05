@@ -1,11 +1,11 @@
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import Web3 from 'web3';
 
 import supabase from 'services/supabase/client';
 import type { Stats, Player } from 'services/supabase/types';
 
-const web3 = new Web3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
+const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
 
 export type Leaderboard = {
   players: Player[];

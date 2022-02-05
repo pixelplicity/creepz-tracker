@@ -43,7 +43,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
       <dl className="m-5 grid grid-cols-1 gap-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 ">
         <GlowyBox
           title="$Loomi"
-          className="col-span-2"
+          className="md:col-span-2"
           isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
           titleIcon={
             <Button onClick={() => setIsLamboModalOpen(true)}>

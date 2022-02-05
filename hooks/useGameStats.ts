@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import useSWR from 'swr';
-import Web3 from 'web3';
 
 import { abi as armsABI, address as armsAddress } from 'contracts/Arms/Arms';
 import {
@@ -39,8 +39,8 @@ function useGameStats() {
       if (!isWeb3Loading) {
         setIsWeb3Loading(true);
       }
-      const web3 = new Web3(
-        window.ethereum || process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT
+      const web3 = createAlchemyWeb3(
+        process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT
       );
 
       const loomiContract = new web3.eth.Contract(loomiABI, loomiAddress);

@@ -1,6 +1,6 @@
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import Web3 from 'web3';
 
 import getWalletStats from 'services/getWalletStats';
 import type { WalletStats } from 'services/getWalletStats';
@@ -10,6 +10,8 @@ import type { WalletTokens } from 'services/getWalletTokens';
 type TaxClaimResponse = {
   amount: number;
 };
+
+const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
 
 const getTaxClaimable = async (address: string): Promise<number> => {
   const cacheKey = `address-tax-${address}`;
@@ -31,7 +33,7 @@ const getTaxClaimable = async (address: string): Promise<number> => {
     return 0;
   }
   const result = (await taxResponse.json()) as TaxClaimResponse;
-  const formatted = Math.round(+Number(Web3.utils.fromWei(`${result.amount}`)));
+  const formatted = Math.round(+Number(web3.utils.fromWei(`${result.amount}`)));
   cache.put(cacheKey, formatted, 1000 * 60 * 20); // 20 minutes
   return formatted;
 };
