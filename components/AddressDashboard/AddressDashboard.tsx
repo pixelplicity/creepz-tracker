@@ -232,7 +232,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="game">
-              {(walletData.gamePoint || 0).toFixed(1)}
+              {(walletData.gamePoints || 0).toFixed(1)}
             </StatBox>
             <StatBox label="disciple">
               {(walletData.disciplePoints || 0).toFixed(1)}
