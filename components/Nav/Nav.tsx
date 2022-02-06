@@ -128,6 +128,14 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                   Dashboard
                 </Disclosure.Button>
               </Link>
+              <Link href="/biglizardenergy" passHref>
+                <Disclosure.Button
+                  as="a"
+                  className="block px-3 py-2 text-creepz-green-light creepz-glowy-text hover:text-creepz-green"
+                >
+                  Big Lizard Energy
+                </Disclosure.Button>
+              </Link>
               <Link href="/guide" passHref>
                 <Disclosure.Button
                   as="a"
