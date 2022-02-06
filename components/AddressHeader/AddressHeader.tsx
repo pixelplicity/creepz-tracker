@@ -121,7 +121,7 @@ const AddressHeader: React.FunctionComponent<IProps> = ({
                         ) : (
                           <span>
                             {addressIsValid
-                              ? ens || address
+                              ? walletData.nickname || ens || address
                               : 'Invalid address'}
                           </span>
                         )

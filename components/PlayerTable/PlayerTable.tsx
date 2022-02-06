@@ -62,7 +62,9 @@ const ResponsiveTable: React.FunctionComponent<IProps> = () => {
       render: (row: any, prop: string) => {
         return (
           <Link href={`/address/${row[prop]}`}>
-            <a className="underline">{shortenAddress(row[prop])}</a>
+            <a className="underline">
+              {row.nickname || shortenAddress(row[prop])}
+            </a>
           </Link>
         );
       },

@@ -5,7 +5,17 @@ import Link from 'next/link';
 
 import Table from 'components/ui/Table/Table';
 import useBLELeaderboard from 'hooks/useBLELeaderboard';
-
+/*
+disciplePoints: number;
+  gamePoints: number;
+  leaderboardGenerationId: string;
+  nickname: string | null;
+  points: number;
+  previousRank: number;
+  rank: number;
+  shards: number[];
+  user: string;
+  */
 interface IProps {
   lounge: string;
 }
@@ -18,12 +28,23 @@ const BLETable: React.FunctionComponent<IProps> = ({ lounge }) => {
       isSortable: false,
     },
     {
+      title: 'Rank Change',
+      prop: 'rank',
+      render: (row: any) => {
+        const change = row.previousRank - row.rank;
+        return `${change < 0 ? '-' : '+'} ${Math.abs(change)}`;
+      },
+      isSortable: false,
+    },
+    {
       title: 'Wallet',
-      prop: 'wallet_address',
-      render: (row: any, prop: string) => {
+      prop: 'user',
+      render: (row: any) => {
         return (
-          <Link href={`/address/${row[prop]}`}>
-            <a className="underline">{shortenAddress(row[prop])}</a>
+          <Link href={`/address/${row.user}`}>
+            <a className="underline">
+              {row.nickname || shortenAddress(row.user)}
+            </a>
           </Link>
         );
       },
@@ -32,16 +53,17 @@ const BLETable: React.FunctionComponent<IProps> = ({ lounge }) => {
     {
       title: 'Points',
       prop: 'points',
+      render: (row: any) => {
+        return row.points.toFixed(1);
+      },
       isSortable: false,
     },
     {
-      title: 'Spins',
-      prop: 'spins',
-      isSortable: false,
-    },
-    {
-      title: 'Week 1 Shards',
-      prop: 'week1_shards',
+      title: 'Alpha Shards',
+      prop: 'shards0',
+      render: (row: any) => {
+        return row.shards[0];
+      },
       isSortable: false,
     },
     // {

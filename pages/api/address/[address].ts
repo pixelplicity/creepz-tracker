@@ -11,7 +11,48 @@ type TaxClaimResponse = {
   amount: number;
 };
 
+type ProfileResponse = {
+  address: string;
+  nickname: string | null;
+  points: number;
+  rank: number;
+  shards: number[];
+  disciplePoints: number;
+  gamePoints: number;
+};
+
 const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
+
+const getWalletProfile = async (address: string): Promise<ProfileResponse> => {
+  const cacheKey = `address-profile-${address}`;
+  const cachedResponse = cache.get(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  const profileResponse = await fetch(
+    `https://cbc-backend-ajxin.ondigitalocean.app/users/${address}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  if (!profileResponse.ok) {
+    return {
+      address,
+      nickname: null,
+      points: 0,
+      rank: 0,
+      shards: [0, 0, 0],
+      disciplePoints: 0,
+      gamePoints: 0,
+    };
+  }
+  const result = (await profileResponse.json()) as ProfileResponse;
+  cache.put(cacheKey, result, 1000 * 60 * 3); // 3 minutes
+  return result;
+};
 
 const getTaxClaimable = async (address: string): Promise<number> => {
   const cacheKey = `address-tax-${address}`;
@@ -49,10 +90,12 @@ const getAddress = async (address: string): Promise<Response> => {
     getWalletStats(address),
   ]);
   const claimableTax = await getTaxClaimable(address);
+  const profile = await getWalletProfile(address);
   return {
     data: {
       ...tokens,
       ...stats,
+      ...profile,
       taxClaimable: claimableTax,
     },
   };

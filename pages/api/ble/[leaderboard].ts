@@ -1,46 +1,83 @@
 import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import supabase from 'services/supabase/client';
-import type { BLELizard } from 'services/supabase/types';
+export type BLEPlayer = {
+  disciplePoints: number;
+  gamePoints: number;
+  leaderboardGenerationId: string;
+  nickname: string | null;
+  points: number;
+  previousRank: number;
+  rank: number;
+  shards: number[];
+  user: string;
+};
+export type BLELeaderboard = {
+  leaderboardGenerationDate: string;
+  leaderboardGenerationId: string;
+  positions: BLEPlayer[];
+};
 
 const loungeRanges: Record<string, [number, number]> = {
-  top3: [0, 2],
-  first50: [0, 49],
-  next100: [50, 149],
-  next200: [150, 349],
-  next400: [350, 749],
-  next600: [750, 1349],
-  next800: [1350, 2149],
-  next900: [2150, 3049],
-  next1000: [3050, 4049],
+  top3: [0, 3],
+  first50: [0, 50],
+  next100: [50, 150],
+  next200: [150, 350],
+  next400: [350, 750],
+  next600: [750, 1350],
+  next800: [1350, 2150],
+  next900: [2150, 3050],
+  next1000: [3050, 4050],
 };
 
 export type Response = {
   error?: string;
-  leaderboard?: BLELizard & { rank: number }[];
+  leaderboard?: BLEPlayer[];
+};
+
+export const getBLELeaderboard = async (): Promise<BLELeaderboard> => {
+  const cacheKey = `ble-leaderboard`;
+  const cachedResponse = cache.get(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  const leaderboardResponse = await fetch(
+    `https://cbc-backend-ajxin.ondigitalocean.app/leaderboard/?items=9999`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  if (!leaderboardResponse.ok) {
+    return {
+      leaderboardGenerationDate: '',
+      leaderboardGenerationId: '',
+      positions: [],
+    };
+  }
+  const result = (await leaderboardResponse.json()) as BLELeaderboard;
+  const formatted = {
+    leaderboardGenerationDate: result.leaderboardGenerationDate,
+    leaderboardGenerationId: result.leaderboardGenerationId,
+    positions: result.positions.map((player) => ({
+      ...player,
+      rank: player.rank + 1,
+      previousRank: player.previousRank + 1,
+    })),
+  };
+  cache.put(cacheKey, formatted, 1000 * 60 * 3); // 3 minutes
+  return formatted;
 };
 
 const getLizards = async (lounge: string): Promise<Response> => {
   const range = loungeRanges[lounge] as [number, number];
-  const lizardsResponse = await supabase
-    .from('ble_lizards')
-    .select()
-    .order('points', { ascending: false })
-    .range(range[0], range[1]);
-
-  if (lizardsResponse.error) {
-    console.error(lizardsResponse.error);
-    return { error: lizardsResponse.error.message };
-  }
-
-  const withRank = lizardsResponse.data.map((lizard, index) => ({
-    ...lizard,
-    rank: index + 1 + range[0],
-  })) as BLELizard & { rank: number }[];
+  const leaderboard = await getBLELeaderboard();
+  const subset = leaderboard.positions.slice(range[0], range[1]);
 
   return {
-    leaderboard: withRank,
+    leaderboard: subset,
   };
 };
 

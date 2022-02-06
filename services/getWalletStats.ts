@@ -12,6 +12,10 @@ import {
   abi as lordsABI,
   address as lordsAddress,
 } from 'contracts/LordsCo/LordsCo';
+import {
+  abi as mysteryBoxABI,
+  address as mysteryBoxAddress,
+} from 'contracts/MysteryBox/MysteryBox';
 
 export type WalletStats = {
   userReward: number;
@@ -21,12 +25,18 @@ export type WalletStats = {
   vaultAccumulation: number;
   vaultPriceChange: number;
   vaultReward: number;
+  userItems: number[];
+  userSpins: number;
 };
 
 const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
 const loomiContract = new web3.eth.Contract(loomiABI, loomiAddress);
 const stakingContract = new web3.eth.Contract(invasionABI, invasionAddress);
 const lordsContract = new web3.eth.Contract(lordsABI, lordsAddress);
+const mysteryBoxContract = new web3.eth.Contract(
+  mysteryBoxABI,
+  mysteryBoxAddress
+);
 
 const getWalletStats = async (address: string): Promise<WalletStats> => {
   const rawUserReward = await loomiContract.methods
@@ -49,6 +59,13 @@ const getWalletStats = async (address: string): Promise<WalletStats> => {
     web3.utils.fromWei(rawUserVaultAccumulation)
   ).toFixed(0);
   const rawPriceChange = Number(rawUserVaultPriceChange);
+  const rawUserItems = await mysteryBoxContract.methods
+    .getUserItems(address)
+    .call();
+  const userItems = rawUserItems.map((i: string) => +i);
+  const spins = userItems.reduce((acc: number, i: number) => {
+    return acc + i;
+  }, 0);
   return {
     userReward: +Number(web3.utils.fromWei(rawUserReward)).toFixed(0),
     userSpent: +Number(web3.utils.fromWei(rawUserSpent)).toFixed(0),
@@ -62,6 +79,8 @@ const getWalletStats = async (address: string): Promise<WalletStats> => {
     vaultReward: +Number(+rawAccumulation * (rawPriceChange / 10000)).toFixed(
       2
     ),
+    userItems,
+    userSpins: spins,
   };
 };
 

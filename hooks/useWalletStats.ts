@@ -31,6 +31,18 @@ function useWalletStats(address?: string): {
           },
           shapeshifters: [],
           megaShapeshifters: [],
+          address,
+          nickname: null,
+          points: 0,
+          rank: 0,
+          shards: [0, 0, 0],
+          disciplePoints: 0,
+          gamePoints: 0,
+          userItems: [
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0,
+          ],
+          userSpins: 0,
         },
     isLoading: !data,
   };
