@@ -16,6 +16,10 @@ const sortOptions = [
     prop: 'name',
   },
   {
+    display: 'Points',
+    prop: 'ble_points',
+  },
+  {
     display: 'Loomi',
     prop: 'reward',
   },
@@ -23,10 +27,10 @@ const sortOptions = [
     display: 'Yield',
     prop: 'yield',
   },
-  {
-    display: 'Spent',
-    prop: 'spent',
-  },
+  // {
+  //   display: 'Spent',
+  //   prop: 'spent',
+  // },
   {
     display: 'Staked Creepz',
     prop: 'number_staked_creepz',
@@ -71,6 +75,11 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({ group }) => {
       isSortable: false,
     },
     {
+      title: 'Points',
+      prop: 'ble_points',
+      isSortable: true,
+    },
+    {
       title: 'ERC-20 Balance',
       prop: 'erc20_balance',
 
@@ -86,11 +95,11 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({ group }) => {
       prop: 'yield',
       isSortable: true,
     },
-    {
-      title: 'Spent',
-      prop: 'spent',
-      isSortable: true,
-    },
+    // {
+    //   title: 'Spent',
+    //   prop: 'spent',
+    //   isSortable: true,
+    // },
     {
       title: 'Staked Creepz',
       prop: 'number_staked_creepz',
@@ -122,7 +131,7 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({ group }) => {
         showSearch: true,
       }}
       dataName="wallets"
-      data={data}
+      data={data?.leaderboard?.players}
       updateOffset={updateOffset}
       offset={offset}
       updateSearch={updateSearch}

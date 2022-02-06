@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { EyeIcon } from '@heroicons/react/outline';
 
 import LamboModal from 'components/LamboModal/LamboModal';
+// import PointsModal from 'components/PointsModal/PointsModal';
 import TokenModal from 'components/TokenModal/TokenModal';
 import Button from 'components/ui/Button/Button';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
@@ -36,6 +37,7 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
   const [isLamboModalOpen, setIsLamboModalOpen] = useState<boolean>(false);
   const [isSSModalOpen, setIsSSModalOpen] = useState<boolean>(false);
   const [isMegaSSModalOpen, setIsMegaSSModalOpen] = useState<boolean>(false);
+  // const [isBLEModalOpen, setIsBLEModalOpen] = useState<boolean>(false);
   const [isMegaVaultsModalOpen, setIsVaultsModalOpen] =
     useState<boolean>(false);
   return (
@@ -218,11 +220,11 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             userReward={+walletData.userReward}
           />
         </GlowyBox>
-        <GlowyBox
+        {/* <GlowyBox
           isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
-          title="Creepz"
+          title="Points"
           titleIcon={
-            <Button onClick={() => setIsCreepzModalOpen(true)}>
+            <Button onClick={() => setIsBLEModalOpen(true)}>
               <EyeIcon className="h-6 w-6" aria-hidden="true" />
             </Button>
           }
@@ -240,6 +242,39 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             </StatBox>
 
             <StatBox />
+
+            <StatBox label="floor">{floorPrices?.creepz}</StatBox>
+            <StatBox label="value">
+              {floorPrices?.creepz &&
+                (
+                  (walletData.creeps.staked.length +
+                    walletData.creeps.unstaked.length) *
+                  floorPrices.creepz
+                ).toFixed(2)}
+            </StatBox>
+            <PointsModal
+              isOpen={isBLEModalOpen}
+              handleClose={() => setIsBLEModalOpen(false)}
+              items={[]}
+              points={0}
+            />
+          </div>
+        </GlowyBox> */}
+        <GlowyBox
+          isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
+          title="Creepz"
+          titleIcon={
+            <Button onClick={() => setIsCreepzModalOpen(true)}>
+              <EyeIcon className="h-6 w-6" aria-hidden="true" />
+            </Button>
+          }
+        >
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
+            <StatBox label="staked">{walletData.creeps.staked.length}</StatBox>
+
+            <StatBox label="unstaked">
+              {walletData.creeps.unstaked.length}
+            </StatBox>
 
             <StatBox label="floor">{floorPrices?.creepz}</StatBox>
             <StatBox label="value">

@@ -57,6 +57,11 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                       Dashboard
                     </a>
                   </Link>
+                  <Link href="/biglizardenergy">
+                    <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-green-light creepz-glowy-text hover:text-creepz-green">
+                      Big Lizard Energy
+                    </a>
+                  </Link>
                   <Link href="/guide">
                     <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-green-light creepz-glowy-text hover:text-creepz-green">
                       Guide

@@ -6,9 +6,10 @@ import supabase from 'services/supabase/client';
 import type { Stats, Player } from 'services/supabase/types';
 
 const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
+type RankedPlayer = Player & { rank: number };
 
 export type Leaderboard = {
-  players: Player[];
+  players: RankedPlayer[];
   game: Stats;
 };
 
@@ -79,11 +80,15 @@ const getLeaderboard = async (options: {
     console.error(playersResponse.error);
     return { error: playersResponse.error.message };
   }
-  const players = playersResponse.data;
+  const players = playersResponse.data as Player[];
+  const ranked = players.map((player: Player, index) => ({
+    ...player,
+    rank: index + 1 + options.offset,
+  })) as RankedPlayer[];
   return {
     leaderboard: {
       game: statsResponse.data[0],
-      players,
+      players: ranked,
     },
   };
 };

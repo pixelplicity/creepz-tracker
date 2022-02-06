@@ -15,7 +15,7 @@ import SearchSort from './SearchSort';
 export type TableOptions = {
   showSort?: boolean;
   showSearch?: boolean;
-  sortOptions: {
+  sortOptions?: {
     display: string;
     prop: string;
   }[];
@@ -31,13 +31,13 @@ interface IProps {
   options: TableOptions;
   dataName?: string;
   data: any;
-  updateOffset: (offset: number) => void;
-  offset: number;
-  updateSearch: (search: string) => void;
-  search: string | undefined;
-  updateSort: (sort: string) => void;
-  sort: string;
-  pageSize: number;
+  updateOffset?: (offset: number) => void;
+  offset?: number;
+  updateSearch?: (search: string) => void;
+  search?: string | undefined;
+  updateSort?: (sort: string) => void;
+  sort?: string;
+  pageSize?: number;
 }
 const ResponsiveTable: React.FunctionComponent<IProps> = ({
   options: { sortOptions, columns, showSort, showSearch },
@@ -53,23 +53,27 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <>
-      <SearchSort
-        showSort={showSort}
-        showSearch={showSearch}
-        sortOptions={sortOptions}
-        addressSearch={search}
-        updateAddressSearch={updateSearch}
-        updateSort={updateSort}
-        sort={sort}
-      />
-      <Pagination
-        data={data}
-        name={dataName}
-        addressSearch={search}
-        updateOffset={updateOffset}
-        pageSize={pageSize}
-        offset={offset}
-      />
+      {updateSearch && updateSort && sort && sortOptions && (
+        <SearchSort
+          showSort={showSort}
+          showSearch={showSearch}
+          sortOptions={sortOptions}
+          addressSearch={search}
+          updateAddressSearch={updateSearch}
+          updateSort={updateSort}
+          sort={sort}
+        />
+      )}
+      {updateOffset && typeof offset === 'number' && pageSize && (
+        <Pagination
+          data={data}
+          name={dataName}
+          addressSearch={search}
+          updateOffset={updateOffset}
+          pageSize={pageSize}
+          offset={offset}
+        />
+      )}
       <Table className="w-full">
         <Thead className="border border-creepz-green-light">
           <Tr>
@@ -101,11 +105,20 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
               </Td>
             </Tr>
           )}
+          {data && data.length === 0 && (
+            <Tr>
+              <Td
+                colSpan="7"
+                className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-green-light"
+              >
+                No results
+              </Td>
+            </Tr>
+          )}
           {data &&
-            data.leaderboard &&
-            data.leaderboard.players.map((player: any, idx: number) => (
+            data.map((datum: any, idx: number) => (
               <Tr
-                key={player.id}
+                key={datum.id}
                 className={idx % 2 === 0 ? 'bg-white bg-opacity-5' : ''}
               >
                 {columns.map((column) => (
@@ -114,8 +127,8 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
                     className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-green-light"
                   >
                     {column.render
-                      ? column.render(player, column.prop)
-                      : player[column.prop]}
+                      ? column.render(datum, column.prop)
+                      : datum[column.prop]}
                   </Td>
                 ))}
               </Tr>
@@ -133,14 +146,16 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
           )}
         </div>
       </div>
-      <Pagination
-        data={data}
-        name={dataName}
-        addressSearch={search}
-        updateOffset={updateOffset}
-        pageSize={pageSize}
-        offset={offset}
-      />
+      {updateOffset && typeof offset === 'number' && pageSize && (
+        <Pagination
+          data={data}
+          name={dataName}
+          addressSearch={search}
+          updateOffset={updateOffset}
+          pageSize={pageSize}
+          offset={offset}
+        />
+      )}
     </>
   );
 };

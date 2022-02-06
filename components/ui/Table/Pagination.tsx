@@ -1,14 +1,12 @@
 import * as React from 'react';
 
-import type { Response } from 'pages/api/leaderboard/[group]';
-
 interface IProps {
   name?: string;
   pageSize: number;
   offset: number;
   updateOffset: (offset: number) => void;
   addressSearch?: string;
-  data: Response | undefined;
+  data: any[] | undefined;
 }
 const Pagination: React.FunctionComponent<IProps> = ({
   name,
@@ -19,19 +17,17 @@ const Pagination: React.FunctionComponent<IProps> = ({
   data,
 }) => {
   const paginationName = name || 'results';
-  const canPrev = data?.leaderboard ? offset > 0 : false;
-  const canNext =
-    data?.leaderboard?.players && data.leaderboard.players.length === pageSize;
+  const canPrev = data ? offset > 0 : false;
+  const canNext = data?.length === pageSize;
   return (
     <nav
       className="py-2 flex items-center justify-between"
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
-        {data && data.leaderboard && (
+        {data && data.length && (
           <p className="text-sm text-creepz-green-light creepz-glowy-text">
-            Showing {offset + 1} - {offset + data.leaderboard.players.length}{' '}
-            {paginationName}{' '}
+            Showing {offset + 1} - {offset + data.length} {paginationName}{' '}
             {addressSearch && addressSearch.length >= 3 && (
               <span>containing &quot;{addressSearch}&quot;</span>
             )}

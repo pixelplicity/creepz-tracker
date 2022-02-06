@@ -53,4 +53,21 @@ export type Player = {
   number_shapeshifters: number;
   number_staked_creepz: number;
   number_staked_armouries: number;
+  ble_points: number;
+};
+
+export type BLEStats = {
+  id: string;
+  spins: number;
+  lizards: number;
+};
+
+export type BLELizard = {
+  id: string;
+  wallet_address: string;
+  points: number;
+  spins: number;
+  week1_shards: number;
+  week2_shards: number;
+  week3_shards: string[] | null;
 };

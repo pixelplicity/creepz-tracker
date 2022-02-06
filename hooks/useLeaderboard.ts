@@ -35,7 +35,10 @@ function useLeaderboard(pageSize: number): LeaderboardHookValue {
     offset,
     updateSearch: setAddressSearch,
     search: addressSearch,
-    updateSort: setSort,
+    updateSort: (newSort: string) => {
+      setSort(newSort);
+      setOffset(0);
+    },
     sort,
   };
 }

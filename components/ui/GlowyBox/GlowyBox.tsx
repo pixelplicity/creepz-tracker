@@ -25,7 +25,7 @@ const GlowyBox: React.FunctionComponent<IProps> = ({
         {title && (
           <header className="absolute -top-8 left-1/2 -translate-x-1/2 mx-auto w-full sm:w-3/4">
             <div className="bg-creepz-green-dark border border-black rounded-full shadow-lg creepz-glowy-shadow px-4 py-2">
-              <h2 className="text-2xl text-creepz-green-light creepz-glowy-text uppercase">
+              <h2 className="text-xl md:text-2xl text-creepz-green-light creepz-glowy-text uppercase">
                 {title}
               </h2>
               {titleIcon && (
