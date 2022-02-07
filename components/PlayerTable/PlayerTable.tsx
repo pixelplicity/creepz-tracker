@@ -8,16 +8,16 @@ import useLeaderboard from 'hooks/useLeaderboard';
 
 const sortOptions = [
   {
-    display: 'ERC-20 Loomi',
-    prop: 'erc20_balance',
-  },
-  {
     display: 'Points',
     prop: 'ble_points',
   },
   {
     display: 'Loomi',
     prop: 'reward',
+  },
+  {
+    display: 'ERC-20 Loomi',
+    prop: 'erc20_balance',
   },
   {
     display: 'Yield',

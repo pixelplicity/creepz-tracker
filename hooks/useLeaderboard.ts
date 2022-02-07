@@ -16,7 +16,7 @@ export type LeaderboardHookValue = {
   sort: string;
 };
 function useLeaderboard(pageSize: number): LeaderboardHookValue {
-  const [sort, setSort] = React.useState<string>('reward');
+  const [sort, setSort] = React.useState<string>('ble_points');
   const [addressSearch, setAddressSearch] = React.useState<string>();
   const [offset, setOffset] = React.useState<number>(0);
   const { data } = useSWR(

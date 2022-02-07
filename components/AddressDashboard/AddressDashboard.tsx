@@ -224,11 +224,11 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
         <GlowyBox
           isLoading={walletLoading || loomiPriceLoading || floorPriceLoading}
           title="Points"
-          // titleIcon={
-          //   <Button onClick={() => setIsBLEModalOpen(true)}>
-          //     <EyeIcon className="h-6 w-6" aria-hidden="true" />
-          //   </Button>
-          // }
+          titleIcon={
+            <Button onClick={() => setIsBLEModalOpen(true)}>
+              <EyeIcon className="h-6 w-6" aria-hidden="true" />
+            </Button>
+          }
         >
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
             <StatBox label="game">

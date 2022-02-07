@@ -3,58 +3,58 @@ import React from 'react';
 import Modal from 'components/ui/Modal/Modal';
 import StatBox from 'components/ui/StatBox/StatBox';
 
-// const week1ItemsMeta = [
-//   {
-//     name: 'Homemade Cricket Casserole',
-//     points: '+1',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'Toxic Bindweed',
-//     points: '-2',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'The Sacred Sneakers of Wisdom',
-//     points: '+3',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'The Shorts of Unyielding Glory',
-//     points: '+2',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'Overlord Rugged',
-//     points: '0',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'Alpha Shard',
-//     points: '0',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'The Dad Cap of Destiny',
-//     points: '+1',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'The Treacherous Disc',
-//     points: '-1',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'Radioactive Boronite',
-//     points: '-4',
-//     image: 'https://via.placeholder.com/150',
-//   },
-//   {
-//     name: 'The Amulet of Renewal',
-//     points: '+10',
-//     image: 'https://via.placeholder.com/150',
-//   },
-// ];
+const week1ItemsMeta = [
+  {
+    name: 'The Dad Cap of Destiny',
+    points: '+1',
+    image: 'https://www.creepz.co/static/media/eight.e53c1809.png',
+  },
+  {
+    name: 'Toxic Bindweed',
+    points: '-2',
+    image: 'https://www.creepz.co/static/media/three.58fc8f72.png',
+  },
+  {
+    name: 'The Sacred Sneakers of Wisdom',
+    points: '+3',
+    image: 'https://www.creepz.co/static/media/nine.7c56ec7b.png',
+  },
+  {
+    name: 'The Shorts of Unyielding Glory',
+    points: '+2',
+    image: 'https://www.creepz.co/static/media/ten.69096589.png',
+  },
+  {
+    name: 'Alpha Shard',
+    points: '0',
+    image: 'https://www.creepz.co/static/media/five.7dc49dc5.gif',
+  },
+  {
+    name: 'Overlord Rugged',
+    points: '0',
+    image: 'https://www.creepz.co/static/media/four.2bf68fef.png',
+  },
+  {
+    name: 'Homemade Cricket Casserole',
+    points: '+1',
+    image: 'https://www.creepz.co/static/media/six.059bf641.png',
+  },
+  {
+    name: 'The Treacherous Disc',
+    points: '-1',
+    image: 'https://www.creepz.co/static/media/two.672936de.png',
+  },
+  {
+    name: 'Radioactive Boronite',
+    points: '-4',
+    image: 'https://www.creepz.co/static/media/one.42ba0c8f.png',
+  },
+  {
+    name: 'The Amulet of Renewal',
+    points: '+10',
+    image: 'https://www.creepz.co/static/media/seven.13f14946.png',
+  },
+];
 interface IProps {
   isOpen: boolean;
   handleClose: () => void;
@@ -72,13 +72,17 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
   gamePoints,
   disciplePoints,
   rank,
-  // items,
+  items,
 }) => {
-  // const week1Items = items.slice(0, 10);
+  const week1Items = items.slice(0, 10);
   // const week2Items = items.slice(10,20);
   // const week3Items = items.slice(20,30);
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} title="Points">
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      title="Points &amp; Artefacts"
+    >
       <div className="mt-2">
         <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-5">
           <StatBox label="rank">{rank}</StatBox>
@@ -86,7 +90,7 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
           <StatBox label="disciple points">{disciplePoints}</StatBox>
           <StatBox label="total points">{points}</StatBox>
         </div>
-        {/* <div className="mt-6">
+        <div className="mt-6">
           <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
             Week 1 Artefacts
           </h3>
@@ -102,7 +106,7 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
                     alt=""
                     className="object-cover pointer-events-none w-full"
                   />
-                  <p className="absolute top-2 right-2 text-creepz-green-light creepz-glowy-text">
+                  <p className="absolute top-2 right-2 text-black">
                     x{week1Items[idx]}
                   </p>
                 </div>
@@ -113,7 +117,7 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
               </li>
             ))}
           </ul>
-        </div> */}
+        </div>
       </div>
     </Modal>
   );
