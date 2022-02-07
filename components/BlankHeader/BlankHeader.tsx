@@ -5,7 +5,7 @@ import Nav from 'components/Nav/Nav';
 interface IProps {
   openAddressModel: () => void;
 }
-const GameHeader: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
+const BlankHeader: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
   return (
     <>
       <Nav openAddressModel={openAddressModel} />
@@ -23,4 +23,4 @@ const GameHeader: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
   );
 };
 
-export default GameHeader;
+export default BlankHeader;

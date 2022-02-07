@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { NextPage } from 'next';
 
+import BlankHeader from 'components/BlankHeader/BlankHeader';
 import BLEDashboard from 'components/BLEDashboard/BLEDashboard';
-import BLEHeader from 'components/BLEHeader/BLEHeader';
 import DashboardLayout from 'components/DashboardLayout/DashboardLayout';
 
 type IProps = {
@@ -17,7 +17,7 @@ const GroupPage: NextPage<IProps> = () => {
       isAddressModalOpen={isAddressModalOpen}
       setIsAddressModalOpen={setIsAddressModalOpen}
       header={
-        <BLEHeader openAddressModel={() => setIsAddressModalOpen(true)} />
+        <BlankHeader openAddressModel={() => setIsAddressModalOpen(true)} />
       }
     >
       <BLEDashboard />
