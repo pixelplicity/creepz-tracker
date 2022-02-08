@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 
 import { NextPage } from 'next';
-import { Provider } from 'react-supabase';
 
 import BlankHeader from 'components/BlankHeader/BlankHeader';
 import BLEDashboard from 'components/BLEDashboard/BLEDashboard';
 import DashboardLayout from 'components/DashboardLayout/DashboardLayout';
-import supabase from 'services/supabase/client';
 
 type IProps = {
   group?: string;
@@ -22,9 +20,7 @@ const GroupPage: NextPage<IProps> = () => {
         <BlankHeader openAddressModel={() => setIsAddressModalOpen(true)} />
       }
     >
-      <Provider value={supabase}>
-        <BLEDashboard />
-      </Provider>
+      <BLEDashboard />
     </DashboardLayout>
   );
 };
