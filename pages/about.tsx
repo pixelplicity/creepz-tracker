@@ -53,7 +53,7 @@ const Home: React.FunctionComponent = () => {
               Is Creep Tracker Safe?
             </strong>
             You do not need to connect your wallet or sign any messages to use
-            Creepz Tracker. This tool only reads data from varous sources. You
+            Creepz Tracker. This tool only reads data from various sources. You
             cannot create any transactions using Creepz Tracker.
           </p>
           <p className="text-white text-base">
