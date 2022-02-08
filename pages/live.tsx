@@ -4,8 +4,8 @@ import { NextPage } from 'next';
 import { Provider } from 'react-supabase';
 
 import BlankHeader from 'components/BlankHeader/BlankHeader';
-import BLEDashboard from 'components/BLEDashboard/BLEDashboard';
 import DashboardLayout from 'components/DashboardLayout/DashboardLayout';
+import LiveDashboard from 'components/LiveSpinFeed/LiveSpinFeed';
 import supabase from 'services/supabase/client';
 
 type IProps = {
@@ -23,7 +23,7 @@ const GroupPage: NextPage<IProps> = () => {
       }
     >
       <Provider value={supabase}>
-        <BLEDashboard />
+        <LiveDashboard />
       </Provider>
     </DashboardLayout>
   );

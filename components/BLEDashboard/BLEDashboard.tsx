@@ -1,6 +1,7 @@
 import React from 'react';
 
 import BLETable from 'components/BLETable/BLETable';
+import LiveSpinFeed from 'components/LiveSpinFeed/LiveSpinFeed';
 import Collapsable from 'components/ui/Collapsable/Collapsable';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
 
@@ -55,11 +56,11 @@ interface IProps {}
 const BLEDashboard: React.FunctionComponent<IProps> = () => {
   return (
     <div className="mt-12">
-      <div className="mt-5">
+      <dl className="mt-5 grid grid-cols-1 gap-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 ">
         <GlowyBox
           title="Big Lizard Energy Leaderboard"
-          className="md:col-span-2"
           isLoading={false}
+          className="md:col-span-2"
         >
           {lounges.map((lounge) => (
             <Collapsable
@@ -71,7 +72,8 @@ const BLEDashboard: React.FunctionComponent<IProps> = () => {
             </Collapsable>
           ))}
         </GlowyBox>
-      </div>
+        <LiveSpinFeed />
+      </dl>
     </div>
   );
 };
