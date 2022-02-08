@@ -6,37 +6,37 @@ import StatBox from 'components/ui/StatBox/StatBox';
 const week1ItemsMeta = [
   {
     name: 'The Dad Cap of Destiny',
-    points: '+1',
+    points: '+3',
     image: 'https://www.creepz.co/static/media/eight.e53c1809.png',
   },
   {
     name: 'Toxic Bindweed',
-    points: '-2',
+    points: '-1',
     image: 'https://www.creepz.co/static/media/three.58fc8f72.png',
   },
   {
     name: 'The Sacred Sneakers of Wisdom',
-    points: '+3',
+    points: '+7',
     image: 'https://www.creepz.co/static/media/nine.7c56ec7b.png',
   },
   {
     name: 'The Shorts of Unyielding Glory',
-    points: '+2',
+    points: '+5',
     image: 'https://www.creepz.co/static/media/ten.69096589.png',
   },
   {
     name: 'Alpha Shard',
-    points: '0',
+    points: '+12',
     image: 'https://www.creepz.co/static/media/five.7dc49dc5.gif',
   },
   {
     name: 'Overlord Rugged',
-    points: '0',
+    points: '+1',
     image: 'https://www.creepz.co/static/media/four.2bf68fef.png',
   },
   {
     name: 'Homemade Cricket Casserole',
-    points: '+1',
+    points: '+2',
     image: 'https://www.creepz.co/static/media/six.059bf641.png',
   },
   {
@@ -46,7 +46,7 @@ const week1ItemsMeta = [
   },
   {
     name: 'Radioactive Boronite',
-    points: '-4',
+    points: '-1',
     image: 'https://www.creepz.co/static/media/one.42ba0c8f.png',
   },
   {
