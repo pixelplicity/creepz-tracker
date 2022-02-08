@@ -13,7 +13,7 @@ export type Response = {
 export const getSpendData = async (): Promise<Response> => {
   const statsResponse = await supabase
     .from('stats')
-    .select('date, game_loomi, erc20_loomi, bribes_pool')
+    .select('date, game_loomi, erc20_loomi, bribes_pool, yield_loomi')
     .order('date', { ascending: true });
 
   if (statsResponse.error) {
