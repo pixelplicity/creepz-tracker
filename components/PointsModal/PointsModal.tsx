@@ -25,7 +25,7 @@ const week1ItemsMeta = [
     image: 'https://www.creepz.co/static/media/ten.69096589.png',
   },
   {
-    name: 'Alpha Shard',
+    name: 'Shard',
     points: '+12',
     image: 'https://www.creepz.co/static/media/five.7dc49dc5.gif',
   },
@@ -40,9 +40,9 @@ const week1ItemsMeta = [
     image: 'https://www.creepz.co/static/media/six.059bf641.png',
   },
   {
-    name: 'The Treacherous Disc',
-    points: '-1',
-    image: 'https://www.creepz.co/static/media/two.672936de.png',
+    name: 'Shard',
+    points: '+12',
+    image: 'https://www.creepz.co/static/media/second-shard.5c23c392.gif',
   },
   {
     name: 'Radioactive Boronite',
