@@ -26,15 +26,10 @@ const BLETable: React.FunctionComponent<IProps> = ({ lounge }) => {
       title: 'Rank',
       prop: 'rank',
       isSortable: false,
-    },
-    {
-      title: 'Rank Change',
-      prop: 'rank',
       render: (row: any) => {
         const change = row.previousRank - row.rank;
-        return `${change < 0 ? '-' : '+'} ${Math.abs(change)}`;
+        return `${row.rank} (${change < 0 ? '-' : '+'}${Math.abs(change)})`;
       },
-      isSortable: false,
     },
     {
       title: 'Wallet',
@@ -59,23 +54,14 @@ const BLETable: React.FunctionComponent<IProps> = ({ lounge }) => {
       isSortable: false,
     },
     {
-      title: 'Alpha Shards',
-      prop: 'shards0',
-      render: (row: any) => {
-        return row.shards[0];
-      },
+      title: 'Spins',
+      prop: 'spins',
       isSortable: false,
+      render: (row: any) => {
+        const change = row.numberOfSpins - row.previousNumberOfSpins;
+        return `${row.numberOfSpins} (${change})`;
+      },
     },
-    // {
-    //   title: 'Week 2 Shards',
-    //   prop: 'yield',
-    //   isSortable: false,
-    // },
-    // {
-    //   title: 'Week 3 Shards',
-    //   prop: 'spent',
-    //   isSortable: false,
-    // },
   ];
 
   return (

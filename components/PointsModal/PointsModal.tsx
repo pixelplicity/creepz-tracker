@@ -63,6 +63,8 @@ interface IProps {
   points: number;
   items: number[];
   rank: number;
+  numberOfSpins: number;
+  previousNumberOfSpins: number;
 }
 
 const PlayerTableModal: React.FunctionComponent<IProps> = ({
@@ -72,6 +74,8 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
   gamePoints,
   disciplePoints,
   rank,
+  previousNumberOfSpins,
+  numberOfSpins,
   items,
 }) => {
   const week1Items = items.slice(0, 10);
@@ -84,10 +88,14 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
       title="Points &amp; Artefacts"
     >
       <div className="mt-2">
-        <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-5">
-          <StatBox label="rank">{rank}</StatBox>
+        <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-3 gap-y-6">
+          <StatBox label="rank">{rank + 1}</StatBox>
+          <StatBox label="total spins">{`${numberOfSpins}`}</StatBox>
+          <StatBox label="today's spins">{`${
+            numberOfSpins - previousNumberOfSpins
+          }`}</StatBox>
           <StatBox label="game points">{gamePoints}</StatBox>
-          <StatBox label="disciple points">{disciplePoints}</StatBox>
+          <StatBox label="disciple points">{disciplePoints.toFixed(1)}</StatBox>
           <StatBox label="total points">{points}</StatBox>
         </div>
         <div className="mt-6">

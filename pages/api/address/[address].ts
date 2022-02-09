@@ -2,6 +2,7 @@ import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import cache from 'memory-cache';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { getBLELeaderboard } from 'pages/api/ble/[leaderboard]';
 import getWalletStats from 'services/getWalletStats';
 import type { WalletStats } from 'services/getWalletStats';
 import getWalletTokens from 'services/getWalletTokens';
@@ -19,6 +20,8 @@ type ProfileResponse = {
   shards: number[];
   disciplePoints: number;
   gamePoints: number;
+  numberOfSpins: number;
+  previousNumberOfSpins: number;
 };
 
 const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_INFURA_MAINNET_ENDPOINT);
@@ -29,6 +32,7 @@ const getWalletProfile = async (address: string): Promise<ProfileResponse> => {
   if (cachedResponse) {
     return cachedResponse;
   }
+  const allProfiles = await getBLELeaderboard();
   const profileResponse = await fetch(
     `https://cbc-backend-ajxin.ondigitalocean.app/users/${address}`,
     {
@@ -37,6 +41,9 @@ const getWalletProfile = async (address: string): Promise<ProfileResponse> => {
         'Content-Type': 'application/json',
       },
     }
+  );
+  const extraProfile = allProfiles.positions.find(
+    (p) => p.user.toLowerCase() === address.toLowerCase()
   );
   if (!profileResponse.ok) {
     return {
@@ -47,9 +54,13 @@ const getWalletProfile = async (address: string): Promise<ProfileResponse> => {
       shards: [0, 0, 0],
       disciplePoints: 0,
       gamePoints: 0,
+      numberOfSpins: 0,
+      previousNumberOfSpins: 0,
     };
   }
   const result = (await profileResponse.json()) as ProfileResponse;
+  result.numberOfSpins = extraProfile?.numberOfSpins ?? 0;
+  result.previousNumberOfSpins = extraProfile?.previousNumberOfSpins ?? 0;
   cache.put(cacheKey, result, 1000 * 60 * 3); // 3 minutes
   return result;
 };

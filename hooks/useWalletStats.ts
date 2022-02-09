@@ -43,6 +43,8 @@ function useWalletStats(address?: string): {
             0, 0, 0, 0, 0, 0, 0,
           ],
           userSpins: 0,
+          numberOfSpins: 0,
+          previousNumberOfSpins: 0,
         },
     isLoading: !data,
   };

@@ -11,10 +11,14 @@ export type BLEPlayer = {
   rank: number;
   shards: number[];
   user: string;
+  numberOfSpins: number;
+  previousNumberOfSpins: number;
 };
 export type BLELeaderboard = {
   leaderboardGenerationDate: string;
   leaderboardGenerationId: string;
+  totalSpinsToday: number;
+  totalSpins: number;
   positions: BLEPlayer[];
 };
 
@@ -54,13 +58,23 @@ export const getBLELeaderboard = async (): Promise<BLELeaderboard> => {
     return {
       leaderboardGenerationDate: '',
       leaderboardGenerationId: '',
+      totalSpinsToday: 0,
+      totalSpins: 0,
       positions: [],
     };
   }
   const result = (await leaderboardResponse.json()) as BLELeaderboard;
+  const totalSpinsToday = result.positions.reduce((acc, curr) => {
+    return acc + (curr.numberOfSpins - curr.previousNumberOfSpins);
+  }, 0);
+  const totalSpins = result.positions.reduce((acc, curr) => {
+    return acc + curr.numberOfSpins;
+  }, 0);
   const formatted = {
     leaderboardGenerationDate: result.leaderboardGenerationDate,
     leaderboardGenerationId: result.leaderboardGenerationId,
+    totalSpinsToday,
+    totalSpins,
     positions: result.positions.map((player) => ({
       ...player,
       rank: player.rank + 1,

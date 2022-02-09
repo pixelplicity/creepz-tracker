@@ -250,6 +250,8 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
               disciplePoints={walletData.disciplePoints}
               points={walletData.points}
               rank={walletData.rank}
+              numberOfSpins={walletData.numberOfSpins}
+              previousNumberOfSpins={walletData.previousNumberOfSpins}
             />
           </div>
         </GlowyBox>
