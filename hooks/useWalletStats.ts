@@ -34,7 +34,7 @@ function useWalletStats(address?: string): {
           address,
           nickname: null,
           points: 0,
-          rank: 0,
+          rank: null,
           shards: [0, 0, 0],
           disciplePoints: 0,
           gamePoints: 0,

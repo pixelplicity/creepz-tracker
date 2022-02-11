@@ -240,8 +240,12 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             <StatBox label="total">
               {(walletData.points || 0).toFixed(1)}
             </StatBox>
-            <StatBox label="rank">{walletData.rank + 1}</StatBox>
-            <StatBox label="Alpha Shards">{walletData.shards[0]}</StatBox>
+            <StatBox label="rank">
+              {walletData.rank ? walletData.rank + 1 : 'N/A'}
+            </StatBox>
+            <StatBox label="Alpha Shards">
+              {walletData.shards ? walletData.shards[0] : 0}
+            </StatBox>
             <PointsModal
               isOpen={isBLEModalOpen}
               handleClose={() => setIsBLEModalOpen(false)}

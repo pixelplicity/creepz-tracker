@@ -89,14 +89,16 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
     >
       <div className="mt-2">
         <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-3 gap-y-6">
-          <StatBox label="rank">{rank + 1}</StatBox>
+          <StatBox label="rank">{rank ? rank + 1 : 'N/A'}</StatBox>
           <StatBox label="total spins">{`${numberOfSpins}`}</StatBox>
           <StatBox label="today's spins">{`${
             numberOfSpins - previousNumberOfSpins
           }`}</StatBox>
-          <StatBox label="game points">{gamePoints}</StatBox>
-          <StatBox label="disciple points">{disciplePoints.toFixed(1)}</StatBox>
-          <StatBox label="total points">{points}</StatBox>
+          <StatBox label="game points">{gamePoints || '0.0'}</StatBox>
+          <StatBox label="disciple points">
+            {disciplePoints ? disciplePoints.toFixed(1) : '0.0'}
+          </StatBox>
+          <StatBox label="total points">{points || '0.0'}</StatBox>
         </div>
         <div className="mt-6">
           <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
