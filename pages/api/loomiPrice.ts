@@ -77,7 +77,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     res.json(cachedResponse);
     return;
   }
-  const minutes = 0.5;
+  const minutes = 5;
   const response = await getPrice();
   cache.put('loomi', response, 1000 * 60 * minutes);
   res.json(response);
