@@ -125,7 +125,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     res.json(cachedResponse);
     return;
   }
-  const minutes = 1;
+  const minutes = 3;
   const response = await getAddress(ownerAddress);
   if (response.error) {
     res.status(500).json({ error: response.error });
