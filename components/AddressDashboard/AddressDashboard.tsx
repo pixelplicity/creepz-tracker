@@ -246,6 +246,9 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
             <StatBox label="Alpha Shards">
               {walletData.shards ? walletData.shards[0] : 0}
             </StatBox>
+            <StatBox label="Beta Shards">
+              {walletData.shards ? walletData.shards[1] : 0}
+            </StatBox>
             <PointsModal
               isOpen={isBLEModalOpen}
               handleClose={() => setIsBLEModalOpen(false)}
