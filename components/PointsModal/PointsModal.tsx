@@ -111,6 +111,61 @@ const week2ItemsMeta = [
     image: 'https://www.creepz.co/static/media/PURPLE.6ac25e5d.gif',
   },
 ];
+
+const week3ItemsMeta = [
+  {
+    name: 'Glasses Of Simulated Truth',
+    points: '+5',
+    image:
+      'https://www.creepz.co/static/media/Glasses%20of%20Simulated%20Truth.8b7e3e11.png',
+  },
+  {
+    name: 'Frictionless Skateboard Of Past Futures',
+    points: '+1',
+    image:
+      'https://www.creepz.co/static/media/Frictionless%20Skateboard%20of%20Past%20Futures.c6ebf155.png',
+  },
+  {
+    name: 'Intergalactic Bong Of Temporary Annihilation',
+    points: '-1',
+    image:
+      'https://www.creepz.co/static/media/Intergalactic%20Bong%20of%20Temporary%20Annihilation.b78ae51b.png',
+  },
+  {
+    name: 'Impossible Stacks of Invasion Kindling',
+    points: '+7',
+    image:
+      'https://www.creepz.co/static/media/Impossible%20Stacks%20of%20Invasion%20Kindling.941c984e.png',
+  },
+  {
+    name: 'Shard',
+    points: '+10',
+    image: 'https://www.creepz.co/static/media/PINK.75b3425d.gif',
+  },
+  {
+    name: `Orb Of Infinite Wisdom`,
+    points: '+3',
+    image:
+      'https://www.creepz.co/static/media/Orb%20of%20Infinite%20Wisdom.8a556b36.png',
+  },
+  {
+    name: 'Potentially Alive Cat-In-A-Box',
+    points: '-1',
+    image:
+      'https://www.creepz.co/static/media/Potentially%20Alive%20Cat-in-a-Box.df9d54c8.png',
+  },
+  {
+    name: 'Machine Of No Ragrets',
+    points: '+2',
+    image:
+      'https://www.creepz.co/static/media/Machine%20of%20No%20Ragrets.fae1255f.png',
+  },
+  {
+    name: 'Shard',
+    points: '+10',
+    image: 'https://www.creepz.co/static/media/PINK.75b3425d.gif',
+  },
+];
 interface IProps {
   isOpen: boolean;
   handleClose: () => void;
@@ -136,7 +191,7 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
 }) => {
   const week1Items = items.slice(0, 10);
   const week2Items = items.slice(10, 20);
-  // const week3Items = items.slice(20,30);
+  const week3Items = items.slice(20, 30);
   return (
     <Modal
       isOpen={isOpen}
@@ -157,6 +212,32 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
           <StatBox label="total points">{points || '0.0'}</StatBox>
         </div>
         <div className="mt-6">
+          <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+            Week 3 Artefacts
+          </h3>
+          <ul
+            role="list"
+            className="mt-2 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-5 xl:gap-x-8"
+          >
+            {week3ItemsMeta.map((item, idx) => (
+              <li key={idx} className="relative">
+                <div className="relative block w-full rounded-lg overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="object-cover pointer-events-none w-full"
+                  />
+                  <p className="absolute top-2 right-2 text-black">
+                    x{week3Items[idx]}
+                  </p>
+                </div>
+                <p className="text-center mt-2 block text-sm font-medium text-creepz-green-light creepz-glowy-text">
+                  {item.name}
+                  <br />({item.points})
+                </p>
+              </li>
+            ))}
+          </ul>
           <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
             Week 2 Artefacts
           </h3>

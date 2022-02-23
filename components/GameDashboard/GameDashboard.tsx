@@ -56,10 +56,7 @@ const GameDashboard: React.FunctionComponent<IProps> = ({
                   swapped ? (
                     <span>{loomiPrice.eth.toFixed(8)}</span>
                   ) : (
-                    Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    }).format(loomiPrice.usd)
+                    <span>${loomiPrice.usd.toFixed(4)}</span>
                   )
                 }
               </SwappableText>
