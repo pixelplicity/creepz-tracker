@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { EyeIcon } from '@heroicons/react/outline';
 
+import CreepzModal from 'components/CreepzModal/CreepzModal';
 import LamboModal from 'components/LamboModal/LamboModal';
 // import PointsModal from 'components/PointsModal/PointsModal';
 import PointsModal from 'components/PointsModal/PointsModal';
@@ -226,13 +227,13 @@ const AddressDashboard: React.FunctionComponent<IProps> = ({
                   floorPrices.creepz
                 ).toFixed(2)}
             </StatBox>
-            <TokenModal
+            <CreepzModal
               isOpen={isCreepzModalOpen}
               handleClose={() => setIsCreepzModalOpen(false)}
               title="Your Creepz"
               stakedIds={walletData.creeps.staked}
               unstakedIds={walletData.creeps.unstaked}
-              stakeable
+              names={walletData.creeps.names}
               baseUrl="https://api.creepz.co/creepz/_||_"
               address={creepzAddress}
             />

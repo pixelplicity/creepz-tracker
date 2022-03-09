@@ -9,12 +9,23 @@ import {
   address as lordsAddress,
   abi as lordsABI,
 } from 'contracts/LordsCo/LordsCo';
+import nameClient from 'services/name/client';
+import { TokensNameQuery } from 'services/name/queries';
+import type {
+  TokensNameQueryResponse,
+  TokensNameQueryVariables,
+} from 'services/name/queries';
 import subgraphClient from 'services/subgraph/client';
 import { TokensQuery } from 'services/subgraph/queries';
 import type {
   TokensQueryResponse,
   TokensQueryVariables,
 } from 'services/subgraph/queries';
+
+export type CreepzName = {
+  name: string;
+  id: string;
+};
 
 export type Tokens = {
   creeps: string[];
@@ -28,6 +39,7 @@ export type WalletTokens = {
   creeps: {
     staked: string[];
     unstaked: string[];
+    names: CreepzName[];
   };
   armouries: {
     staked: string[];
@@ -73,6 +85,18 @@ const getUnstakedTokens = async (address: string): Promise<Tokens> => {
       };
 };
 
+const getCreepzNames = async (address: string): Promise<CreepzName[]> => {
+  const { data } = await nameClient
+    .query<TokensNameQueryResponse, TokensNameQueryVariables>(TokensNameQuery, {
+      ownerId: address.toLowerCase(),
+    })
+    .toPromise();
+  return data?.owners[0]?.creeps.map((creep) => ({
+    name: creep.creepzName,
+    id: creep.id,
+  })) as CreepzName[];
+};
+
 const getStakedTokens = async (
   address: string
 ): Promise<Omit<Tokens, 'shapeshifters' | 'megaShapeshifters'>> => {
@@ -91,14 +115,16 @@ const getStakedTokens = async (
 };
 
 const getWalletTokens = async (address: string): Promise<WalletTokens> => {
-  const [unstakedTokens, stakedTokens] = await Promise.all([
+  const [unstakedTokens, stakedTokens, creepzNames] = await Promise.all([
     getUnstakedTokens(address),
     getStakedTokens(address),
+    getCreepzNames(address),
   ]);
   return {
     creeps: {
       staked: stakedTokens.creeps,
       unstaked: unstakedTokens.creeps,
+      names: creepzNames,
     },
     armouries: {
       staked: stakedTokens.armouries,

@@ -20,6 +20,7 @@ function useWalletStats(address?: string): {
           creeps: {
             staked: [],
             unstaked: [],
+            names: [],
           },
           armouries: {
             staked: [],
