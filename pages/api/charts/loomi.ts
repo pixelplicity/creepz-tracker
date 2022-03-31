@@ -14,7 +14,7 @@ export const getSpendData = async (): Promise<Response> => {
   const statsResponse = await supabase
     .from('stats')
     .select('date, game_loomi, erc20_loomi, bribes_pool, yield_loomi')
-    .order('date', { ascending: true });
+    .order('date', { ascending: false });
 
   if (statsResponse.error) {
     console.error(statsResponse.error);
@@ -22,14 +22,16 @@ export const getSpendData = async (): Promise<Response> => {
   }
 
   return {
-    data: statsResponse.data.map((datum) => ({
-      ...datum,
-      date: formatInTimeZone(
-        parseISO(datum.date),
-        'America/New_York',
-        'MMM d p'
-      ),
-    })),
+    data: statsResponse.data
+      .map((datum) => ({
+        ...datum,
+        date: formatInTimeZone(
+          parseISO(datum.date),
+          'America/New_York',
+          'MMM d p'
+        ),
+      }))
+      .reverse(),
   };
 };
 

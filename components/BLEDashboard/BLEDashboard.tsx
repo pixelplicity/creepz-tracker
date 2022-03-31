@@ -3,7 +3,6 @@ import React from 'react';
 import useSWR from 'swr';
 
 import BLETable from 'components/BLETable/BLETable';
-import LiveSpinFeed from 'components/LiveSpinFeed/LiveSpinFeed';
 import Collapsable from 'components/ui/Collapsable/Collapsable';
 import GlowyBox from 'components/ui/GlowyBox/GlowyBox';
 import StatBox from 'components/ui/StatBox/StatBox';
@@ -61,12 +60,8 @@ const BLEDashboard: React.FunctionComponent<IProps> = () => {
   const { data } = useSWR(`/api/ble/stats`, fetcher);
   return (
     <div className="mt-12">
-      <dl className="mt-5 grid grid-cols-1 gap-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 ">
-        <GlowyBox
-          title="Big Lizard Energy Leaderboard"
-          isLoading={false}
-          className="md:col-span-2"
-        >
+      <dl className="mt-5 grid grid-cols-1 gap-5 gap-y-12">
+        <GlowyBox title="Big Lizard Energy Leaderboard" isLoading={false}>
           {data && data.data && (
             <div className="mt-4 grid grid-cols-1 gap-x-6 sm:grid-cols-2 gap-y-6">
               <StatBox label="total spins">{data.data.totalSpins}</StatBox>
@@ -85,7 +80,6 @@ const BLEDashboard: React.FunctionComponent<IProps> = () => {
             ))}
           </div>
         </GlowyBox>
-        <LiveSpinFeed />
       </dl>
     </div>
   );
