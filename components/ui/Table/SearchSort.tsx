@@ -32,7 +32,7 @@ const SearchSort: React.FunctionComponent<IProps> = ({
   }
   return (
     <div className="sm:flex sm:items-center sm:justify-between">
-      <h3 className="text-sm text-creepz-green-light creepz-glowy-text"></h3>
+      <h3 className="text-sm text-creepz-blue creepz-glowy-text"></h3>
       <div className="mt-3 sm:mt-0 sm:ml-4">
         <label htmlFor="mobile-search-candidate" className="sr-only">
           Search
@@ -44,7 +44,10 @@ const SearchSort: React.FunctionComponent<IProps> = ({
           {showSearch && (
             <div className="relative flex-grow focus-within:z-10">
               <div className="absolute inset-y-1 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="h-5 w-5 text-black" aria-hidden="true" />
+                <SearchIcon
+                  className="h-5 w-5 text-creepz-blue"
+                  aria-hidden="true"
+                />
               </div>
               <input
                 type="search"
@@ -52,7 +55,7 @@ const SearchSort: React.FunctionComponent<IProps> = ({
                 onChange={(e) => updateAddressSearch(e.target.value)}
                 name="mobile-search-address"
                 id="mobile-search-address"
-                className="bg-creepz-green-light creepz-glowy-shadow text-creepz-green-dark placeholder-creepz-green-dark placeholder-opacity-60 block w-full rounded-none py-0.5 pl-10 sm:hidden"
+                className="bg-creepz-purple-light creepz-glowy-shadow text-creepz-blue placeholder-gray-400  placeholder-opacity-60 block w-full rounded-none py-0.5 pl-10 sm:hidden"
                 placeholder="Search"
               />
               <input
@@ -61,21 +64,21 @@ const SearchSort: React.FunctionComponent<IProps> = ({
                 onChange={(e) => updateAddressSearch(e.target.value)}
                 name="desktop-search-address"
                 id="desktop-search-address"
-                className="hidden bg-creepz-green-light creepz-glowy-shadow text-creepz-green-dark placeholder-creepz-green-dark placeholder-opacity-60 w-full rounded-none pl-10 py-1 sm:block sm:text-sm"
+                className="hidden bg-creepz-purple-light creepz-glowy-shadow text-creepz-blue placeholder-gray-400 placeholder-opacity-60 w-full rounded-none pl-10 py-1 sm:block sm:text-sm"
                 placeholder="Search wallets"
               />
             </div>
           )}
           {showSort && (
             <Menu as="div" className="relative">
-              <Menu.Button className="w-full bg-creepz-green-light creepz-glowy-shadow ml-1 px-4 py-1 inline-flex justify-center text-sm font-medium text-black focus:outline-none">
+              <Menu.Button className="w-full bg-creepz-purple-light creepz-glowy-shadow ml-1 px-4 py-1 inline-flex justify-center text-sm font-medium text-creepz-blue focus:outline-none">
                 <SortAscendingIcon
-                  className="mr-3 h-5 w-5 text-black"
+                  className="mr-3 h-5 w-5 text-creepz-blue"
                   aria-hidden="true"
                 />
                 Sort
                 <ChevronDownIcon
-                  className="ml-2.5 -mr-1.5 h-5 w-5 text-black"
+                  className="ml-2.5 -mr-1.5 h-5 w-5 text-creepz-blue"
                   aria-hidden="true"
                 />
               </Menu.Button>
@@ -88,7 +91,7 @@ const SearchSort: React.FunctionComponent<IProps> = ({
                           href="#"
                           className={classNames(
                             active ? 'underline' : '',
-                            'block px-4 py-2 text-sm text-creepz-green-light'
+                            'block px-4 py-2 text-sm text-creepz-blue'
                           )}
                           onClick={() => updateSort(sortOption.prop)}
                         >

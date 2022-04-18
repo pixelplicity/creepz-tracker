@@ -19,13 +19,13 @@ const Collpasable: React.FunctionComponent<IProps> = ({
           {({ open }) => (
             <>
               <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm text-left">
-                <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+                <h3 className="text-xl leading-6 font-medium text-creepz-pink">
                   {title}
                 </h3>
                 <ChevronUpIcon
                   className={`${
                     open ? '' : 'transform rotate-180'
-                  } w-5 h-5 text-creepz-green-light creepz-glowy-text`}
+                  } w-5 h-5 text-creepz-pink`}
                 />
               </Disclosure.Button>
               <Disclosure.Panel>{children}</Disclosure.Panel>

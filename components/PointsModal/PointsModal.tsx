@@ -212,7 +212,7 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
           <StatBox label="total points">{points || '0.0'}</StatBox>
         </div>
         <div className="mt-6">
-          <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+          <h3 className="text-xl leading-6 font-medium text-creepz-blue creepz-glowy-text">
             Week 3 Artefacts
           </h3>
           <ul
@@ -231,14 +231,14 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
                     x{week3Items[idx]}
                   </p>
                 </div>
-                <p className="text-center mt-2 block text-sm font-medium text-creepz-green-light creepz-glowy-text">
+                <p className="text-center mt-2 block text-sm font-medium text-creepz-blue creepz-glowy-text">
                   {item.name}
                   <br />({item.points})
                 </p>
               </li>
             ))}
           </ul>
-          <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+          <h3 className="text-xl leading-6 font-medium text-creepz-blue creepz-glowy-text">
             Week 2 Artefacts
           </h3>
           <ul
@@ -257,14 +257,14 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
                     x{week2Items[idx]}
                   </p>
                 </div>
-                <p className="text-center mt-2 block text-sm font-medium text-creepz-green-light creepz-glowy-text">
+                <p className="text-center mt-2 block text-sm font-medium text-creepz-blue creepz-glowy-text">
                   {item.name}
                   <br />({item.points})
                 </p>
               </li>
             ))}
           </ul>
-          <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+          <h3 className="text-xl leading-6 font-medium text-creepz-blue creepz-glowy-text">
             Week 1 Artefacts
           </h3>
           <ul
@@ -283,7 +283,7 @@ const PlayerTableModal: React.FunctionComponent<IProps> = ({
                     x{week1Items[idx]}
                   </p>
                 </div>
-                <p className="text-center mt-2 block text-sm font-medium text-creepz-green-light creepz-glowy-text">
+                <p className="text-center mt-2 block text-sm font-medium text-creepz-blue creepz-glowy-text">
                   {item.name}
                   <br />({item.points})
                 </p>

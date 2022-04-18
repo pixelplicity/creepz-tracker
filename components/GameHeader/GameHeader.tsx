@@ -29,7 +29,7 @@ const GameHeader: React.FunctionComponent<IProps> = ({
         <div className="relative max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between py-16">
             <div className="flex-1 min-w-0">
-              <h2 className="text-2xl font-normal leading-7 text-creepz-green-light sm:text-3xl creepz-glowy-text">
+              <h2 className="text-2xl font-normal leading-7 text-creepz-blue sm:text-3xl creepz-glowy-text">
                 $loomi{' '}
                 <SwappableText>
                   {(swapped: boolean) =>
@@ -44,8 +44,8 @@ const GameHeader: React.FunctionComponent<IProps> = ({
                   }
                 </SwappableText>
               </h2>
-              <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6 border border-top-1 border-b-0 border-x-0 border-creepz-green">
-                <div className="mt-2 flex items-center text-md text-creepz-green-light creepz-glowy-text">
+              <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6 border border-top-1 border-b-0 border-x-0 border-creepz-blue">
+                <div className="mt-2 flex items-center text-md text-creepz-blue creepz-glowy-text">
                   {players} active players
                 </div>
               </div>

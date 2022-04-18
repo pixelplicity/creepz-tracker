@@ -10,7 +10,7 @@ const ViewWalletButton: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <Button
-      className="bg-creepz-green-light text-black w-full flex justify-center uppercase"
+      className="bg-creepz-purple-light border border-creepz-purple text-creepz-blue w-full flex justify-center uppercase"
       onClick={openAddressModel}
     >
       <span className="hidden sm:block">View Wallet</span>

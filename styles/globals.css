@@ -2,13 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-.creepz-glowy-shadow {
-  box-shadow: 0 0 40px rgb(115 255 66 / 36%)
+.creepz-pink-glowy-shadow {
+  box-shadow: 0 0px 6px #f763c6
 }
 
-.creepz-glowy-text {
-  text-shadow: 0 1px 9px rgb(115 255 66 / 72%)
+.creepz-blue-glowy-shadow {
+  box-shadow: 0 0px 6px #64f7f6
 }
+
+.creepz-pink-glowy-text {
+  text-shadow: 0 1px 9px #f763c6
+}
+
+.creepz-blue-glowy-text {
+  text-shadow: 0 1px 9px #64f7f6
+}
+
 .creepz-glowy-red {
   box-shadow: 0 0 71px rgb(255 64 64 / 90%);
 }
@@ -46,10 +55,10 @@ lds-ring {
   width: 60px;
   height: 60px;
   margin: 5px;
-  border: 2px solid #8dff1f;
+  border: 2px solid #64f7f6;
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #8dff1f transparent transparent transparent;
+  border-color: #64f7f6 transparent transparent transparent;
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;

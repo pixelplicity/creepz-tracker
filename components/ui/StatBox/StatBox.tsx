@@ -13,10 +13,10 @@ const StatBox: React.FunctionComponent<IProps> = ({
     <div className={`${className || ''} flex justify-center items-baseline`}>
       {label && (
         <>
-          <p className="text-2xl font-normal text-creepz-green-light creepz-glowy-text">
+          <p className="text-2xl font-normal text-creepz-blue creepz-glowy-text">
             {children}
           </p>
-          <p className="ml-2 items-baseline text-xs font-normal text-creepz-green">
+          <p className="ml-2 items-baseline text-xs font-normal text-creepz-blue">
             {label}
           </p>
         </>

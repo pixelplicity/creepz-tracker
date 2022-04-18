@@ -39,7 +39,7 @@ const SpendChart: NextPage<IProps> = () => {
             {!data && <LoadingSpinner />}
             {data && (
               <>
-                <h3 className="mt-6 text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+                <h3 className="mt-6 text-xl leading-6 font-medium text-creepz-blue-light creepz-glowy-text">
                   Loomi Spent
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>
@@ -83,7 +83,7 @@ const SpendChart: NextPage<IProps> = () => {
                     />
                   </LineChart>
                 </ResponsiveContainer>
-                <h3 className="mt-6 text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+                <h3 className="mt-6 text-xl leading-6 font-medium text-creepz-blue-light creepz-glowy-text">
                   Bribe Pool
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>
@@ -122,7 +122,7 @@ const SpendChart: NextPage<IProps> = () => {
                     />
                   </LineChart>
                 </ResponsiveContainer>
-                <h3 className="mt-6 text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+                <h3 className="mt-6 text-xl leading-6 font-medium text-creepz-blue-light creepz-glowy-text">
                   Bribe Claimed
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>

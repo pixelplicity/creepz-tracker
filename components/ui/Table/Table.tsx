@@ -75,18 +75,18 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
         />
       )}
       <Table className="w-full">
-        <Thead className="border border-creepz-green-light">
+        <Thead className="border border-creepz-blue">
           <Tr>
             {columns.map((column, idx) => (
               <Th
                 key={idx}
                 scope="col"
-                className="px-6 py-3 text-center text-sm font-medium text-creepz-green-light creepz-glowy-text"
+                className="px-6 py-3 text-center text-sm font-medium text-creepz-blue creepz-glowy-text"
               >
                 {column.title}{' '}
                 {column.isSortable && column.prop === sort && (
                   <ChevronDownIcon
-                    className="h-3 w-3 text-creepz-green-light creepz-glowy-text inline-block"
+                    className="h-3 w-3 text-creepz-blue creepz-glowy-text inline-block"
                     aria-hidden="true"
                   />
                 )}
@@ -99,7 +99,7 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
             <Tr>
               <Td
                 colSpan="7"
-                className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-green-light"
+                className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-blue"
               >
                 <LoadingSpinner className="h-18 w-18" />
               </Td>
@@ -109,7 +109,7 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
             <Tr>
               <Td
                 colSpan="7"
-                className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-green-light"
+                className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepzblue"
               >
                 No results
               </Td>
@@ -124,7 +124,7 @@ const ResponsiveTable: React.FunctionComponent<IProps> = ({
                 {columns.map((column) => (
                   <Td
                     key={column.prop}
-                    className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-green-light"
+                    className="px-6 py-4 whitespace-nowrap text-sm font-medium text-creepz-blue"
                   >
                     {column.render
                       ? column.render(datum, column.prop)

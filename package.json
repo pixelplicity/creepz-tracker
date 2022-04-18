@@ -30,6 +30,7 @@
     "ethers": "^5.5.3",
     "graphql": "^16.3.0",
     "install": "^0.13.0",
+    "lodash.groupby": "^4.6.0",
     "memory-cache": "^0.2.0",
     "next": "^12.0.7",
     "next-fonts": "^1.5.1",
@@ -55,6 +56,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^12.0.7",
     "@next/eslint-plugin-next": "^12.0.7",
+    "@types/lodash.groupby": "^4.6.6",
     "@types/memory-cache": "^0.2.1",
     "@types/node": "^17.0.2",
     "@types/promise-retry": "^1.1.3",

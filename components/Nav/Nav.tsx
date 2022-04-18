@@ -33,7 +33,7 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
               <div className="flex">
                 <div className="-ml-2 mr-2 flex items-center md:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="inline-flex items-center justify-center p-2 text-creepz-green-light creepz-glowy-text hover:text-creepz-green  focus:outline-none ">
+                  <Disclosure.Button className="inline-flex items-center justify-center p-2 text-creepz-blue creepz-blue-glowy-text hover:text-creepz-blue-dark  focus:outline-none ">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -43,7 +43,7 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                   </Disclosure.Button>
                 </div>
                 <div className="flex-shrink-0 flex items-center">
-                  <p className="text-creepz-green-light font-cursive font-bold text-5xl md:ml-6 md:flex md:items-center md:space-x-4">
+                  <p className="text-creepz-blue font-cursive font-bold text-5xl md:ml-6 md:flex md:items-center md:space-x-4">
                     <Link href="/">
                       <a>
                         Creepz <span className="text-[#be80ff]">Tracker</span>
@@ -53,28 +53,15 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                   <Link href="/">
-                    <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-green-light creepz-glowy-text hover:text-creepz-green">
+                    <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-blue creepz-blue-glowy-text">
                       Dashboard
                     </a>
                   </Link>
-                  <Link href="/biglizardenergy">
-                    <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-green-light creepz-glowy-text hover:text-creepz-green">
-                      Big Lizard Energy
+                  <Link href="/idtraits">
+                    <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-blue creepz-blue-glowy-text ">
+                      ID Traits
                     </a>
                   </Link>
-                  <Link href="/guide">
-                    <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-green-light creepz-glowy-text hover:text-creepz-green">
-                      Guide
-                    </a>
-                  </Link>
-                  <a
-                    href="https://www.getrevue.co/profile/creepztracker"
-                    target="_blank"
-                    className="px-3 py-2 rounded-md text-sm font-medium text-creepz-green-light creepz-glowy-text hover:text-creepz-green"
-                    rel="noreferrer"
-                  >
-                    Newsletter
-                  </a>
                 </div>
               </div>
               <div className="flex items-center">
@@ -83,7 +70,7 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                 </div>
                 <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
                   <Link href="/about">
-                    <a className="text-creepz-green-light focus:outline-none">
+                    <a className="text-creepz-blue focus:outline-none">
                       <span className="sr-only">About Creepz Tracker</span>
                       <InformationCircleIcon
                         className="h-8 w-8"
@@ -94,7 +81,7 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                   <a
                     href="https://twitter.com/creepztracker_"
                     target="_blank"
-                    className="ml-4 text-creepz-green-light focus:outline-none"
+                    className="ml-4 text-creepz-blue hover:text-creepz-blue-dark focus:outline-none"
                     rel="noreferrer"
                   >
                     <span className="sr-only">@creepztracker_</span>
@@ -123,7 +110,7 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
               <Link href="/" passHref>
                 <Disclosure.Button
                   as="a"
-                  className="block px-3 py-2 text-creepz-green-light creepz-glowy-text hover:text-creepz-green"
+                  className="block px-3 py-2 text-creepz-blue creepz-blue-glowy-text hover:text-creepz-blue-dark"
                 >
                   Dashboard
                 </Disclosure.Button>
@@ -131,17 +118,9 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
               <Link href="/biglizardenergy" passHref>
                 <Disclosure.Button
                   as="a"
-                  className="block px-3 py-2 text-creepz-green-light creepz-glowy-text hover:text-creepz-green"
+                  className="block px-3 py-2 text-creepz-blue creepz-blue-glowy-text hover:text-creepz-blue-dark"
                 >
                   Big Lizard Energy
-                </Disclosure.Button>
-              </Link>
-              <Link href="/guide" passHref>
-                <Disclosure.Button
-                  as="a"
-                  className="block px-3 py-2 text-creepz-green-light creepz-glowy-text hover:text-creepz-green"
-                >
-                  Guide
                 </Disclosure.Button>
               </Link>
               {extraNavigation.map((item) =>
@@ -153,7 +132,7 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                     target="_blank"
                     className={`${
                       item.border ? 'border-t border-gray-700' : ''
-                    } hover:cursor-pointer block px-3 py-2 text-creepz-green-light creepz-glowy-text hover:text-creepz-green`}
+                    } hover:cursor-pointer block px-3 py-2 text-creepz-blue creepz-glowy-text hover:text-creepz-blue-dark`}
                   >
                     {item.name}
                   </Disclosure.Button>
@@ -161,7 +140,7 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                   <Link key={item.name} href={item.href} passHref>
                     <Disclosure.Button
                       as="a"
-                      className="hover:cursor-pointer block px-3 py-2 text-creepz-green-light creepz-glowy-text hover:text-creepz-green"
+                      className="hover:cursor-pointer block px-3 py-2 text-creepz-blue creepz-blue-glowy-text hover:text-creepz-blue"
                     >
                       {item.name}
                     </Disclosure.Button>

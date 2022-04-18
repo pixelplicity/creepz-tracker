@@ -28,7 +28,7 @@ const CreepzModal: React.FunctionComponent<IProps> = ({
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} title={title}>
       <div className="mt-2">
-        <h3 className="text-xl leading-6 font-medium text-creepz-green-light creepz-glowy-text">
+        <h3 className="text-xl leading-6 font-medium text-creepz-blue creepz-glowy-text">
           Staked
         </h3>
         <ul
@@ -50,7 +50,7 @@ const CreepzModal: React.FunctionComponent<IProps> = ({
                   />
                 </a>
               </div>
-              <p className="mt-2 block text-sm font-medium text-creepz-green-light creepz-glowy-text truncate ">
+              <p className="mt-2 block text-sm font-medium text-creepz-blue creepz-glowy-text truncate ">
                 <a
                   href={`https://opensea.io/assets/${address}/${id}`}
                   target="_blank"

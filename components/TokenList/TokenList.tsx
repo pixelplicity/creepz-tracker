@@ -30,7 +30,7 @@ const TokenList: React.FunctionComponent<IProps> = ({
               />
             </a>
           </div>
-          <p className="mt-2 block text-sm font-medium text-creepz-green-light creepz-glowy-text truncate ">
+          <p className="mt-2 block text-sm font-medium text-creepz-blue creepz-glowy-text truncate ">
             <a
               href={`https://opensea.io/assets/${address}/${id}`}
               target="_blank"
