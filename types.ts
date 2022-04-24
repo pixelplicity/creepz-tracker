@@ -32,4 +32,5 @@ export type Trait = {
   remaining: number;
   rarity: number;
   isShardPack: boolean;
+  isOnSale: boolean;
 };

@@ -62,6 +62,26 @@ export const getPacks = async (): Promise<PackResponse[]> => {
   return result;
 };
 
+export const getMarketplaceTraits = async (): Promise<TraitResponse[]> => {
+  const cacheKey = `creepz-marketplacetraits`;
+  const cachedResponse = cache.get(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  const traitResponse = await fetch(
+    `https://cbc-backend-ajxin.ondigitalocean.app/traits/?isOnSale=true`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  const result = (await traitResponse.json()) as TraitResponse[];
+  cache.put(cacheKey, result, 1000 * 60 * 3); // 3 minutes
+  return result;
+};
+
 export const getTrait = async (traitId: string): Promise<TraitResponse> => {
   const cacheKey = `creepz-traits-${traitId}`;
   const cachedResponse = cache.get(cacheKey);
@@ -118,9 +138,27 @@ export const getTraits = async (): Promise<Record<string, Trait[]>> => {
           supply: t.initialSupply,
           remaining: t.initialSupply - t.claimedCount,
           rarity: t.rarity,
+          isOnSale: false,
           isShardPack: isShard,
         })
       ),
+    ];
+  });
+
+  const marketplaceTraits = await getMarketplaceTraits();
+  marketplaceTraits.forEach((t: TraitResponse) => {
+    flattenedTraits = [
+      ...flattenedTraits,
+      {
+        image: t.image,
+        name: t.title,
+        category: t.category,
+        supply: t.initialSupply,
+        remaining: t.initialSupply - t.claimedCount,
+        rarity: t.rarity,
+        isOnSale: t.isOnSale,
+        isShardPack: false,
+      },
     ];
   });
 

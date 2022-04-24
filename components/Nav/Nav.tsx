@@ -62,6 +62,11 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                       ID Traits
                     </a>
                   </Link>
+                  <Link href="/idbuilder">
+                    <a className="px-3 py-2 rounded-md text-sm font-medium text-creepz-blue creepz-blue-glowy-text ">
+                      ID Builder
+                    </a>
+                  </Link>
                 </div>
               </div>
               <div className="flex items-center">
@@ -115,12 +120,20 @@ const Nav: React.FunctionComponent<IProps> = ({ openAddressModel }) => {
                   Dashboard
                 </Disclosure.Button>
               </Link>
-              <Link href="/biglizardenergy" passHref>
+              <Link href="/idtraits" passHref>
                 <Disclosure.Button
                   as="a"
                   className="block px-3 py-2 text-creepz-blue creepz-blue-glowy-text hover:text-creepz-blue-dark"
                 >
-                  Big Lizard Energy
+                  ID Traits
+                </Disclosure.Button>
+              </Link>
+              <Link href="/idbuilder" passHref>
+                <Disclosure.Button
+                  as="a"
+                  className="block px-3 py-2 text-creepz-blue creepz-blue-glowy-text hover:text-creepz-blue-dark"
+                >
+                  ID Builder
                 </Disclosure.Button>
               </Link>
               {extraNavigation.map((item) =>
