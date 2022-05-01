@@ -82,14 +82,14 @@ export const getMarketplaceTraits = async (): Promise<TraitResponse[]> => {
   return result;
 };
 
-export const getTrait = async (traitId: string): Promise<TraitResponse> => {
-  const cacheKey = `creepz-traits-${traitId}`;
+export const getAllTraits = async (): Promise<TraitResponse[]> => {
+  const cacheKey = `creepz-all-traits`;
   const cachedResponse = cache.get(cacheKey);
   if (cachedResponse) {
     return cachedResponse;
   }
   const traitResponse = await fetch(
-    `https://cbc-backend-ajxin.ondigitalocean.app/traits/${traitId}`,
+    `https://cbc-backend-ajxin.ondigitalocean.app/traits`,
     {
       method: 'GET',
       headers: {
@@ -97,9 +97,21 @@ export const getTrait = async (traitId: string): Promise<TraitResponse> => {
       },
     }
   );
-  const result = (await traitResponse.json()) as TraitResponse;
-  cache.put(cacheKey, result, 1000 * 60 * 3); // 3 minutes
+  const result = (await traitResponse.json()) as TraitResponse[];
+  cache.put(cacheKey, result, 1000 * 60 * 15); // 15 minutes
   return result;
+};
+
+export const getTrait = async (traitId: string): Promise<TraitResponse> => {
+  const cacheKey = `creepz-traits-${traitId}`;
+  const cachedResponse = cache.get(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  const allTraits = await getAllTraits();
+  const trait = allTraits.find((t) => t._id === traitId) as TraitResponse; // eslint-disable-line
+  cache.put(cacheKey, trait, 1000 * 60 * 3); // 3 minutes
+  return trait;
 };
 
 export const getTraits = async (): Promise<Record<string, Trait[]>> => {
