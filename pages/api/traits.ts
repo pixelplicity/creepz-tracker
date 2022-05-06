@@ -58,7 +58,7 @@ export const getPacks = async (): Promise<PackResponse[]> => {
     return [];
   }
   const result = (await packsResponse.json()) as PackResponse[];
-  cache.put(cacheKey, result, 1000 * 60 * 15); // 15 minutes
+  cache.put(cacheKey, result, 1000 * 60 * 60 * 24); // 24 hours
   return result;
 };
 
@@ -78,7 +78,7 @@ export const getMarketplaceTraits = async (): Promise<TraitResponse[]> => {
     }
   );
   const result = (await traitResponse.json()) as TraitResponse[];
-  cache.put(cacheKey, result, 1000 * 60 * 3); // 3 minutes
+  cache.put(cacheKey, result, 1000 * 60 * 60 * 24); // 24 hours
   return result;
 };
 
@@ -98,7 +98,7 @@ export const getAllTraits = async (): Promise<TraitResponse[]> => {
     }
   );
   const result = (await traitResponse.json()) as TraitResponse[];
-  cache.put(cacheKey, result, 1000 * 60 * 15); // 15 minutes
+  cache.put(cacheKey, result, 1000 * 60 * 60 * 24); // 24 hours
   return result;
 };
 
@@ -110,7 +110,7 @@ export const getTrait = async (traitId: string): Promise<TraitResponse> => {
   }
   const allTraits = await getAllTraits();
   const trait = allTraits.find((t) => t._id === traitId) as TraitResponse; // eslint-disable-line
-  cache.put(cacheKey, trait, 1000 * 60 * 3); // 3 minutes
+  cache.put(cacheKey, trait, 1000 * 60 * 60 * 24); // 24 hours
   return trait;
 };
 
@@ -175,7 +175,7 @@ export const getTraits = async (): Promise<Record<string, Trait[]>> => {
   });
 
   const groupedTraits = groupBy(flattenedTraits, 'category');
-  cache.put(cacheKey, groupedTraits, 1000 * 60 * 3); // 3 minutes
+  cache.put(cacheKey, groupedTraits, 1000 * 60 * 60 * 24); // 24 hours
   return groupedTraits;
 };
 
@@ -190,13 +190,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     res.json(cachedResponse);
     return;
   }
-  const minutes = 5;
   const traits = await getTraits();
   const response = {
     data: traits,
   };
 
-  cache.put(cacheKey, response, 1000 * 60 * minutes);
+  cache.put(cacheKey, response, 1000 * 60 * 60 * 24);
   res.json(response);
 };
 
