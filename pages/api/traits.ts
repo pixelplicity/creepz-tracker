@@ -4,8 +4,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import type { Trait, TraitType } from 'types';
 
-import allMarketplaceTraitsJSON from './marketplace.json';
-import allPacksJSON from './packs.json';
 import allTraitsJSON from './traits.json';
 
 type PackResponse = {
@@ -46,81 +44,73 @@ export type Response = {
 };
 
 export const getPacks = async (): Promise<PackResponse[]> => {
-  // const cacheKey = `creepz-packs`;
-  // const cachedResponse = cache.get(cacheKey);
-  // if (cachedResponse) {
-  //   return cachedResponse;
-  // }
-  // const packsResponse = await fetch(
-  //   `https://cbc-backend-ajxin.ondigitalocean.app/packs`,
-  //   {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   }
-  // );
-  // if (!packsResponse.ok) {
-  //   return [];
-  // }
-  // const result = (await packsResponse.json()) as PackResponse[];
-  // cache.put(cacheKey, result, 1000 * 60 * 60 * 24); // 24 hours
-  // return result;
-  return allPacksJSON as PackResponse[];
-};
-
-export const getMarketplaceTraits = async (): Promise<TraitResponse[]> => {
-  // const cacheKey = `creepz-marketplacetraits`;
-  // const cachedResponse = cache.get(cacheKey);
-  // if (cachedResponse) {
-  //   return cachedResponse;
-  // }
-  // const traitResponse = await fetch(
-  //   `https://cbc-backend-ajxin.ondigitalocean.app/traits/?isOnSale=true`,
-  //   {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   }
-  // );
-  // const result = (await traitResponse.json()) as TraitResponse[];
-  // cache.put(cacheKey, result, 1000 * 60 * 60 * 24); // 24 hours
-  // return result;
-  return allMarketplaceTraitsJSON as TraitResponse[];
-};
-
-export const getAllTraits = async (): Promise<TraitResponse[]> => {
-  // const cacheKey = `creepz-all-traits`;
-  // const cachedResponse = cache.get(cacheKey);
-  // if (cachedResponse) {
-  //   return cachedResponse;
-  // }
-  // const traitResponse = await fetch(
-  //   `https://cbc-backend-ajxin.ondigitalocean.app/traits`,
-  //   {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   }
-  // );
-  // const result = (await traitResponse.json()) as TraitResponse[];
-  // cache.put(cacheKey, result, 1000 * 60 * 60 * 24); // 24 hours
-  // return result;
-  return allTraitsJSON as TraitResponse[];
-};
-
-export const getTrait = async (traitId: string): Promise<TraitResponse> => {
-  const cacheKey = `creepz-traits-${traitId}`;
+  const cacheKey = `creepz-packs`;
   const cachedResponse = cache.get(cacheKey);
   if (cachedResponse) {
     return cachedResponse;
   }
-  const allTraits = await getAllTraits();
-  const trait = allTraits.find((t) => t._id === traitId) as TraitResponse; // eslint-disable-line
-  cache.put(cacheKey, trait, 1000 * 60 * 60 * 24); // 24 hours
-  return trait;
+  const packsResponse = await fetch(
+    `https://cbc-backend-ajxin.ondigitalocean.app/packs`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  if (!packsResponse.ok) {
+    return [];
+  }
+  const result = (await packsResponse.json()) as PackResponse[];
+  cache.put(cacheKey, result, 1000 * 60 * 60 * 24); // 24 hours
+  return result;
+};
+
+export const getMarketplaceTraits = async (): Promise<TraitResponse[]> => {
+  const cacheKey = `creepz-marketplacetraits`;
+  const cachedResponse = cache.get(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  const traitResponse = await fetch(
+    `https://cbc-backend-ajxin.ondigitalocean.app/traits/?isOnSale=true`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  const result = (await traitResponse.json()) as TraitResponse[];
+  cache.put(cacheKey, result, 1000 * 60 * 5); // 5 mniutes
+  return result;
+};
+
+export const getAllTraits = async (): Promise<TraitResponse[]> => {
+  const cacheKey = `creepz-all-traits`;
+  const cachedResponse = cache.get(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  const traitResponse = await fetch(
+    `https://cbc-backend-ajxin.ondigitalocean.app/traits`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  const result = (await traitResponse.json()) as TraitResponse[] & {
+    error?: string;
+    message?: string;
+    statusCode?: number;
+  };
+  if (result.statusCode && result.statusCode === 400) {
+    return allTraitsJSON as TraitResponse[];
+  }
+  cache.put(cacheKey, result, 1000 * 60 * 5); // 5 minutes
+  return result;
 };
 
 export const getTraits = async (): Promise<Record<string, Trait[]>> => {
@@ -131,11 +121,12 @@ export const getTraits = async (): Promise<Record<string, Trait[]>> => {
   }
 
   const allPacks = await getPacks();
+  const allTraits = await getAllTraits();
   const packsWithDetails: PackWithDetails[] = await Promise.all(
     allPacks.map(async (pack) => {
       const traits = await Promise.all(
         pack.traitIds.map(async (traitId) => {
-          const traitDetail = await getTrait(traitId);
+          const traitDetail = allTraits.find((t) => t._id === traitId) as TraitResponse;// eslint-disable-line
           return traitDetail;
         })
       );
@@ -204,7 +195,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
     data: traits,
   };
 
-  cache.put(cacheKey, response, 1000 * 60 * 60 * 24);
+  cache.put(cacheKey, response, 1000 * 60 * 3); // 3 minutes
   res.json(response);
 };
 
