@@ -132,7 +132,7 @@ export const getTraits = async (): Promise<Record<string, Trait[]>> => {
       );
       return {
         ...pack,
-        traits,
+        traits: traits.filter((t) => t),
       };
     })
   );
