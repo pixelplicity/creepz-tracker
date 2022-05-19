@@ -187,6 +187,9 @@ const IDBuilder: React.FunctionComponent<IProps> = () => {
     'Backpack Straps':
       'https://www.creepz.co/static/media/defaultBackpackStripes.f2c2281a.png',
     Wrist: 'https://www.creepz.co/static/media/defaultWrist.59f83c0c.png',
+    Eyebrows: '',
+    'Face Detail': '',
+    Belts: '',
   });
 
   const updateTrait = (trait: string, value: string) => {
@@ -224,6 +227,11 @@ const IDBuilder: React.FunctionComponent<IProps> = () => {
                   src={skinDetails[selectedSkin].closed}
                   alt="Skin Base"
                 />
+                <img
+                  className="w-96 h-96 absolute top-0"
+                  src={selectedTraits.Hair}
+                  alt="Hair"
+                />
 
                 {selectedTraits.Tails && (
                   <img
@@ -254,6 +262,13 @@ const IDBuilder: React.FunctionComponent<IProps> = () => {
                   src={selectedTraits['Left Eye']}
                   alt="Left Eye"
                 />
+                {selectedTraits.Eyebrows && (
+                  <img
+                    className="w-96 h-96 absolute top-0"
+                    src={selectedTraits.Eyebrows}
+                    alt="Eyebrows"
+                  />
+                )}
                 {selectedTraits.Mouth && (
                   <img
                     className="w-96 h-96 absolute top-0"
@@ -275,6 +290,13 @@ const IDBuilder: React.FunctionComponent<IProps> = () => {
                     alt="Backpack Accessories"
                   />
                 )}
+                {selectedTraits.Belts && (
+                  <img
+                    className="w-96 h-96 absolute top-0"
+                    src={selectedTraits.Belts}
+                    alt="Belts"
+                  />
+                )}
                 <img
                   className="w-96 h-96 absolute top-0"
                   src={skinDetails[selectedSkin].arm}
@@ -290,11 +312,19 @@ const IDBuilder: React.FunctionComponent<IProps> = () => {
                   src={selectedTraits['Magazine (Gun Clip)']}
                   alt="Magazine"
                 />
+
                 {selectedTraits['Arm Detail'] && (
                   <img
                     className="w-96 h-96 absolute top-0"
                     src={selectedTraits['Arm Detail']}
                     alt="Arm Detail"
+                  />
+                )}
+                {selectedTraits['Face Detail'] && (
+                  <img
+                    className="w-96 h-96 absolute top-0"
+                    src={selectedTraits['Face Detail']}
+                    alt="Face Detail"
                   />
                 )}
                 <img
@@ -313,6 +343,7 @@ const IDBuilder: React.FunctionComponent<IProps> = () => {
                   src={skinDetails[selectedSkin].gunhand}
                   alt="Gun Hand"
                 />
+
                 <img
                   className="w-96 h-96 absolute top-0"
                   src={skinDetails[selectedSkin].hand}
